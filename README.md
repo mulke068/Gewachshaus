@@ -1,3 +1,8 @@
+<p align="center">
+    <img width="100%" algin="center" alt="LPEM LOGO" scr="https://webfiles2.luxweb.com/upload/mybusiness/articles/large/efda8a4a606142118e756dfa9bbeb72b.jpg" />
+    <h2 align="center">Sponsership BY LPEM</h2>
+</p>
+
 Stellungsannahme
 ----------------------------------------------------------------
 Gewachs haus smart 
