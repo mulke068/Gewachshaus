@@ -1,0 +1,38 @@
+{
+    "version": 1,
+    "author": "Anonymous maker",
+    "editor": "wokwi",
+    "parts": [
+      {
+        "type": "wokwi-esp32-devkit-v1",
+        "id": "esp",
+        "top": 9.13,
+        "left": -25.69,
+        "rotate": 270,
+        "attrs": {}
+      },
+      {
+        "type": "board-ili9341-cap-touch",
+        "id": "lcd2",
+        "top": -346.91,
+        "left": -77.39,
+        "attrs": {}
+      }
+    ],
+    "connections": [
+      [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+      [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+      [ "lcd2:VCC", "esp:3V3", "red", [ "v45.14", "h-6.28" ] ],
+      [ "lcd2:GND", "esp:GND.1", "black", [ "v51.33", "h102.51" ] ],
+      [ "esp:D15", "lcd2:CS", "orange", [ "v-88.14", "h-84.48" ] ],
+      [ "esp:D4", "lcd2:D/C", "green", [ "v-99.79", "h-45.67" ] ],
+      [ "lcd2:MOSI", "esp:D23", "blue", [ "v80.84", "h-61.93" ] ],
+      [ "lcd2:SCK", "esp:D18", "violet", [ "v109.62", "h-13.89" ] ],
+      [ "esp:3V3", "lcd2:LED", "red", [ "v-109.63", "h-53.57" ] ],
+      [ "lcd2:MISO", "esp:D19", "gray", [ "v96.5", "h-42.64" ] ],
+      [ "lcd2:RST", "esp:D2", "gold", [ "v34.01", "h64.25" ] ],
+      [ "lcd2:SCL", "esp:D22", "white", [ "v86.78", "h-93.45" ] ],
+      [ "lcd2:SDA", "esp:D21", "purple", [ "v92.75", "h-71.68" ] ]
+    ],
+    "dependencies": {}
+  }
