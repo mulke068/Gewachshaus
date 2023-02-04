@@ -33,9 +33,7 @@ void loop() {
 
   TS_Point p = ctp.getPoint();
 
-  //Serial.println("X:",p.x,"Y",p.y);
-  Serial.print("("); Serial.print(p.x);
-  Serial.print(", "); Serial.print(p.y);
-  Serial.println(")");
+  Serial.print("X");Serial.print(p.x);Serial.print("Y");Serial.println(p.y);
   
+  tft.fillCircle(p.x,p.y,2, ILI9341_RED);
 }
