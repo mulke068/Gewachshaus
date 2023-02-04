@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="100%" algin="center" alt="LPEM LOGO" scr="./img/LPEM-LOGO.jpg" />
+    <img width="100%" algin="center" alt="LPEM LOGO" scr="/img/LPEM-LOGO.jpg" />
     <h2 align="center">Sponsership BY LPEM</h2>
 </p>
 
