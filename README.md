@@ -53,6 +53,8 @@ Links
 [link 3](https://randomnerdtutorials.com/getting-started-node-red-dashboard/)
 [link 4](https://www.instructables.com/Automated-Greenhouse/)
 
+[color piker](http://www.barth-dev.de/online/rgb565-color-picker/)
+
 [github 1](https://github.com/jiteshsaini/rest-api-examples)
 
 
