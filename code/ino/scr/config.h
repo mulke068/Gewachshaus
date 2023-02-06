@@ -11,5 +11,9 @@
 #define TFT_RST 2
 
 // ---- COLORS
+#define BLACK 0x0000
+#define WHITE 0xFFFF
 #define RED 0xF904
 #define BLUE 0x211F
+#define LOGO_BLUE 0x29D1
+#define HOME_BOX 0x9CD3
