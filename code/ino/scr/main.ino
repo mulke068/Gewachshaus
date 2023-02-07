@@ -113,11 +113,16 @@ void setup(void) {
 
   int u1=20,u2=35,u3=20,u4=25;
   //UI_TempHum(u1,u2,u3,u4);
-  UI_Home();
+  //UI_Home();
   Serial.println("Completed");
 }
 
-void loop() {
+void Touch(void){
+
+}
+
+void loop(void) {
+  Touch();
   if (!ctp.touched()) {
     return;
   }
@@ -129,6 +134,26 @@ void loop() {
 
   Serial.print("X"); Serial.print(p.x); Serial.print("Y"); Serial.println(p.y);
 
+  switch (int menu){
+    case home:
+        Serial.println("Start Loading UI_Home");
+        UI_Home();
+        Serial.println("Finished Loading UI_Home");
+        if(((p.y<70)and(p.y>49))and((p.x<221)and(p.x>20))){
+          menu = temphum;
+        }
+      break;
+    case temphum:
+        Serial.println("Start Loading UI_TempHum");
+        UI_TempHum(20,40,20,50);
+        Serial.println("Finished Loading UI_TempHum");
+    default:
+        menu = home;
+        Serial.println(menu);
+      break;
+  }
+  Serial.println(menu);
+  /*
   if(((p.y<320)and(p.y>289))and((p.x<221)and(p.x>141))){
     Serial.println("Start Loading UI_Home");
     UI_Home();
@@ -139,6 +164,7 @@ void loop() {
     UI_TempHum(20,40,20,50);
     Serial.println("Finished Loading UI_TempHum");
   }
+  */
 
   tft.drawCircle(p.x,p.y,2,WHITE);
 
