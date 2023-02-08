@@ -1,3 +1,4 @@
+#include <Arduino.h>
 /**
  * @file main.ino
  * @author Muller Kevin (you@domain.com)
@@ -21,6 +22,16 @@
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCK, TFT_RST, TFT_MISO);
 // Touch
 Adafruit_FT6206 ctp = Adafruit_FT6206();
+
+/**
+  * @name Display Text Print = DTP
+*/
+void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
+  tft.setTextSize(size);
+  tft.setTextColor(color);
+  tft.setCursor(x,y);
+  tft.print(text);
+}
 
 void UI_TempHum(int tmp1=0,int hum1=0,int tmp2=0,int hum2=0) {
   tft.fillScreen(BLACK);
@@ -92,15 +103,7 @@ void UI_Home(){
   DTP(2,WHITE,0,305,"7.7V");
   DTP(2,WHITE,170,305,"Datum");
 }
-/**
-  * @name Display Text Print = DTP
-*/
-void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
-  tft.setTextSize(size);
-  tft.setTextColor(color);
-  tft.setCursor(x,y);
-  tft.print(text);
-}
+
 
 void setup(void) {
   Serial.begin(115200);
@@ -121,6 +124,12 @@ void Touch(void){
 
 }
 
+/**
+ * @var menu
+ * @declaring menu
+*/
+int menu;
+
 void loop(void) {
   Touch();
   if (!ctp.touched()) {
@@ -134,25 +143,22 @@ void loop(void) {
 
   Serial.print("X"); Serial.print(p.x); Serial.print("Y"); Serial.println(p.y);
 
-  switch (int menu){
-    case home:
+  switch (menu){
+    case 1:
         Serial.println("Start Loading UI_Home");
         UI_Home();
         Serial.println("Finished Loading UI_Home");
         if(((p.y<70)and(p.y>49))and((p.x<221)and(p.x>20))){
-          menu = temphum;
+          menu = 2;
         }
       break;
-    case temphum:
+    case 2:
         Serial.println("Start Loading UI_TempHum");
         UI_TempHum(20,40,20,50);
         Serial.println("Finished Loading UI_TempHum");
     default:
-        menu = home;
-        Serial.println(menu);
       break;
   }
-  Serial.println(menu);
   /*
   if(((p.y<320)and(p.y>289))and((p.x<221)and(p.x>141))){
     Serial.println("Start Loading UI_Home");
