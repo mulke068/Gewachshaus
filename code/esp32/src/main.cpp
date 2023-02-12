@@ -14,6 +14,7 @@
 
 #include "config.h"
 #include "ui.h"
+#include "icons.h"
 
 TFT_eSPI tft = TFT_eSPI();
 
@@ -21,34 +22,6 @@ TFT_eSPI tft = TFT_eSPI();
 int page=0;
 
 // ----------------
-
-void touch_calibrate()
-{
-  tft.fillScreen(WHITE);
-  delay(250);
-
-  uint16_t calData[5];
-  uint8_t calDataOK = 0;
-
-  // Calibrate
-  tft.fillScreen(BLACK);
-  tft.setCursor(20, 0);
-  tft.setTextFont(2);
-  tft.setTextSize(1);
-  tft.setTextColor(WHITE, BLACK);
-  tft.print("Calibrate Touch");
-
-  tft.setTextFont(1);
-  tft.println();
-  tft.calibrateTouch(calData, TFT_MAGENTA, BLACK, 15);
-
-  tft.fillScreen(BLACK);
-  tft.setTextColor(GREEN, BLACK);
-  tft.println("Calibration complete!");
-
-  delay(1000);
-}
-
 /**
  * @brief DTP = Display Text Print
  * 
@@ -75,11 +48,39 @@ void SPT(String text){
   tft.setTextColor(WHITE);
   DTP(2,WHITE,(tft.width()-tft.textWidth(text))/2,10,text);
   tft.drawLine(0,30,240,30,WHITE);
+  // Bottom
   tft.drawLine(0,280,240,280,WHITE);
   tft.drawLine(100,290,100,310,WHITE);
   DTP(2,WHITE,10,293,"7.7V");
   tft.fillRoundRect(150,285,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
   DTP(2,BLACK,168,293,"Home");
+}
+
+void touch_calibrate()
+{
+  tft.fillScreen(WHITE);
+  delay(250);
+
+  uint16_t calData[5];
+  uint8_t calDataOK = 0;
+  
+  String calibText = "Calibrate Touch";
+  // Calibrate
+  tft.fillScreen(BLACK);
+  //tft.setCursor(20, 0);
+  
+  tft.setTextFont(2);
+  tft.setTextSize(2);
+  tft.setCursor((tft.width()-tft.textWidth(calibText))/2,tft.height()/2);
+  tft.setTextColor(WHITE, BLACK);
+  tft.print(calibText);
+
+  tft.setTextFont(1);
+  tft.println();
+  tft.calibrateTouch(calData, RED, BLACK, 30);
+
+  DTP(1,GREEN,0,0,"Calibration complete!");
+  delay(1000);
 }
 
 /**
@@ -251,14 +252,12 @@ void UI_Home(){
     "Akku / Energie Status",
     "Einstellungen"};
   int cursor_x[5] = {30,60,80,60,80};
-  for(int i=0,rect_y=54,cursor_y=60;i<5;i++){
+  for(int i=0,rect_y=54,cursor_y=60;i<5;i++,rect_y+=30,cursor_y+=30){
     tft.fillRoundRect(20,rect_y,200,20,Box_Radius,BOX_COLOR);
     DTP(1,BLACK,cursor_x[i],cursor_y,box_text[i]);
-    rect_y=rect_y+30;
-    cursor_y=cursor_y+30;
   }
   // IMG
-
+  tft.drawBitmap((tft.width()-logoWidth)/2,190,logo,logoWidth,logoHeight,WHITE);
   // Bottom
   tft.drawLine(0,300,240,300,WHITE);
   DTP(2,WHITE,0,305,"7.7V");
