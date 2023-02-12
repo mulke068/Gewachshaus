@@ -1,51 +1,53 @@
-<p align="center">
-    <img width="100px" align="center" alt="LPEM LOGO" scr="https://github.com/mulke068/Gewachshaus/blob/main/img/LPEM-LOGO.svg" />
-    <h2 align="center">Sponsership BY LPEM</h2>
-</p>
+<div>
+    <div class="heder">
+        <p align="center">
+            <img src="https://webfiles1.luxweb.com/upload/mybusiness/articles/large/62b8241511714a7db8721dc06d7befc1.jpg" title="LPEM LOGO" alt="LPEM LOGO" width="200" height="150"/>&nbsp;
+            <h2 align="center">Sponsership BY LPEM</h2>
+        </p>
+    </div>
+    <div class="content">
+        <div>
+            <h1>Stellungsannahme</h1>
+            <h2>Plexiglas</h2>
+                <ul>max grösse 600x400 m^2</ul>
+                <ul>transparent or milch</ul>
+                <ul>3mm or 5mm</ul>
+            <h2>Hauptversorgung</h2>
+                <ul>Netzteil</ul> 
+                <ul>Solarpannel + Speicher</ul>
+                <ul>MAX 12v</ul>
+                <ul>Über Solarpannel soll die Beleuctung versorgt werden</ul>
+            <h2>Arduino oder Raspberry PI</h2>
+            <h3>Sensoren</h3>
+                <ul>Temperatur</ul>
+                <ul>Luftfeuchtigket</ul>
+            <h3>Aktoren</h3>
+                <ul>Lcd 16x2</ul>
+                <ul>Beleuchtung</ul>
+                <ul>Belüftung</ul>
+            <h2>Zusatz function</h2>
+            <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen<p>
+        </div>
+        <div>
+            <h1>Dossiert</h1>
+            <h2>1. Funktionsbeschriebung</h2>
+                <ul>Text</ul>
+                <ul>Animation</ul>
+            <h2>2. Materialliste</h2>
+                <ul>Peris Liste in Exel</ul>
+            <h2>3. Elektrik</h2>
+                <ul>Schaltplan</ul>
+                <ul>Synoptik</ul>
+                <ul>Programm(code vom Arduino)</ul>
+            <h3>3. Gehäuse</h3>
+                <ul>Fusion Model erstellen vom Gesammt Projeckt</ul>
+                <ul>3D Model Animation(in ppt)</ul>
+        </div>
+    </div>
+    <div class="bottom">
+        <div>
+            <h1>Links</h1>
 
-Stellungsannahme
-----------------------------------------------------------------
-Gewachs haus smart 
-
-plexiglas :
-    max grösse 600x400 m^2
-    transparent or milch
-        3mm or 5mm
-
-hauptversorgung : netzteil 
-solarpannel + speicher
-max 12v
-übersolarpannel soll beleuctung versorgen
-
-arduino or rasberrypi + sensoren + aktoren
-sensoren = temperatur & luftfeuchtigket
-aktoren = cristal lcd 16x2 + beleuchtungen + belüftung
-
-Zusatz function
-    rasberry pi für visualiesierung
-    lcd angeschlossen
-
-Dossiert
-----------------------------------------------------------------
-
-1. Funktionbeschriebung
-    Text
-    Animation
-2. Materialliste
-    Perisliste in Exel
-3. Elektrik
-    Schaltplan
-    Synoptik
-    Programm(code vom Arduino)
-4. Gehäuse
-    Fusion Model ertsllen vom Projeckt
-    3D Moddel Animation(in ppt)
-
-
-
-
-Links
-----------------------------------------------------------------
 [AZ Delivery](https://www.az-delivery.de)
 
 [link 1](http://projects.htl-klu.at/Projekt_1617/pr7abeli35331/Internet/details.html)
@@ -57,36 +59,36 @@ Links
 
 [github 1](https://github.com/jiteshsaini/rest-api-examples)
 
+<h2>videos</h2>
 
-videos
 [video 1](https://www.youtube.com/watch?v=1J8-cBR0R3M)
 
->Essential
->Converter BMP into C
->[link](https://javl.github.io/image2cpp/)
+<h2>Essential</h2>
 
-
-Komponenten
-------------------------------------------------
-
-+ ESP8266 01
-+ Windsensor
-+ Regensensor
-+ Wasserdurchfluss Sensor
-+ Erdfeuchte Sensor
-+ DHT21
-+ DS18B20
-+ Lichtintensität Sensor
-+ Luftdrucksensor
-+ Strom Sensor
-+ Spannung Sensor
-+ Bewegung Sensor
-+ DC-DC Konverter
-+ 8 Channel Relay Module
-+ 12V Deckenventilator
-+ Gardena T1030D Bewässerungsuhr
-+ Autobatterie 80Ah
-+ Getriebemotor für fenster öffnen
-+ Solar Panel
-+ Solar Laderegler
-
+[Converter BMP into C](https://javl.github.io/image2cpp/)
+        </div>
+        <div>
+            <h1>Komponenten</h1>
+                <li>ESP8266 01</li>
+                <li>Windsensor</li>
+                <li>Regensensor</li>
+                <li>Wasserdurchfluss Sensor</li>
+                <li>Erdfeuchte Sensor</li>
+                <li>DHT21</li>
+                <li>DS18B20</li>
+                <li>Lichtintensität Sensor</li>
+                <li>Luftdrucksensor</li>
+                <li>Strom Sensor</li>
+                <li>Spannung Sensor</li>
+                <li>Bewegung Sensor</li>
+                <li>DC-DC Konverter</li>
+                <li>8 Channel Relay Module</li>
+                <li>12V Deckenventilator</li>
+                <li>Gardena T1030D Bewässerungsuhr</li>
+                <li>Autobatterie 80Ah</li>
+                <li>Getriebemotor für fenster öffnen</li>
+                <li>Solar Panel</li>
+                <li>Solar Laderegler</li>
+        </div>
+    </div>
+</div>
