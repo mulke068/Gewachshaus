@@ -1,0 +1,41 @@
+[
+    {
+        "id":0,
+        "devices":{
+            "esp32": {"connected":false},
+            "raspberry": {"connected":false}
+        }
+    },
+    {
+        "id":1,
+        "tempHum": {
+            "temperature_1": 20,
+            "humidity_1": 50,
+            "temperature_2": 20,
+            "humidity_2": 50
+        },
+        "waterSystem":{
+            "sensor_1": 46,
+            "sensor_2": 84,
+            "pumpe": false
+        },
+        "lufterLeds":{
+            "getLufter_1": 73,
+            "setLufter_1": true,
+            "getLufter_2": 25,
+            "setLufter_2": true,
+            "getLed": 100,
+            "setLed": true
+        },
+        "energieStatus": {
+            "solar_1": 5.4,
+            "solar_2": 8.5,
+            "akku": 68,
+            "strom": 7.7
+        },
+        "settings":{
+            "brightness": 80,
+            "sound": 20
+        }
+    }
+]

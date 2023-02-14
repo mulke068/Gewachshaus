@@ -16,10 +16,16 @@ $ip = $_SERVER["REMOTE_ADDR"];
 $arr[0]['time_stamp'] = $date_time;
 $arr[0]['req_ip'] = $ip;
 
-$json = json_encode($arr);
+$file = fopen("storage.json", "r") or die("Unable to open file!");
+$filer = fread($file,filesize('storage.json'));
+echo $filer;
+fclose($file);
 
-echo "$json";
-$str = "Time:$date_time\n\nClient IP:$ip\n\n data:$json";
-file_put_contents('res.txt', $str);
+
+#$json = json_encode($arr);
+
+#echo "$json";
+#$str = "Time:$date_time\n\nClient IP:$ip\n\n data:$json";
+#file_put_contents('res.txt', $str);
 
 ?>

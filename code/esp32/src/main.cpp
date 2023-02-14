@@ -21,7 +21,8 @@ TFT_eSPI tft = TFT_eSPI();
 // ----------------
 int page=0;
 
-// ----------------
+// ================================================================= FUNCTION =================================================================
+
 /**
  * @brief DTP = Display Text Print
  * 
@@ -84,6 +85,25 @@ void touch_calibrate()
 }
 
 /**
+ * @brief DrawCircleVarTemplate = Template for Draw a Circle with a Value
+ * 
+ * @param x 
+ * @param y 
+ * @param var 
+ * @param end 
+ * @param circleColor 
+ * @param bgColor 
+ * @param varColor 
+ */
+void DrawCircleVarTemplate(int16_t x, int16_t y, int16_t var,String end,int16_t circleColor,int16_t bgColor, int16_t varColor){
+  tft.fillCircle(x,y,32,circleColor);
+  tft.fillCircle(x,y,24,bgColor);
+  DTP(2,varColor,x-16,y-8,String(var)+end);
+}
+
+// ================================================================= FUNCTION =================================================================
+
+/**
  * @brief Page Einstellungen
  * 
  * @param brightness 
@@ -109,8 +129,8 @@ void UI_Settings(int16_t brightness,int16_t sound){
 /**
  * @brief Page EnergieStatus
  * 
- * @param sp1 
- * @param sp2 
+ * @param sp1 solar_1
+ * @param sp2 solar_2
  * @param akku 
  * @param strom 
  */
@@ -180,16 +200,14 @@ void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
   page = 2;
   tft.fillScreen(BLACK);
   SPT("Bewasserung");
+  //
   DTP(2,BLUE,20,40,"Bodenfeuchtigkeit");
   DTP(2,WHITE,0,70,"Sensor 1");
+  DrawCircleVarTemplate(40,120,sensor_1,"%",BLUE,BLACK,WHITE);
   DTP(2,WHITE,140,70,"Sensor 2");
-  tft.fillCircle(40,120,32,BLUE);
-  tft.fillCircle(40,120,24,BLACK);
-  DTP(2,WHITE,24,112,String(sensor_1)+"%");
-  tft.fillCircle(190,120,32,BLUE);
-  tft.fillCircle(190,120,24,BLACK);
-  DTP(2,WHITE,174,111,String(sensor_2)+"%");
+  DrawCircleVarTemplate(190,120,sensor_2,"%",BLUE,BLACK,WHITE);
   tft.drawLine(20,160,220,160,WHITE);
+  //
   DTP(2,WHITE,20,190,"Pumpe");
   DTP(2,WHITE,20,230,"Status");
   if(pumpe){
@@ -200,6 +218,8 @@ void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
     DTP(2,WHITE,140,230,"Aus");
   }
 }
+
+
 
 /**
  * @brief Page Temperatur und Feuchtigkeit
@@ -216,46 +236,34 @@ void UI_TempHum(int16_t tmp1=0,int16_t hum1=0,int16_t tmp2=0,int16_t hum2=0) {
   SPT("Daten");
   // Block 1
   DTP(2,WHITE,80,40,"Drinnen");
-  tft.fillRoundRect(20,70,60,60,35,RED);
-  tft.fillRoundRect(25,75,50,50,35,BLACK);
-  DTP(2,RED,33,92,String(tmp1)+"C");
-  tft.fillRoundRect(150,70,60,60,35,BLUE);
-  tft.fillRoundRect(155,75,50,50,35,BLACK);
-  DTP(2,BLUE,163,92,String(hum1)+"%");
+  DrawCircleVarTemplate(50,100,tmp1,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,100,hum1,"%",BLUE,BLACK,BLUE);
   tft.drawLine(20,150,200,150,WHITE);
   // Block 2
   DTP(2,WHITE,71,160,"Draussen");
-  tft.fillRoundRect(20,200,60,60,35,RED);
-  tft.fillRoundRect(25,205,50,50,35,BLACK);
-  DTP(2,RED,32,222,String(tmp2)+"C");
-  tft.fillRoundRect(150,200,60,60,35,BLUE);
-  tft.fillRoundRect(155,205,50,50,35,BLACK);
-  DTP(2,BLUE,162,222,String(hum2)+"%");
-  tft.drawLine(0,280,240,280,WHITE);
+  DrawCircleVarTemplate(50,220,tmp2,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,220,hum2,"%",BLUE,BLACK,BLUE);
 }
 
 /**
  * @brief Main Page
  * 
+ * @param strom
  */
-void UI_Home(){
+void UI_Home(void){
   page = 0;
   tft.fillScreen(BLACK);
   DTP(1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
-  DTP(2,WHITE,95,20,"Home");
-  tft.drawLine(0,40,240,40,WHITE);
+  DTP(3,WHITE,85,20,"Home");
+  tft.drawLine(0,45,240,45,WHITE);
   // ----
-  String box_text[5] = {
-    "Temperature / Luftfeuchtigkeit",
-    "Bewasserungs System",
-    "Lufter + LEDs",
-    "Akku / Energie Status",
-    "Einstellungen"};
-  int cursor_x[5] = {30,60,80,60,80};
-  for(int i=0,rect_y=54,cursor_y=60;i<5;i++,rect_y+=30,cursor_y+=30){
-    tft.fillRoundRect(20,rect_y,200,20,Box_Radius,BOX_COLOR);
-    DTP(1,BLACK,cursor_x[i],cursor_y,box_text[i]);
-  }
+  tft.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
+  tft.drawBitmap(30,60,temperature_humidity,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawBitmap(140,60,bewasserungs_system,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawLine(20,128,220,128,WHITE);
+  tft.drawLine(120,60,120,190,WHITE);  
+  tft.drawBitmap(30,130,led_lufter,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawBitmap(140,135,akku_energie,iconsHomeWidth,iconsHomeHeight,WHITE);
   // IMG
   tft.drawBitmap((tft.width()-logoWidth)/2,190,logo,logoWidth,logoHeight,WHITE);
   // Bottom
@@ -281,7 +289,7 @@ void setup(void){
 void menu(int16_t ui){
 
   int var1=random(0,50),var2=random(0,100);
-  bool var3=random(true,false);
+  bool var3;if(var2<50){var3=true;}else{var3=false;}
 
   switch (ui)
   {
@@ -314,24 +322,26 @@ void loop(void){
   if(pressed){
     Serial.println("x"+String(touch_x)+"y"+String(touch_y));
     tft.fillCircle(touch_x,touch_y,2,RED);
-    // Home box
-    // y 54 - 74 -> +30 | x 20 - 220 -> constand
     // Home btn
     // x 150 - 230 | y 284 - 314
-    // Seting calibrate btn
+    // Setings calibrate btn
     // x 20 - 230 | y 240 - 230
     if(page==0){
-      for(int i=0,y_1=74,y_2=54;i<5;i++,y_1+=30,y_2+=30){
-        if(((touch_x<220)and(touch_x>20))and((touch_y<y_1)and(touch_y>y_2))){
-          menu(i+1);
-        }
-      }
+      // Settings x=0 - 40 y=0 - 40
+      // Temp_Humidity x= 30 - 80 y= 60 - 130
+      // water_system x= 140 - 210 y = 60 - 130
+      // led_lüfter x= 30 - 100 y= 130 - 200
+      // akku_energy x= 140 - 210 y = 135 - 205
+      if(((touch_x<40)and(touch_x>0))and((touch_y<40)and(touch_y>0))){menu(5);};
+      if(((touch_x<80)and(touch_x>30))and((touch_y<130)and(touch_y>60))){menu(1);};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<130)and(touch_y>60))){menu(2);};
+      if(((touch_x<100)and(touch_x>30))and((touch_y<200)and(touch_y>130))){menu(3);};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<205)and(touch_y>135))){menu(4);};
     }else if ((page==1)or(page==2)or(page==3)or(page==4)){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         UI_Home();
       }
-    }
-    else if (page==5){
+    }else if (page==5){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         UI_Home();
       }
