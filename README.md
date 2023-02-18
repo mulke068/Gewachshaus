@@ -1,9 +1,15 @@
 <div>
     <div class="heder">
-        <p align="center">
-            <img src="https://webfiles1.luxweb.com/upload/mybusiness/articles/large/62b8241511714a7db8721dc06d7befc1.jpg" title="LPEM LOGO" alt="LPEM LOGO" width="200" height="150"/>&nbsp;
-            <h2 align="center">Sponsership BY LPEM</h2>
-        </p>
+        <div align="center">
+            <img src="https://github.com/mulke068/Gewachshaus/blob/beta/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
+            <h2 align="center">Sponsership BY LPEM©</h2>
+        </div>
+        <table align="center">
+            <tr>
+                <td><img src="https://github.com/mulke068/Gewachshaus/blob/beta/img/qwa.png" width="70" height="70"/></td>
+                <td><h2 >Created By Kevbchef ©2023</h2></td>
+            </tr>
+        </table>
     </div>
     <div class="content">
         <div>
