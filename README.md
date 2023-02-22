@@ -55,10 +55,15 @@
             <h1>Links</h1>
 
 [AZ Delivery](https://www.az-delivery.de)
+            
 [Reichelt](https://www.reichelt.de)
+            
 [ELV](https://de.elv.com)
+            
 [Lemo-Solar](https://lemo-solar.de)
+            
 [Electronic-Shop](https://www.electronic-shop.lu)
+
 
 [link 1](http://projects.htl-klu.at/Projekt_1617/pr7abeli35331/Internet/details.html)
 [link 2](https://randomnerdtutorials.com/esp32-http-get-post-arduino/)
