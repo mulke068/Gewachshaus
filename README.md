@@ -53,7 +53,8 @@
     <div class="bottom">
         <div>
             <h1>Links</h1>
-
+                <h2>Shops</h1>
+            
 [AZ Delivery](https://www.az-delivery.de)
             
 [Reichelt](https://www.reichelt.de)
@@ -64,7 +65,8 @@
             
 [Electronic-Shop](https://www.electronic-shop.lu)
 
-
+ <h2>others</h2>
+            
 [link 1](http://projects.htl-klu.at/Projekt_1617/pr7abeli35331/Internet/details.html)
 [link 2](https://randomnerdtutorials.com/esp32-http-get-post-arduino/)
 [link 3](https://randomnerdtutorials.com/getting-started-node-red-dashboard/)
