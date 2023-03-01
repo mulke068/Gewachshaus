@@ -12,7 +12,7 @@ $options = array(
 );
 
 $context=stream_context_create($options);
-$data = file_get_contents('http://192.168.178.38/api',false,$context);
+$data = file_get_contents('http://localhost/api',false,$context);
 
 //echo $data;
 //echo "<hr>";
@@ -64,17 +64,29 @@ $root_1_settings_sound = $root_1["settings"]["sound"];
     <div>
         <div class="text-3xl">Fetch Data</div>
         <div class="container mx-auto px-4">
-            <div>
+            <div class="flex">
                 <div class="text-xl">ESP32 1</div>
-                <div><?php echo $root_0_devices_esp32_1!=true ? 'Disconnected':'Connected'; ?></div>
+                <?php if($root_0_devices_esp32_1!=true){
+                    echo '<div class="py-4 w-10 h-7 bg-red-500"></div>';
+                }else{
+                    echo '<div class="py-4 w-10 h-7 bg-green-500"></div>';
+                }?>
             </div>
-            <div>
+            <div class="flex">
                 <div class="text-xl">ESP32 2</div>
-                <div><?php echo $root_0_devices_esp32_2!=true ? 'Disconnected':'Connected'?></div>
+                <?php if($root_0_devices_esp32_2!=true){
+                    echo '<div class="py-4 w-10 h-7 bg-red-500"></div>';
+                }else{
+                    echo '<div class="py-4 w-10 h-7 bg-green-500"></div>';
+                }?>
             </div>
-            <div>
+            <div class="flex">
                 <div class="text-xl">RasberryPI</div>
-                <div><?php echo $root_0_devices_raspberrypi!=true ? 'Disconnected':'Connected'?></div>
+                <?php if($root_0_devices_raspberrypi!=true){
+                    echo '<div class="py-4 w-10 h-7 bg-red-500"></div>';
+                }else{
+                    echo '<div class="py-4 w-10 h-7 bg-green-500"></div>';
+                }?>
             </div>
         </div>
     </div>
