@@ -2,8 +2,8 @@
     {
         "id":0,
         "devices":{
-            "esp32": {"connected":false},
-            "raspberry": {"connected":false}
+            "esp32": [{"connected":false},{"connected":false}],
+            "raspberrypi": {"connected":false}
         }
     },
     {
