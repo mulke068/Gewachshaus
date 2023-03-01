@@ -1,4 +1,10 @@
 <?php
+//header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+//header('Access-Control-Allow-Headers: *');
+//header('Access-Control-Allow-Methods: GET, PUT');
+//header('Access-Control-Allow-Headers: Content-Type'); 
+//header('Access-Control-Allow-Headers: X-API-Key');
 
 define('API_KEY', "Xg9sAxtcD3xFu45AEWg4y3nffVRiq");
 define('FILE_NAME', "data.json");
@@ -11,12 +17,13 @@ $data = json_decode(file_get_contents(FILE_NAME),true);
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $apiKey = isset($_SERVER['HTTP_X_API_KEY']) ? $_SERVER['HTTP_X_API_KEY'] : '';
 
+
 if($apiKey !== API_KEY){
-    header('Content-Type: application/json');
     header('HTTP/1.1 401 Unauthorized');
     echo json_encode(array('error' => 'Unauthorized'));
     exit;
 }
+
 
 switch($requestMethod){
     case 'POST':
@@ -32,7 +39,7 @@ switch($requestMethod){
         handleDeleteRequest($data);
         break;
     default:
-        header('Content-Type: application/json');
+        
         header('HTTP/1.1 400 Bad Request');
         echo json_encode(array('error'=> 'Method not allowed'));
 }
@@ -46,7 +53,6 @@ function handlePostRequest($data){
     array_push($data, $requestData);
     file_put_contents(FILE_NAME, json_encode($data));
     
-    header('Content-Type: application/json');
     echo json_encode(array('status'=>'success', 'data'=>$data));
 }
 
@@ -68,13 +74,13 @@ function handlePutRequest($data){
             $item = $requestData;
 
             file_put_contents(FILE_NAME, json_encode($data));
-            header('Content-Type: application/json');
+            
             echo json_encode(array('status'=>'success', 'data'=>$data));
             exit;
         }
     }
     
-    header('Content-Type: application/json');
+    
     header('HTTP/1.1 400 Bad Request');
     echo json_encode(array('error'=> 'ID not found'));
 }
@@ -92,13 +98,13 @@ function handleDeleteRequest($data){
             unset($data[$item['id']-1]);
 
             file_put_contents(FILE_NAME, json_encode($data));
-            header('Content-Type: application/json');
+            
             echo json_encode(array('status'=>'success', 'data'=>$data));
             break;
         }
     }
     
-    header('Content-Type: application/json');
+    
     header('HTTP/1.1 400 Bad Request');
     echo json_encode(array('error'=> 'ID not found'));
 }

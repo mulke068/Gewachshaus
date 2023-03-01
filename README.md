@@ -1,9 +1,15 @@
 <div>
     <div class="heder">
-        <p align="center">
-            <img src="https://webfiles1.luxweb.com/upload/mybusiness/articles/large/62b8241511714a7db8721dc06d7befc1.jpg" title="LPEM LOGO" alt="LPEM LOGO" width="200" height="150"/>&nbsp;
-            <h2 align="center">Sponsership BY LPEM</h2>
-        </p>
+        <div align="center">
+            <img src="https://github.com/mulke068/Gewachshaus/blob/beta/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
+            <h2 align="center">Sponsership BY LPEM©</h2>
+        </div>
+        <table align="center">
+            <tr>
+                <td><img src="https://github.com/mulke068/Gewachshaus/blob/beta/img/qwa.png" width="70" height="70"/></td>
+                <td><h2 >Created By Kevbchef ©2023</h2></td>
+            </tr>
+        </table>
     </div>
     <div class="content">
         <div>
@@ -39,7 +45,7 @@
                 <ul>Schaltplan</ul>
                 <ul>Synoptik</ul>
                 <ul>Programm(code vom Arduino)</ul>
-            <h3>3. Gehäuse</h3>
+            <h2>4. Gehäuse</h3>
                 <ul>Fusion Model erstellen vom Gesammt Projeckt</ul>
                 <ul>3D Model Animation(in ppt)</ul>
         </div>
@@ -47,9 +53,20 @@
     <div class="bottom">
         <div>
             <h1>Links</h1>
-
+                <h2>Shops</h1>
+            
 [AZ Delivery](https://www.az-delivery.de)
+            
+[Reichelt](https://www.reichelt.de)
+            
+[ELV](https://de.elv.com)
+            
+[Lemo-Solar](https://lemo-solar.de)
+            
+[Electronic-Shop](https://www.electronic-shop.lu)
 
+ <h2>others</h2>
+            
 [link 1](http://projects.htl-klu.at/Projekt_1617/pr7abeli35331/Internet/details.html)
 [link 2](https://randomnerdtutorials.com/esp32-http-get-post-arduino/)
 [link 3](https://randomnerdtutorials.com/getting-started-node-red-dashboard/)

@@ -1,6 +1,21 @@
 // CONFIG
 
+// ---- DATA
+
+#define min_delay 1
 // ---- PINS
+
+#define RX 2
+#define TX 1
+#define D1 8
+#define D0 7
+#define CLK 6
+#define CMD 11
+#define D3 10
+#define D2 9
+#define VN 39
+#define VP 36
+#define EN EN
 
 // DISPLAY Pins
 /*
@@ -28,3 +43,8 @@
 #define GREEN 0x1F80
 #define LOGO_COLOR 0x29D1
 #define BOX_COLOR 0x9CD3
+
+// ----- API & W-Lan
+const char* ssid = "FRITZ!Box 7490";
+const char* password = "05767844606687810343";
+const char* api_url = "http://192.168.178.38/api/index.php";
