@@ -1,148 +1,219 @@
-/**
- * @file main.cpp
- * @author Muller Kevin (www.kevbchef.com)
- * @brief
- * @version 0.1
- * @date 2023-02-06
- *
- * @copyright Copyright (c) 2023
- *
- **/
 #include <Arduino.h>
-#include <SPI.h>
-#include <FS.h>
-
+#include <TFT_eSPI.h>/* Please use the TFT library provided in the library. */
 #include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
+#include <time.h>
 
 #include "include/test_config.h"
-#include "include/test_json.h"
 
-void initWiFi()
-{
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to wifi ");
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    Serial.print(".");
-    sleep(min_delay);
-  }
-  Serial.println(" ");
-  Serial.print("Connected to Network whit IP: ");
-  Serial.println(WiFi.localIP());
-}
+TFT_eSPI lcd = TFT_eSPI();
+TFT_eSprite sprite = TFT_eSprite(&lcd);
 
-String httpGETRequest(const char* url)
-{
-  HTTPClient http;
-  http.begin(url);
-  int http_response = http.GET();
+// const char* ssid     = "xxxxxxxxxx";
+// const char* password = "xxxxxxxxxx";
 
-  String payload = "{}";
+const char *ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 3600;
+const int daylightOffset_sec = 3600;
 
-  if (http_response > 0)
-  {
-    Serial.println("----------------------------------------------------------------");
-    Serial.print("HTTP Response code: ");
-    Serial.println(http_response);
-    payload = http.getString();
-    Serial.println(payload);
-    Serial.println("----------------------------------------------------------------");
-  }
-  else
-  {
-    Serial.print("Error Code");
-    Serial.println(http_response);
-  }
+int values[24] = {0};
+int values2[24] = {0};
+char timeHour[3] = "00";
+char timeMin[3] = "00";
+char timeSec[3];
 
-  http.end();
-  return payload;
-}
+char m[12];
+char y[5];
+char d[3];
+char dw[12];
 
-void get_data()
-{
-  if ((WiFi.status() == WL_CONNECTED))
-  {
-    StaticJsonDocument<0> filter;
-    filter.set(true);
+int gw = 204;
+int gh = 102;
+int gx = 110;
+int gy = 144;
+int curent = 0;
+#define gray 0x6B6D
+#define blue 0x0967
+#define orange 0xC260
+#define purple 0x604D
+#define green 0x1AE9
 
-    StaticJsonDocument<1024> doc;
-    String json =  httpGETRequest(api_url);
-    DeserializationError error = deserializeJson(doc, json, DeserializationOption::Filter(filter));
+int deb = 0;
 
-    if (error ){
-      Serial.print("deserialization error: ");
-      Serial.println(error.c_str());
-      return;
-    }
+int Mode = 0;
 
-    JsonObject root_0 = doc[0];
-    root_0_id = root_0["id"];
-
-    JsonObject root_0_devices = root_0["devices"];
-    root_0_devices_esp32_1 = root_0_devices["esp32"]["connected"][0];
-    root_0_devices_esp32_2 = root_0_devices["esp32"]["connected"][1];
-    root_0_devices_raspberrypi = root_0_devices["raspberrypi"]["connected"];
-
-    // ----------------------------------------------------------------
-    JsonObject root_1 = doc[1];
-    root_1_id = root_1["id"];
-    
-    JsonObject root_1_tempHum = root_1["tempHum"];
-    root_1_tempHum_temperature_1 = root_1_tempHum["temperature_1"];
-    root_1_tempHum_humidity_1 = root_1_tempHum["humidity_1"];
-    root_1_tempHum_temperature_2 = root_1_tempHum["temperature_2"];
-    root_1_tempHum_humidity_2 = root_1_tempHum["humidity_2"];
-
-    JsonObject root_1_waterSystem = root_1["waterSystem"];
-    root_1_waterSystem_sensor_1 = root_1_waterSystem["sensor_1"];
-    root_1_waterSystem_sensor_2 = root_1_waterSystem["sensor_2"];
-    root_1_waterSystem_pumpe = root_1_waterSystem["pumpe"];
-
-    JsonObject root_1_lufterLeds = root_1["lufterLeds"];
-    root_1_lufterLeds_getLufter_1 = root_1_lufterLeds["getLufter_1"];
-    root_1_lufterLeds_setLufter_1 = root_1_lufterLeds["setLufter_1"];
-    root_1_lufterLeds_getLufter_2 = root_1_lufterLeds["getLufter_2"];
-    root_1_lufterLeds_setLufter_2 = root_1_lufterLeds["setLufter_2"];
-    root_1_lufterLeds_getLed = root_1_lufterLeds["getLed"];
-    root_1_lufterLeds_setLed = root_1_lufterLeds["setLed"];
-
-    JsonObject root_1_energieStatus = root_1["energieStatus"];
-    root_1_energieStatus_solar_1 = root_1_energieStatus["solar_1"]; 
-    root_1_energieStatus_solar_2 = root_1_energieStatus["solar_2"];  
-    root_1_energieStatus_akku = root_1_energieStatus["akku"]; 
-    root_1_energieStatus_strom = root_1_energieStatus["strom"]; 
-
-    JsonObject root_1_settings = root_1["settings"];
-    root_1_settings_brightness = root_1_settings["brightness"];
-    root_1_settings_sound = root_1_settings["sound"];
-
-    Serial.print("root_1_energieStatus_akku : ");
-    Serial.println(root_1_energieStatus_akku);
-
-    sleep(min_delay);
-  }
-  sleep(min_delay);
-}
+#define RIGHT 14
 
 void setup(void)
 {
-  Serial.begin(115200);
-  //Serial2.begin(9600, SERIAL_8N1,RX,TX);
-  Serial.println("Terminal Started");
 
-  initWiFi();
-  Serial.println("RRSI: " + WiFi.RSSI());
+  pinMode(RIGHT, INPUT_PULLUP);
+
+  Serial.begin(115200);
+  lcd.init();
+  lcd.fillScreen(TFT_BLACK);
+  lcd.setRotation(1);
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
+  sprite.createSprite(320, 170);
+  sprite.setTextDatum(3);
+  sprite.setSwapBytes(true);
+  values[23] = gh / 2;
+  analogReadResolution(10);
 }
 
-void loop(void)
+int counter = 0;
+int Min = gh / 2;
+int Max = gh / 2;
+int average = 0;
+String minT = "";
+String maxT = "";
+
+long lastMillis = 0;
+int fps = 0;
+
+void printLocalTime()
 {
-  get_data();
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain time");
+    return;
+  }
 
-  Serial.print("root_1_settings_sound : ");
-  Serial.println(root_1_settings_sound);
+  strftime(timeHour, 3, "%H", &timeinfo);
+  strftime(timeMin, 3, "%M", &timeinfo);
+  strftime(timeSec, 3, "%S", &timeinfo);
+  strftime(y, 5, "%Y", &timeinfo);
+  strftime(m, 12, "%B", &timeinfo);
 
-  sleep(15);
+  strftime(dw, 10, "%A", &timeinfo);
+
+  strftime(d, 3, "%d", &timeinfo);
+}
+
+void loop()
+{
+  deb = 0;
+
+  fps = 1000 / (millis() - lastMillis);
+  lastMillis = millis();
+
+  average = 0;
+  if (counter == 0)
+    printLocalTime();
+
+  counter++;
+  if (counter == 50)
+    counter = 0;
+
+  if (Mode == 0)
+  {
+    if (values[23] > 12)
+      curent = random(values[23] - 12, values[23] + 12);
+    else
+      curent = random(1, values[23] + 14);
+
+    if (curent > gh)
+      curent = random(gh - 10, gh);
+  }
+  if (Mode == 1)
+  {
+    int num = analogRead(44);
+    curent = map(num, 0, 1024, 0, gh);
+  }
+
+  for (int i = 0; i < 24; i++)
+    values2[i] = values[i];
+
+  for (int i = 23; i > 0; i--)
+    values[i - 1] = values2[i];
+
+  values[23] = curent;
+  if (values[23] > Max)
+  {
+    Max = values[23];
+    maxT = String(timeHour) + ":" + String(timeMin) + ":" + String(timeSec);
+  }
+  if (values[23] < Min)
+  {
+    Min = values[23];
+    minT = String(timeHour) + ":" + String(timeMin) + ":" + String(timeSec);
+  }
+
+  for (int i = 0; i < 24; i++)
+    average = average + values[i];
+  average = average / 24;
+
+  sprite.fillSprite(TFT_BLACK);
+  // sprite.setTextDatum(4);
+  sprite.setTextColor(TFT_WHITE, blue);
+  sprite.fillRoundRect(6, 5, 38, 32, 4, blue);
+  sprite.fillRoundRect(52, 5, 38, 32, 4, blue);
+  sprite.fillRoundRect(6, 42, 80, 12, 4, blue);
+  sprite.fillRoundRect(6, 82, 78, 76, 4, purple);
+  sprite.fillRoundRect(6, 58, 80, 18, 4, green);
+  sprite.drawString(String(timeHour), 10, 24, 4);
+  sprite.drawString(String(timeMin), 56, 24, 4);
+  sprite.drawString(String(m) + " " + String(d), 10, 48);
+  // sprite.drawString(String(dw)+", "+String(y),10,58);
+
+  // sprite.drawString(String(analogRead(18)),gx+160,26);
+
+  sprite.drawString(String(timeSec), gx - 14, 14, 2);
+  sprite.setTextColor(TFT_WHITE, purple);
+  sprite.drawString("CURR: " + String(average), 10, 92, 2);
+
+  sprite.drawString("MIN: " + String(Min), 10, 108, 2);
+
+  sprite.drawString("MAX: " + String(Max), 10, 138, 2);
+
+  sprite.setTextColor(TFT_SILVER, purple);
+  sprite.drawString(String(maxT), 10, 152);
+  sprite.drawString(String(minT), 10, 122);
+  sprite.setTextColor(TFT_WHITE, green);
+  sprite.drawString("SPEED:" + String(fps) + " fps", 10, 68);
+  sprite.setTextColor(TFT_YELLOW, TFT_BLACK);
+  sprite.drawString("ANALOG READINGS", gx + 10, 16, 2);
+  sprite.drawString("ON PIN 12", gx + 10, 30);
+  sprite.setFreeFont();
+
+  for (int i = 1; i < 12; i++)
+  {
+    sprite.drawLine(gx + (i * 17), gy, gx + (i * 17), gy - gh, gray);
+    if (i * 17 % 34 == 0)
+      if (i * 2 < 10)
+        sprite.drawString("0" + String(i * 2), gx + (i * 17) - 3, gy + 8);
+      else
+        sprite.drawString(String(i * 2), gx + (i * 17) - 4, gy + 8);
+  }
+  for (int i = 1; i < 6; i++)
+  {
+    sprite.drawLine(gx, gy - (i * 17), gx + gw, gy - (i * 17), gray);
+    sprite.drawString(String(i * 17), gx - 16, gy - (i * 17));
+  }
+
+  sprite.drawLine(gx, gy, gx + gw, gy, TFT_WHITE);
+  sprite.drawLine(gx, gy, gx, gy - gh, TFT_WHITE);
+
+  for (int i = 0; i < 23; i++)
+  {
+    sprite.drawLine(gx + (i * 17), gy - values[i], gx + ((i + 1) * 17), gy - values[i + 1], TFT_RED);
+    sprite.drawLine(gx + (i * 17), gy - values[i] - 1, gx + ((i + 1) * 17), gy - values[i + 1] - 1, TFT_RED);
+  }
+
+  sprite.setTextColor(TFT_WHITE, TFT_BLACK);
+  sprite.drawString("BAT:" + String(analogRead(4)), gx + 160, 16);
+  sprite.drawString("MOD:" + String(Mode), gx + 160, 26);
+
+  sprite.pushSprite(0, 0);
+  // delay(5);
 }
