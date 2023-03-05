@@ -1,29 +1,34 @@
 /**
  * @file main.cpp
  * @author Muller Kevin (www.kevbchef.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-02-06
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
-**/
+ *
+ **/
 #include <Arduino.h>
 #include <SPI.h>
 #include <FS.h>
-#include <TFT_eSPI.h>
 
-// WiFi Extension
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-#include "config.h"
-#include "json.h"
-#include "ui.h"
-#include "icons.h"
+#include "include/test_config.h"
+#include "include/test_json.h"
 
 
+//----------------------------------------------------------------
+#include <TFT_eSPI.h>
+#include "include/test_icons.h"
+#include "include/test_ui.h"
+
+
+bool refresh = false;
+bool getData = true;
+int menuIndex = 0;
 // ================================================= HTTP Start ================================================================
 
 void initWiFi(){
@@ -527,6 +532,11 @@ void menu(int16_t ui){
 }
 
 void loop(void){
+  if(refresh){
+    get_data();
+    
+    delay(250);
+  }
 
   uint16_t touch_x=0,touch_y=0;
 
@@ -546,27 +556,27 @@ void loop(void){
       // water_system x= 140 - 210 y = 60 - 130
       // led_lüfter x= 30 - 100 y= 130 - 200
       // akku_energy x= 140 - 210 y = 135 - 205
-      if(((touch_x<40)and(touch_x>0))and((touch_y<40)and(touch_y>0))){Serial.println("Start   : UI_Settings");menu(5);};
-      if(((touch_x<80)and(touch_x>30))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_TempHum");menu(1);};
-      if(((touch_x<210)and(touch_x>140))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_WaterSys");menu(2);};
-      if(((touch_x<100)and(touch_x>30))and((touch_y<200)and(touch_y>130))){Serial.println("Start   : UI_LufterLeds");menu(3);};
-      if(((touch_x<210)and(touch_x>140))and((touch_y<205)and(touch_y>135))){Serial.println("Start   : UI_EnergieStatus");menu(4);};
+      if(((touch_x<40)and(touch_x>0))and((touch_y<40)and(touch_y>0))){Serial.println("Start   : UI_Settings");menuIndex = 5;menu(menuIndex);};
+      if(((touch_x<80)and(touch_x>30))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_TempHum");menuIndex = 1;menu(menuIndex);};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_WaterSys");menuIndex = 2;menu(menuIndex);};
+      if(((touch_x<100)and(touch_x>30))and((touch_y<200)and(touch_y>130))){Serial.println("Start   : UI_LufterLeds");menuIndex = 3;menu(menuIndex);};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<205)and(touch_y>135))){Serial.println("Start   : UI_EnergieStatus");menuIndex = 4;menu(menuIndex);};
     }else if ((page==1)or(page==2)or(page==3)or(page==4)){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;menu(menuIndex);
       }
     }else if (page==5){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;menu(menuIndex);
       }
       if(((touch_x<240)and(touch_x>0))and((touch_y<272)and(touch_y>220))){
         Serial.println("Start   : Display Calibration");
-        touch_calibrate();
+        touch_calibrate();tft.fillScreen(BLACK);
         Serial1.println("Ended  : Display Calibration");
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;menu(menuIndex);
       }
     }else{
       return;
