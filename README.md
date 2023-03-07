@@ -3,6 +3,8 @@
         <div align="center">
             <img src="https://github.com/mulke068/Gewachshaus/blob/beta/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
             <h2 align="center">Sponsership BY LPEM©</h2>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=active+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=resolved+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
         </div>
         <table align="center">
             <tr>
@@ -53,10 +55,10 @@
     <div class="bottom">
         <div>
             <h1>Links</h1>
-                <h2>Shops</h1>
+                <h2>Shops</h2>
             
 [AZ Delivery](https://www.az-delivery.de)
-            
+           
 [Reichelt](https://www.reichelt.de)
             
 [ELV](https://de.elv.com)
