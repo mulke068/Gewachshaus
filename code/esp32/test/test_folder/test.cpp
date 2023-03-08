@@ -35,10 +35,10 @@ int page=0;
  * @param text Displayed Text
  */
 void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
-  tft.setTextSize(size);
-  tft.setTextColor(color);
-  tft.setCursor(x,y);
-  tft.print(text);
+  sprite.setTextSize(size);
+  sprite.setTextColor(color);
+  sprite.setCursor(x,y);
+  sprite.print(text);
 }
 
 /**
@@ -47,15 +47,15 @@ void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
  * @param text
  */
 void SPT(String text){
-  tft.setTextSize(2);
-  tft.setTextColor(WHITE);
+  sprite.setTextSize(2);
+  sprite.setTextColor(WHITE);
   DTP(2,WHITE,(tft.width()-tft.textWidth(text))/2,10,text);
-  tft.drawLine(0,30,240,30,WHITE);
+  sprite.drawLine(0,30,240,30,WHITE);
   // Bottom
-  tft.drawLine(0,280,240,280,WHITE);
-  tft.drawLine(100,290,100,310,WHITE);
+  sprite.drawLine(0,280,240,280,WHITE);
+  sprite.drawLine(100,290,100,310,WHITE);
   DTP(2,WHITE,10,293,"7.7V");
-  tft.fillRoundRect(150,285,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
+  sprite.fillRoundRect(150,285,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
   DTP(2,BLACK,168,293,"Home");
 }
 
@@ -82,7 +82,10 @@ void touch_calibrate()
   tft.println();
   tft.calibrateTouch(calData, RED, BLACK, 30);
 
-  DTP(1,GREEN,0,0,"Calibration complete!");
+  tft.setTextSize(1);
+  tft.setTextColor(GREEN);
+  tft.setCursor(0,0);
+  tft.print("Calibration complete!");
   delay(1000);
 }
 
@@ -314,10 +317,11 @@ void setup(void){
   Serial.println("Start   : WiFi    Configuration");
   Serial.println("Ended   : WiFi    Configuration");
   Serial.println("Start   : Display Configuration");
-  tft.begin();
+  tft.init();
   tft.setRotation(0);
-
-  sprite.createSprite(240,320);
+  tft.fillScreen(BLACK);
+  //sprite.createSprite(tft.width(),tft.height());
+  //sprite.fillSprite(BLACK);
   //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };
   //tft.setTouch(calData);
   Serial.println("Ended   : Display Configuration");
