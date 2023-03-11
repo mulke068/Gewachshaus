@@ -1,10 +1,1 @@
 version = 1
-
-[[analyzers]]
-name = "test-coverage"
-
-[[analyzers]]
-name = "php"
-
-[[analyzers]]
-name = "cxx"
