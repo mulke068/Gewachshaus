@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
     <div>
         <div class="heder">
@@ -16,45 +15,41 @@
             </table>
         </div>
         <div class="content">
-            <div>
-                <h1>Stellungsannahme</h1>
-                <h2>Plexiglas</h2>
-                    <ul>max grösse 600x400 m^2</ul>
-                    <ul>transparent or milch</ul>
-                    <ul>3mm or 5mm</ul>
-                <h2>Hauptversorgung</h2>
-                    <ul>Netzteil</ul> 
-                    <ul>Solarpannel + Speicher</ul>
-                    <ul>MAX 12v</ul>
-                    <ul>Über Solarpannel soll die Beleuctung versorgt werden</ul>
-                <h2>Arduino oder Raspberry PI</h2>
-                <h3>Sensoren</h3>
-                    <ul>Temperatur</ul>
-                    <ul>Luftfeuchtigket</ul>
-                <h3>Aktoren</h3>
-                    <ul>Lcd 16x2</ul>
-                    <ul>Beleuchtung</ul>
-                    <ul>Belüftung</ul>
-                <h2>Zusatz function</h2>
-                <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen<p>
-            </div>
-            <div>
-                <h1>Dossiert</h1>
-                <h2>1. Funktionsbeschriebung</h2>
-                    <ul>Text</ul>
-                    <ul>Animation</ul>
-                <h2>2. Materialliste</h2>
-                    <ul>Peris Liste in Exel</ul>
-                <h2>3. Elektrik</h2>
-                    <ul>Schaltplan</ul>
-                    <ul>Synoptik</ul>
-                    <ul>Programm(code vom Arduino)</ul>
-                <h2>4. Gehäuse</h3>
-                    <ul>Fusion Model erstellen vom Gesammt Projeckt</ul>
-                    <ul>3D Model Animation(in ppt)</ul>
-            </div>
+            <h1>Stellungsannahme</h1>
+            <h2>Plexiglas</h2>
+                <ul>max grösse 600x400 m^2</ul>
+                <ul>transparent or milch</ul>
+                <ul>3mm or 5mm</ul>
+            <h2>Hauptversorgung</h2>
+                <ul>Netzteil</ul> 
+                <ul>Solarpannel + Speicher</ul>
+                <ul>MAX 12v</ul>
+                <ul>Über Solarpannel soll die Beleuctung versorgt werden</ul>
+            <h2>Arduino oder Raspberry PI</h2>
+            <h3>Sensoren</h3>
+                <ul>Temperatur</ul>
+                <ul>Luftfeuchtigket</ul>
+            <h3>Aktoren</h3>
+                <ul>Lcd 16x2</ul>
+                <ul>Beleuchtung</ul>
+                <ul>Belüftung</ul>
+            <h2>Zusatz function</h2>
+            <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen<p>
+            <h1>Dossiert</h1>
+            <h2>1. Funktionsbeschriebung</h2>
+                <ul>Text</ul>
+                <ul>Animation</ul>
+            <h2>2. Materialliste</h2>
+                <ul>Peris Liste in Exel</ul>
+            <h2>3. Elektrik</h2>
+                <ul>Schaltplan</ul>
+                <ul>Synoptik</ul>
+                <ul>Programm(code vom Arduino)</ul>
+            <h2>4. Gehäuse</h2>
+                <ul>Fusion Model erstellen vom Gesammt Projeckt</ul>
+                <ul>3D Model Animation(in ppt)</ul>
         </div>
-        <div class="bottom">    <a href="" target="_blank"></a>
+        <div class="bottom">
             <div>
                 <h1>Links</h1>
                     <h2>Shops</h2>
