@@ -2,7 +2,7 @@
  * @file main.cpp
  * @author Muller Kevin (www.kevbchef.com)
  * @brief 
- * @version 2.2.3
+ * @version 0.1
  * @date 2023-02-06
  * 
  * @copyright Copyright (c) 2023
@@ -20,11 +20,8 @@
 
 // =============================================================================================================================
 // ================================================= Display START =============================================================
-TFT_eSPI tft = TFT_eSPI(); // Invoke library, pins defined in User_Setup.h
-TFT_eSprite sprite = TFT_eSprite(&tft); // Sprite object for display buffer
-TFT_eSprite header = TFT_eSprite(&tft); // Sprite object for display buffer
-TFT_eSprite content = TFT_eSprite(&tft); // Sprite object for display buffer
-TFT_eSprite footer = TFT_eSprite(&tft); // Sprite object for display buffer
+TFT_eSPI tft = TFT_eSPI();
+TFT_eSprite sprite = TFT_eSprite(&tft);
 
 int page=0;
 
@@ -37,26 +34,12 @@ int page=0;
  * @param y Cords
  * @param text Displayed Text
  */
-void DTP(String object,int8_t size,int16_t color,int16_t x,int16_t y,String text){
-  if (object == "header"){
-    header.setTextSize(size);
-    header.setTextColor(color);
-    header.setCursor(x,y);
-    header.print(text);
-  }
-  if (object == "content"){
-    content.setTextSize(size);
-    content.setTextColor(color);
-    content.setCursor(x,y);
-    content.print(text);
-  }
-  if (object == "footer"){
-    footer.setTextSize(size);
-    footer.setTextColor(color);
-    footer.setCursor(x,y);
-    footer.print(text);
-  }
-};
+void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
+  tft.setTextSize(size);
+  tft.setTextColor(color);
+  tft.setCursor(x,y);
+  tft.print(text);
+}
 
 /**
  * @brief SPT = Standard Page Template
@@ -64,24 +47,16 @@ void DTP(String object,int8_t size,int16_t color,int16_t x,int16_t y,String text
  * @param text
  */
 void SPT(String text){
-  // Top
-  header.createSprite(240,45);
-  header.fillSprite(BLACK);
-  header.setTextSize(2);
-  header.setTextColor(WHITE);
-  DTP("header",2,WHITE,(header.width()-header.textWidth(text))/2,10,text);
-  header.drawLine(0,30,240,30,WHITE);
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  DTP(2,WHITE,(tft.width()-tft.textWidth(text))/2,10,text);
+  tft.drawLine(0,30,240,30,WHITE);
   // Bottom
-  footer.createSprite(240,45);
-  footer.fillSprite(BLACK);
-  footer.drawLine(0,1,240,1,WHITE);
-  footer.drawLine(100,9,100,29,WHITE);
-  DTP("footer",2,WHITE,10,18,"7.7V");
-  footer.fillRoundRect(150,8,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
-  DTP("footer",2,BLACK,168,15,"Home");
-  // Push
-  header.pushSprite(0,0);
-  footer.pushSprite(0,275);
+  tft.drawLine(0,280,240,280,WHITE);
+  tft.drawLine(100,290,100,310,WHITE);
+  DTP(2,WHITE,10,293,"7.7V");
+  tft.fillRoundRect(150,285,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
+  DTP(2,BLACK,168,293,"Home");
 }
 
 void touch_calibrate()
@@ -125,13 +100,10 @@ void touch_calibrate()
  * @param bgColor 
  * @param varColor 
  */
-void DrawCircleVarTemplate(int32_t x, int32_t y, int32_t var,String end,int32_t circleColor,int32_t bgColor, int32_t varColor){
-  content.fillCircle(x,y,32,circleColor);
-  content.fillCircle(x,y,24,bgColor);
-  content.setTextSize(2);
-  content.setTextColor(varColor);
-  content.setCursor(x-16,y-8);
-  content.print(String(var)+end);
+void DrawCircleVarTemplate(int16_t x, int16_t y, int16_t var,String end,int16_t circleColor,int16_t bgColor, int16_t varColor){
+  tft.fillCircle(x,y,32,circleColor);
+  tft.fillCircle(x,y,24,bgColor);
+  DTP(2,varColor,x-16,y-8,String(var)+end);
 }
 
 /**
@@ -142,23 +114,19 @@ void DrawCircleVarTemplate(int32_t x, int32_t y, int32_t var,String end,int32_t 
  */
 void UI_Settings(int16_t brightness,int16_t sound){
   page = 5;
-  //tft.fillScreen(BLACK);
+  tft.fillScreen(BLACK);
   SPT("Einstellungen");
-  // INIT
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
-  // BLOCK 1
-  DTP("content",2,WHITE,60,0,"Helligkeit");
-  DTP("content",2,WHITE,(content.width()-content.textWidth(String(brightness)+"%"))/2,35,String(brightness)+"%");
-  // BLOCK 2
-  content.drawLine(40,85,180,85,WHITE);
-  DTP("content",2,WHITE,90,95,"Ton");
-  DTP("content",2,WHITE,(content.width()-content.textWidth(String(sound)+"%"))/2,130,String(sound)+"%");
-  // BLOCK 3
-  content.drawLine(20,175,220,175,WHITE);
-  DTP("content",2,WHITE,20,195,"Touch Calibrieren");
-  // PUSH
-  content.pushSprite(0,45);
+  DTP(2,WHITE,60,40,"Helligkeit");
+  //
+  DTP(2,WHITE,(tft.width()-tft.textWidth(String(brightness)+"%"))/2,80,String(brightness)+"%");
+  //
+  tft.drawLine(40,130,180,130,WHITE);
+  DTP(2,WHITE,90,140,"Ton");
+  //
+  DTP(2,WHITE,(tft.width()-tft.textWidth(String(sound)+"%"))/2,175,String(sound)+"%");
+  //
+  tft.drawLine(20,220,220,220,WHITE);
+  DTP(2,WHITE,20,240,"Touch Calibrieren");
 }
 
 /**
@@ -170,22 +138,16 @@ void UI_Settings(int16_t brightness,int16_t sound){
  * @param strom 
  */
 void UI_EnergieStatus(int16_t sp1,int16_t sp2,int16_t akku,int16_t strom){
-  page = 4;
-  //tft.fillScreen(BLACK);
+  page = 3;
+  tft.fillScreen(BLACK);
   SPT("Energie Status");
-  // INIT
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
-  // BLOCK 1
   String text[4] = {"Solar Panel 1:","Solar Panel 2:","Akku Kap.:","Strom Verb.:"};
   String data[4] = {String(sp1)+"V",String(sp2)+"V",String(akku)+"%",String(strom)+"V"};
-  for (int i=0,y=5; i < 4; i++,y+=30)
+  for (int i=0,y=50; i < 4; i++,y+=30)
   {
-    DTP("content",2,WHITE,0,y,text[i]);
-    DTP("content",2,WHITE,180,y,data[i]);
+    DTP(2,WHITE,0,y,text[i]);
+    DTP(2,WHITE,180,y,data[i]);
   }
-  // PUSH
-  content.pushSprite(0,45);
 }
 
 /**
@@ -199,41 +161,35 @@ void UI_EnergieStatus(int16_t sp1,int16_t sp2,int16_t akku,int16_t strom){
  * @param setLed 
  */
 void UI_LufterLeds(int16_t getLufter1,bool setLufter1,int16_t getLufter2,bool setLufter2,int16_t getLed,bool setLed){
-  page = 3;
-  //tft.fillScreen(BLACK);
+  page = 4;
+  tft.fillScreen(BLACK);
   SPT("Lufter / LEDs");
-  // INIT
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
-  // BLOCK 1
-  DTP("content",2,BLUE,10,0,"Lufter");
-  DTP("content",1,WHITE,120,15,"2");
-  DTP("content",1,WHITE,10,15,"1");
+  DTP(2,BLUE,10,40,"Lufter");
+  DTP(1,WHITE,10,60,"1");
+  DTP(1,WHITE,120,60,"2");
   /**
    * @note Search for Slider
    * @details var -> Slider ≠ Text 
   */
-  DTP("content",2,WHITE,45,25,String(getLufter1)+"%");
-  DTP("content",2,WHITE,160,25,String(getLufter2)+"%");
+  DTP(2,WHITE,45,70,String(getLufter1)+"%");
+  DTP(2,WHITE,160,70,String(getLufter2)+"%");
   // Buttons
-  if(setLufter1){content.fillRoundRect(20,65,Box_Width,Box_Height,Box_Radius,GREEN);} 
-  else {content.fillRoundRect(20,65,Box_Width,Box_Height,Box_Radius,RED);};
-  if (setLufter2){content.fillRoundRect(140,65,Box_Width,Box_Height,Box_Radius,GREEN);}
-  else {content.fillRoundRect(140,65,Box_Width,Box_Height,Box_Radius,RED);};
-  // BLOCK 2
-  DTP("content",2,BLUE,10,115,"LED");
-  DTP("content",2,WHITE,20,145,"Dimmung");
-  DTP("content",2,WHITE,20,185,"Status");
+  if(setLufter1){tft.fillRoundRect(20,110,Box_Width,Box_Height,Box_Radius,GREEN);} 
+  else {tft.fillRoundRect(20,110,Box_Width,Box_Height,Box_Radius,RED);};
+  if (setLufter2){tft.fillRoundRect(140,110,Box_Width,Box_Height,Box_Radius,GREEN);}
+  else {tft.fillRoundRect(140,110,Box_Width,Box_Height,Box_Radius,RED);};
+  // ---
+  DTP(2,BLUE,10,160,"LED");
+  DTP(2,WHITE,20,190,"Dimmung");
+  DTP(2,WHITE,20,230,"Status");
   /**
    * @note Search for Slider
    * @details var -> Slider ≠ Text 
   */
-  DTP("content",2,WHITE,150,145,String(getLed)+"%");
+  DTP(2,WHITE,150,190,String(getLed)+"%");
   // Button
-  if(setLed){content.fillRoundRect(130,185,Box_Width,Box_Height,Box_Radius,GREEN);}
-  else {content.fillRoundRect(130,185,Box_Width,Box_Height,Box_Radius,RED);};
-  // PUSH
-  content.pushSprite(0,45);
+  if(setLed){tft.fillRoundRect(130,230,Box_Width,Box_Height,Box_Radius,GREEN);}
+  else {tft.fillRoundRect(130,230,Box_Width,Box_Height,Box_Radius,RED);};
 }
 
 /**
@@ -245,30 +201,25 @@ void UI_LufterLeds(int16_t getLufter1,bool setLufter1,int16_t getLufter2,bool se
  */
 void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
   page = 2;
-  //tft.fillScreen(BLACK);
+  tft.fillScreen(BLACK);
   SPT("Bewasserung");
-  // INIT
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
-  // BLOCK 1
-  DTP("content",2,BLUE,20,0,"Bodenfeuchtigkeit");
-  DTP("content",2,WHITE,0,25,"Sensor 1");
-  DrawCircleVarTemplate(40,75,sensor_1,"%",BLUE,BLACK,WHITE);
-  DTP("content",2,WHITE,140,25,"Sensor 2");
-  DrawCircleVarTemplate(190,75,sensor_2,"%",BLUE,BLACK,WHITE);
-  tft.drawLine(20,115,220,115,WHITE);
-  // BLOCK 2
-  DTP("content",2,WHITE,20,145,"Pumpe");
-  DTP("content",2,WHITE,20,185,"Status");
+  //
+  DTP(2,BLUE,20,40,"Bodenfeuchtigkeit");
+  DTP(2,WHITE,0,70,"Sensor 1");
+  DrawCircleVarTemplate(40,120,sensor_1,"%",BLUE,BLACK,WHITE);
+  DTP(2,WHITE,140,70,"Sensor 2");
+  DrawCircleVarTemplate(190,120,sensor_2,"%",BLUE,BLACK,WHITE);
+  tft.drawLine(20,160,220,160,WHITE);
+  //
+  DTP(2,WHITE,20,190,"Pumpe");
+  DTP(2,WHITE,20,230,"Status");
   if(pumpe){
-    DTP("content",2,WHITE,140,145,"-> Aus");
-    DTP("content",2,WHITE,140,185,"An");
+    DTP(2,WHITE,140,190,"-> Aus");
+    DTP(2,WHITE,140,230,"An");
   }else {
-    DTP("content",2,WHITE,140,145,"-> An");
-    DTP("content",2,WHITE,140,185,"Aus");
+    DTP(2,WHITE,140,190,"-> An");
+    DTP(2,WHITE,140,230,"Aus");
   }
-  // PUSH
-  content.pushSprite(0,45);
 }
 
 /**
@@ -281,23 +232,18 @@ void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
  */
 void UI_TempHum(int16_t tmp1=0,int16_t hum1=0,int16_t tmp2=0,int16_t hum2=0) {
   page = 1;
-  //tft.fillScreen(BLACK);
+  tft.fillScreen(BLACK);
   // Title
   SPT("Daten");
-  // INIT
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
   // Block 1
-  DTP("content",2,WHITE,80,5,"Drinnen");
-  DrawCircleVarTemplate(50,64,tmp1,"C",RED,BLACK,RED);
-  DrawCircleVarTemplate(180,64,hum1,"%",BLUE,BLACK,BLUE);
-  content.drawLine(20,114,200,114,WHITE);
+  DTP(2,WHITE,80,40,"Drinnen");
+  DrawCircleVarTemplate(50,100,tmp1,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,100,hum1,"%",BLUE,BLACK,BLUE);
+  tft.drawLine(20,150,200,150,WHITE);
   // Block 2
-  DTP("content",2,WHITE,71,124,"Draussen");
-  DrawCircleVarTemplate(50,184,tmp2,"C",RED,BLACK,RED);
-  DrawCircleVarTemplate(180,184,hum2,"%",BLUE,BLACK,BLUE);
-  // Push
-  content.pushSprite(0,45);
+  DTP(2,WHITE,71,160,"Draussen");
+  DrawCircleVarTemplate(50,220,tmp2,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,220,hum2,"%",BLUE,BLACK,BLUE);
 }
 
 /**
@@ -307,34 +253,24 @@ void UI_TempHum(int16_t tmp1=0,int16_t hum1=0,int16_t tmp2=0,int16_t hum2=0) {
  */
 void UI_Home(void){
   page = 0;
-  //tft.fillScreen(BLACK);
-  header.createSprite(240,46);
-  header.fillScreen(BLACK);
-  DTP("header",1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
-  DTP("header",3,WHITE,85,20,"Home");
-  header.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
-  header.drawLine(0,45,240,45,WHITE);
+  tft.fillScreen(BLACK);
+  DTP(1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
+  DTP(3,WHITE,85,20,"Home");
+  tft.drawLine(0,45,240,45,WHITE);
   // ----
-  content.createSprite(240,230);
-  content.fillScreen(BLACK);
-  content.drawBitmap(30,15,temperature_humidity,iconsHomeWidth,iconsHomeHeight,WHITE);
-  content.drawBitmap(140,15,bewasserungs_system,iconsHomeWidth,iconsHomeHeight,WHITE);
-  content.drawLine(20,86,220,83,WHITE);  
-  content.drawLine(120,15,120,145,WHITE);
-  content.drawBitmap(30,85,led_lufter,iconsHomeWidth,iconsHomeHeight,WHITE);
-  content.drawBitmap(140,90,akku_energie,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
+  tft.drawBitmap(30,60,temperature_humidity,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawBitmap(140,60,bewasserungs_system,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawLine(20,128,220,128,WHITE);
+  tft.drawLine(120,60,120,190,WHITE);  
+  tft.drawBitmap(30,130,led_lufter,iconsHomeWidth,iconsHomeHeight,WHITE);
+  tft.drawBitmap(140,135,akku_energie,iconsHomeWidth,iconsHomeHeight,WHITE);
   // IMG
-  content.drawBitmap((tft.width()-logoWidth)/2,145,logo,logoWidth,logoHeight,WHITE);
+  tft.drawBitmap((tft.width()-logoWidth)/2,190,logo,logoWidth,logoHeight,WHITE);
   // Bottom
-  footer.createSprite(240,40);
-  footer.fillScreen(BLACK);
-  footer.drawLine(0,20,240,20,WHITE);
-  DTP("footer",2,WHITE,0,25,"7.7V");
-  DTP("footer",2,WHITE,170,25,"Datum");
-  //---
-  header.pushSprite(0,0);
-  content.pushSprite(0,47); // 45
-  footer.pushSprite(0,280); // 277
+  tft.drawLine(0,300,240,300,WHITE);
+  DTP(2,WHITE,0,305,"7.7V");
+  DTP(2,WHITE,170,305,"Datum");
 }
 
 // ================================================= Display END ================================================================
@@ -384,16 +320,17 @@ void setup(void){
   tft.init();
   tft.setRotation(2);
   tft.fillScreen(BLACK);
-
+  //sprite.createSprite(tft.width(),tft.height());
+  //sprite.fillSprite(BLACK);
   //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };
   //tft.setTouch(calData);
   Serial.println("Ended   : Display Configuration");
   Serial.println("Start   : Display Calibration");
-  touch_calibrate();
-  //tft.fillScreen(BLACK);
+  //touch_calibrate();
+  tft.fillScreen(BLACK);
   Serial1.println("Ended  : Display Calibration");
-  // TEST PAGE
-  //menuIndex = 5;
+  UI_Home();
+
 }
 
 void loop(void){
@@ -444,9 +381,6 @@ void loop(void){
       return;
     }
   }
+  sprite.pushSprite(0,0);
   delay(100);
-  sprite.deleteSprite();
-  header.deleteSprite();
-  content.deleteSprite();
-  footer.deleteSprite();
 }

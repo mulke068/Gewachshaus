@@ -225,7 +225,13 @@ void put_data(bool print=true){
 // ================================================= HTTP END ==================================================================
 // =============================================================================================================================
 // ================================================= Display START =============================================================
-TFT_eSPI tft = TFT_eSPI();
+TFT_eSPI tft = TFT_eSPI(); // Invoke library, pins defined in User_Setup.h
+TFT_eSprite sprite = TFT_eSprite(&tft); // Sprite object for display buffer
+TFT_eSprite header = TFT_eSprite(&tft); // Sprite object for display buffer
+TFT_eSprite content = TFT_eSprite(&tft); // Sprite object for display buffer
+TFT_eSprite footer = TFT_eSprite(&tft); // Sprite object for display buffer
+
+
 int page=0;
 
 /**
@@ -237,12 +243,26 @@ int page=0;
  * @param y Cords
  * @param text Displayed Text
  */
-void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
-  tft.setTextSize(size);
-  tft.setTextColor(color);
-  tft.setCursor(x,y);
-  tft.print(text);
-}
+void DTP(String object,int8_t size,int16_t color,int16_t x,int16_t y,String text){
+  if (object == "header"){
+    header.setTextSize(size);
+    header.setTextColor(color);
+    header.setCursor(x,y);
+    header.print(text);
+  }
+  if (object == "content"){
+    content.setTextSize(size);
+    content.setTextColor(color);
+    content.setCursor(x,y);
+    content.print(text);
+  }
+  if (object == "footer"){
+    footer.setTextSize(size);
+    footer.setTextColor(color);
+    footer.setCursor(x,y);
+    footer.print(text);
+  }
+};
 
 /**
  * @brief SPT = Standard Page Template
@@ -250,16 +270,24 @@ void DTP(int16_t size,int16_t color,int16_t x,int16_t y,String text){
  * @param text
  */
 void SPT(String text){
-  tft.setTextSize(2);
-  tft.setTextColor(WHITE);
-  DTP(2,WHITE,(tft.width()-tft.textWidth(text))/2,10,text);
-  tft.drawLine(0,30,240,30,WHITE);
+  // Top
+  header.createSprite(240,45);
+  header.fillSprite(BLACK);
+  header.setTextSize(2);
+  header.setTextColor(WHITE);
+  DTP("header",2,WHITE,(header.width()-header.textWidth(text))/2,10,text);
+  header.drawLine(0,30,240,30,WHITE);
   // Bottom
-  tft.drawLine(0,280,240,280,WHITE);
-  tft.drawLine(100,290,100,310,WHITE);
-  DTP(2,WHITE,10,293,"7.7V");
-  tft.fillRoundRect(150,285,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
-  DTP(2,BLACK,168,293,"Home");
+  footer.createSprite(240,45);
+  footer.fillSprite(BLACK);
+  footer.drawLine(0,1,240,1,WHITE);
+  footer.drawLine(100,9,100,29,WHITE);
+  DTP("footer",2,WHITE,10,18,"7.7V");
+  footer.fillRoundRect(150,8,Box_Width,Box_Height,Box_Radius,BOX_COLOR);
+  DTP("footer",2,BLACK,168,15,"Home");
+  // Push
+  header.pushSprite(0,0);
+  footer.pushSprite(0,275);
 }
 
 void touch_calibrate()
@@ -285,7 +313,10 @@ void touch_calibrate()
   tft.println();
   tft.calibrateTouch(calData, RED, BLACK, 30);
 
-  DTP(1,GREEN,0,0,"Calibration complete!");
+  tft.setTextSize(1);
+  tft.setTextColor(GREEN);
+  tft.setCursor(0,0);
+  tft.print("Calibration complete!");
   delay(1000);
 }
 
@@ -300,10 +331,13 @@ void touch_calibrate()
  * @param bgColor 
  * @param varColor 
  */
-void DrawCircleVarTemplate(int16_t x, int16_t y, int16_t var,String end,int16_t circleColor,int16_t bgColor, int16_t varColor){
-  tft.fillCircle(x,y,32,circleColor);
-  tft.fillCircle(x,y,24,bgColor);
-  DTP(2,varColor,x-16,y-8,String(var)+end);
+void DrawCircleVarTemplate(int32_t x, int32_t y, int32_t var,String end,int32_t circleColor,int32_t bgColor, int32_t varColor){
+  content.fillCircle(x,y,32,circleColor);
+  content.fillCircle(x,y,24,bgColor);
+  content.setTextSize(2);
+  content.setTextColor(varColor);
+  content.setCursor(x-16,y-8);
+  content.print(String(var)+end);
 }
 
 /**
@@ -314,19 +348,23 @@ void DrawCircleVarTemplate(int16_t x, int16_t y, int16_t var,String end,int16_t 
  */
 void UI_Settings(int16_t brightness,int16_t sound){
   page = 5;
-  tft.fillScreen(BLACK);
+  //tft.fillScreen(BLACK);
   SPT("Einstellungen");
-  DTP(2,WHITE,60,40,"Helligkeit");
-  //
-  DTP(2,WHITE,(tft.width()-tft.textWidth(String(brightness)+"%"))/2,80,String(brightness)+"%");
-  //
-  tft.drawLine(40,130,180,130,WHITE);
-  DTP(2,WHITE,90,140,"Ton");
-  //
-  DTP(2,WHITE,(tft.width()-tft.textWidth(String(sound)+"%"))/2,175,String(sound)+"%");
-  //
-  tft.drawLine(20,220,220,220,WHITE);
-  DTP(2,WHITE,20,240,"Touch Calibrieren");
+  // INIT
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
+  // BLOCK 1
+  DTP("content",2,WHITE,60,0,"Helligkeit");
+  DTP("content",2,WHITE,(content.width()-content.textWidth(String(brightness)+"%"))/2,35,String(brightness)+"%");
+  // BLOCK 2
+  content.drawLine(40,85,180,85,WHITE);
+  DTP("content",2,WHITE,90,95,"Ton");
+  DTP("content",2,WHITE,(content.width()-content.textWidth(String(sound)+"%"))/2,130,String(sound)+"%");
+  // BLOCK 3
+  content.drawLine(20,175,220,175,WHITE);
+  DTP("content",2,WHITE,20,195,"Touch Calibrieren");
+  // PUSH
+  content.pushSprite(0,45);
 }
 
 /**
@@ -338,16 +376,22 @@ void UI_Settings(int16_t brightness,int16_t sound){
  * @param strom 
  */
 void UI_EnergieStatus(int16_t sp1,int16_t sp2,int16_t akku,int16_t strom){
-  page = 3;
-  tft.fillScreen(BLACK);
+  page = 4;
+  //tft.fillScreen(BLACK);
   SPT("Energie Status");
+  // INIT
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
+  // BLOCK 1
   String text[4] = {"Solar Panel 1:","Solar Panel 2:","Akku Kap.:","Strom Verb.:"};
   String data[4] = {String(sp1)+"V",String(sp2)+"V",String(akku)+"%",String(strom)+"V"};
-  for (int i=0,y=50; i < 4; i++,y+=30)
+  for (int i=0,y=5; i < 4; i++,y+=30)
   {
-    DTP(2,WHITE,0,y,text[i]);
-    DTP(2,WHITE,180,y,data[i]);
+    DTP("content",2,WHITE,0,y,text[i]);
+    DTP("content",2,WHITE,180,y,data[i]);
   }
+  // PUSH
+  content.pushSprite(0,45);
 }
 
 /**
@@ -361,35 +405,41 @@ void UI_EnergieStatus(int16_t sp1,int16_t sp2,int16_t akku,int16_t strom){
  * @param setLed 
  */
 void UI_LufterLeds(int16_t getLufter1,bool setLufter1,int16_t getLufter2,bool setLufter2,int16_t getLed,bool setLed){
-  page = 4;
-  tft.fillScreen(BLACK);
+  page = 3;
+  //tft.fillScreen(BLACK);
   SPT("Lufter / LEDs");
-  DTP(2,BLUE,10,40,"Lufter");
-  DTP(1,WHITE,10,60,"1");
-  DTP(1,WHITE,120,60,"2");
+  // INIT
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
+  // BLOCK 1
+  DTP("content",2,BLUE,10,0,"Lufter");
+  DTP("content",1,WHITE,120,15,"2");
+  DTP("content",1,WHITE,10,15,"1");
   /**
    * @note Search for Slider
    * @details var -> Slider ≠ Text 
   */
-  DTP(2,WHITE,45,70,String(getLufter1)+"%");
-  DTP(2,WHITE,160,70,String(getLufter2)+"%");
+  DTP("content",2,WHITE,45,25,String(getLufter1)+"%");
+  DTP("content",2,WHITE,160,25,String(getLufter2)+"%");
   // Buttons
-  if(setLufter1){tft.fillRoundRect(20,110,Box_Width,Box_Height,Box_Radius,GREEN);} 
-  else {tft.fillRoundRect(20,110,Box_Width,Box_Height,Box_Radius,RED);};
-  if (setLufter2){tft.fillRoundRect(140,110,Box_Width,Box_Height,Box_Radius,GREEN);}
-  else {tft.fillRoundRect(140,110,Box_Width,Box_Height,Box_Radius,RED);};
-  // ---
-  DTP(2,BLUE,10,160,"LED");
-  DTP(2,WHITE,20,190,"Dimmung");
-  DTP(2,WHITE,20,230,"Status");
+  if(setLufter1){content.fillRoundRect(20,65,Box_Width,Box_Height,Box_Radius,GREEN);} 
+  else {content.fillRoundRect(20,65,Box_Width,Box_Height,Box_Radius,RED);};
+  if (setLufter2){content.fillRoundRect(140,65,Box_Width,Box_Height,Box_Radius,GREEN);}
+  else {content.fillRoundRect(140,65,Box_Width,Box_Height,Box_Radius,RED);};
+  // BLOCK 2
+  DTP("content",2,BLUE,10,115,"LED");
+  DTP("content",2,WHITE,20,145,"Dimmung");
+  DTP("content",2,WHITE,20,185,"Status");
   /**
    * @note Search for Slider
    * @details var -> Slider ≠ Text 
   */
-  DTP(2,WHITE,150,190,String(getLed)+"%");
+  DTP("content",2,WHITE,150,145,String(getLed)+"%");
   // Button
-  if(setLed){tft.fillRoundRect(130,230,Box_Width,Box_Height,Box_Radius,GREEN);}
-  else {tft.fillRoundRect(130,230,Box_Width,Box_Height,Box_Radius,RED);};
+  if(setLed){content.fillRoundRect(130,185,Box_Width,Box_Height,Box_Radius,GREEN);}
+  else {content.fillRoundRect(130,185,Box_Width,Box_Height,Box_Radius,RED);};
+  // PUSH
+  content.pushSprite(0,45);
 }
 
 /**
@@ -401,25 +451,30 @@ void UI_LufterLeds(int16_t getLufter1,bool setLufter1,int16_t getLufter2,bool se
  */
 void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
   page = 2;
-  tft.fillScreen(BLACK);
+  //tft.fillScreen(BLACK);
   SPT("Bewasserung");
-  //
-  DTP(2,BLUE,20,40,"Bodenfeuchtigkeit");
-  DTP(2,WHITE,0,70,"Sensor 1");
-  DrawCircleVarTemplate(40,120,sensor_1,"%",BLUE,BLACK,WHITE);
-  DTP(2,WHITE,140,70,"Sensor 2");
-  DrawCircleVarTemplate(190,120,sensor_2,"%",BLUE,BLACK,WHITE);
-  tft.drawLine(20,160,220,160,WHITE);
-  //
-  DTP(2,WHITE,20,190,"Pumpe");
-  DTP(2,WHITE,20,230,"Status");
+  // INIT
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
+  // BLOCK 1
+  DTP("content",2,BLUE,20,0,"Bodenfeuchtigkeit");
+  DTP("content",2,WHITE,0,25,"Sensor 1");
+  DrawCircleVarTemplate(40,75,sensor_1,"%",BLUE,BLACK,WHITE);
+  DTP("content",2,WHITE,140,25,"Sensor 2");
+  DrawCircleVarTemplate(190,75,sensor_2,"%",BLUE,BLACK,WHITE);
+  tft.drawLine(20,115,220,115,WHITE);
+  // BLOCK 2
+  DTP("content",2,WHITE,20,145,"Pumpe");
+  DTP("content",2,WHITE,20,185,"Status");
   if(pumpe){
-    DTP(2,WHITE,140,190,"-> Aus");
-    DTP(2,WHITE,140,230,"An");
+    DTP("content",2,WHITE,140,145,"-> Aus");
+    DTP("content",2,WHITE,140,185,"An");
   }else {
-    DTP(2,WHITE,140,190,"-> An");
-    DTP(2,WHITE,140,230,"Aus");
+    DTP("content",2,WHITE,140,145,"-> An");
+    DTP("content",2,WHITE,140,185,"Aus");
   }
+  // PUSH
+  content.pushSprite(0,45);
 }
 
 /**
@@ -432,18 +487,23 @@ void UI_WaterSys(int16_t sensor_1,int16_t sensor_2,bool pumpe){
  */
 void UI_TempHum(int16_t tmp1=0,int16_t hum1=0,int16_t tmp2=0,int16_t hum2=0) {
   page = 1;
-  tft.fillScreen(BLACK);
+  //tft.fillScreen(BLACK);
   // Title
   SPT("Daten");
+  // INIT
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
   // Block 1
-  DTP(2,WHITE,80,40,"Drinnen");
-  DrawCircleVarTemplate(50,100,tmp1,"C",RED,BLACK,RED);
-  DrawCircleVarTemplate(180,100,hum1,"%",BLUE,BLACK,BLUE);
-  tft.drawLine(20,150,200,150,WHITE);
+  DTP("content",2,WHITE,80,5,"Drinnen");
+  DrawCircleVarTemplate(50,64,tmp1,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,64,hum1,"%",BLUE,BLACK,BLUE);
+  content.drawLine(20,114,200,114,WHITE);
   // Block 2
-  DTP(2,WHITE,71,160,"Draussen");
-  DrawCircleVarTemplate(50,220,tmp2,"C",RED,BLACK,RED);
-  DrawCircleVarTemplate(180,220,hum2,"%",BLUE,BLACK,BLUE);
+  DTP("content",2,WHITE,71,124,"Draussen");
+  DrawCircleVarTemplate(50,184,tmp2,"C",RED,BLACK,RED);
+  DrawCircleVarTemplate(180,184,hum2,"%",BLUE,BLACK,BLUE);
+  // Push
+  content.pushSprite(0,45);
 }
 
 /**
@@ -453,55 +513,55 @@ void UI_TempHum(int16_t tmp1=0,int16_t hum1=0,int16_t tmp2=0,int16_t hum2=0) {
  */
 void UI_Home(void){
   page = 0;
-  tft.fillScreen(BLACK);
-  DTP(1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
-  DTP(3,WHITE,85,20,"Home");
-  tft.drawLine(0,45,240,45,WHITE);
+  //tft.fillScreen(BLACK);
+  header.createSprite(240,46);
+  header.fillScreen(BLACK);
+  DTP("header",1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
+  DTP("header",3,WHITE,85,20,"Home");
+  header.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
+  header.drawLine(0,45,240,45,WHITE);
   // ----
-  tft.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
-  tft.drawBitmap(30,60,temperature_humidity,iconsHomeWidth,iconsHomeHeight,WHITE);
-  tft.drawBitmap(140,60,bewasserungs_system,iconsHomeWidth,iconsHomeHeight,WHITE);
-  tft.drawLine(20,128,220,128,WHITE);
-  tft.drawLine(120,60,120,190,WHITE);  
-  tft.drawBitmap(30,130,led_lufter,iconsHomeWidth,iconsHomeHeight,WHITE);
-  tft.drawBitmap(140,135,akku_energie,iconsHomeWidth,iconsHomeHeight,WHITE);
+  content.createSprite(240,230);
+  content.fillScreen(BLACK);
+  content.drawBitmap(30,15,temperature_humidity,iconsHomeWidth,iconsHomeHeight,WHITE);
+  content.drawBitmap(140,15,bewasserungs_system,iconsHomeWidth,iconsHomeHeight,WHITE);
+  content.drawLine(20,86,220,83,WHITE);  
+  content.drawLine(120,15,120,145,WHITE);
+  content.drawBitmap(30,85,led_lufter,iconsHomeWidth,iconsHomeHeight,WHITE);
+  content.drawBitmap(140,90,akku_energie,iconsHomeWidth,iconsHomeHeight,WHITE);
   // IMG
-  tft.drawBitmap((tft.width()-logoWidth)/2,190,logo,logoWidth,logoHeight,WHITE);
+  content.drawBitmap((tft.width()-logoWidth)/2,145,logo,logoWidth,logoHeight,WHITE);
   // Bottom
-  tft.drawLine(0,300,240,300,WHITE);
-  DTP(2,WHITE,0,305,"7.7V");
-  DTP(2,WHITE,170,305,"Datum");
+  footer.createSprite(240,40);
+  footer.fillScreen(BLACK);
+  footer.drawLine(0,20,240,20,WHITE);
+  DTP("footer",2,WHITE,0,25,"7.7V");
+  DTP("footer",2,WHITE,170,25,"Datum");
+  //---
+  header.pushSprite(0,0);
+  content.pushSprite(0,47); // 45
+  footer.pushSprite(0,280); // 277
 }
 
 // ================================================= Display END ================================================================
-
-void setup(void){
-  Serial.begin(115200);
-  Serial.println("Terminal Started");
-  Serial.println("Start   : WiFi    Configuration");
-  initWiFi();
-  get_data(false);
-  root_0_devices_esp32_1 = true;
-  put_data(false);
-  Serial.println("Ended   : WiFi    Configuration");
-  Serial.println("Start   : Display Configuration");
-  tft.begin();
-  tft.setRotation(0);
-  //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };
-  //tft.setTouch(calData);
-  Serial.println("Ended   : Display Configuration");
-  Serial.println("Start   : Display Calibration");
-  touch_calibrate();
-  tft.fillScreen(BLACK);
-  Serial1.println("Ended  : Display Calibration");
-  UI_Home();
-
+int var1;
+float var2;
+bool var3;
+int menuIndex = 0;
+void fetch_data(){
+  var1 = random(0,100);
+  var2 = random(1.25 , 50.25);
+  var3 = (var1 >= 50 ? true : false);
 }
 
 void menu(int16_t ui){
 
   Serial.println("Loading ... ");
-  get_data();
+  if((WiFi.status() == WL_CONNECTED)){
+    get_data();
+  }else {
+    fetch_data();
+  }
 
   switch (ui)
   {
@@ -526,7 +586,34 @@ void menu(int16_t ui){
   }
 }
 
+void setup(void){
+  Serial.begin(115200);
+  Serial.println("Terminal Started");
+  Serial.println("Start   : WiFi    Configuration");
+  initWiFi();
+  get_data(false);
+  root_0_devices_esp32_1 = true;
+  put_data(false);
+  Serial.println("Ended   : WiFi    Configuration");
+  Serial.println("Start   : Display Configuration");
+  tft.init();
+  tft.setRotation(2);
+  tft.fillScreen(BLACK);
+
+  //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };
+  //tft.setTouch(calData);
+  Serial.println("Ended   : Display Configuration");
+  Serial.println("Start   : Display Calibration");
+  touch_calibrate();
+  //tft.fillScreen(BLACK);
+  Serial1.println("Ended  : Display Calibration");
+  // TEST PAGE
+  //menuIndex = 5;
+}
+
 void loop(void){
+  //fetch_data();
+  menu(menuIndex);
 
   uint16_t touch_x=0,touch_y=0;
 
@@ -546,31 +633,35 @@ void loop(void){
       // water_system x= 140 - 210 y = 60 - 130
       // led_lüfter x= 30 - 100 y= 130 - 200
       // akku_energy x= 140 - 210 y = 135 - 205
-      if(((touch_x<40)and(touch_x>0))and((touch_y<40)and(touch_y>0))){Serial.println("Start   : UI_Settings");menu(5);};
-      if(((touch_x<80)and(touch_x>30))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_TempHum");menu(1);};
-      if(((touch_x<210)and(touch_x>140))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_WaterSys");menu(2);};
-      if(((touch_x<100)and(touch_x>30))and((touch_y<200)and(touch_y>130))){Serial.println("Start   : UI_LufterLeds");menu(3);};
-      if(((touch_x<210)and(touch_x>140))and((touch_y<205)and(touch_y>135))){Serial.println("Start   : UI_EnergieStatus");menu(4);};
+      if(((touch_x<40)and(touch_x>0))and((touch_y<40)and(touch_y>0))){Serial.println("Start   : UI_Settings");menuIndex = 5;};
+      if(((touch_x<80)and(touch_x>30))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_TempHum");menuIndex = 1;};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<130)and(touch_y>60))){Serial.println("Start   : UI_WaterSys");menuIndex = 2;};
+      if(((touch_x<100)and(touch_x>30))and((touch_y<200)and(touch_y>130))){Serial.println("Start   : UI_LufterLeds");menuIndex = 3;};
+      if(((touch_x<210)and(touch_x>140))and((touch_y<205)and(touch_y>135))){Serial.println("Start   : UI_EnergieStatus");menuIndex = 4;};
     }else if ((page==1)or(page==2)or(page==3)or(page==4)){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;
       }
     }else if (page==5){
       if(((touch_x<230)and(touch_x>150))and((touch_y<314)and(touch_y>284))){
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;
       }
       if(((touch_x<240)and(touch_x>0))and((touch_y<272)and(touch_y>220))){
         Serial.println("Start   : Display Calibration");
         touch_calibrate();
         Serial1.println("Ended  : Display Calibration");
         Serial.println("Start   : UI_Home");
-        UI_Home();
+        menuIndex = 0;
       }
     }else{
       return;
     }
   }
   delay(100);
+  sprite.deleteSprite();
+  header.deleteSprite();
+  content.deleteSprite();
+  footer.deleteSprite();
 }
