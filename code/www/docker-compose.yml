@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  api:
+    image: php:8.2-apache
+    container_name: api_app
+    env_file:
+      - ./Docker/api.env
+    restart: always
+    volumes:
+      - ./api/scr:/var/www/html/api
+      - ./php/scr:/var/www/html
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+  nuxt:
+    build:
+      context: ./nuxt
+      dockerfile: Dockerfile
+    #image: nuxt_dev
+    container_name: nuxt_app
+    command: node .output/server/index.mjs
+    env_file:
+      - ./Docker/nuxt.env
+    volumes:
+      - ./nuxt:/nuxt
+      - /nuxt/node_modules
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
