@@ -1,1 +1,10 @@
 .vscode
+./api/vscode
+./api/dist
+./api/node_modules
+./api/old
+./nuxt/.nuxt
+./nuxt/node_modules
+./nuxt/.output
+./nuxt/.vscode
+./php/*

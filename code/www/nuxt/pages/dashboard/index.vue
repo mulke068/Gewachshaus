@@ -4,24 +4,18 @@
     <div class=" text-white-50">
         <div class="text-xl">
             <div class="flex justify-center text-3xl ">Dashboard</div>
-        <div class="grid grid-cols-4 gap-5">
-            <!--p v-for="data in requestData" :key="data.id">
-                    {{ data }}
-                </p>
-                <div v-for="p in data" :key="p.id">
-                            <p>{{ p.title }}</p>
-                        </div-->
-
-                <button @click="putData">PUT Data</button>
-                <button @click="getData">GET Data</button>
-                <p v-if="responseData" id="app">{{ responseData }}</p>
-                <p v-if="fetchError" id="app">{{ fetchError }}</p>
-
+            <div class="grid grid-cols-2 gap-2">
+                <div class="col-span-1 p-5 bg-gray-800 rounded-lg">
+                    <div class="text-2xl">{{ data }}</div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
+
+const data = 'Hello World'
 
 </script>
+
