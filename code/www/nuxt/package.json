@@ -10,11 +10,26 @@
   "devDependencies": {
     "autoprefixer": "^10.4.14",
     "daisyui": "^2.51.4",
-    "nuxt": "^3.3.1",
+    "nuxt": "^3.3.2",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
+    "@nuxt/http": "^0.6.4",
     "dotenv": "^16.0.3"
-  }
+  },
+  "name": "nuxt",
+  "description": "Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "author": "mulke068",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mulke068/Gewachshaus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mulke068/Gewachshaus/issues"
+  },
+  "homepage": "https://github.com/mulke068/Gewachshaus#readme"
 }

@@ -22,6 +22,7 @@ app.use(cors({
 }), bodyParser.json() /*express.json()*/ );
 
 var counter_get = 0;
+var counter_get_random = 0;
 var counter_get_all = 0;
 var counter_get_all_sorted = 0; 
 
@@ -33,6 +34,20 @@ app.get("/", async (req, res) => {
         const data = await Sensor_Data.find().sort({
             'timestamp': -1
         }).limit(1);
+        return res.status(200).json(data);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({
+            message: err
+        });
+    };
+});
+
+app.get("/random", async (req,res) => {
+    counter_get_random++;
+    console.log("get dta '/random' client count: %d", counter_get_random);
+    try {
+        const data = await Sensor_Data.aggregate([{'$sample': {'size': 1}}])
         return res.status(200).json(data);
     } catch (err) {
         console.log(err);
@@ -71,6 +86,7 @@ app.get("/all/sorted", async (req, res) => {
         });
     };
 });
+
 // --------------------POST------------------------
 app.post("/", (req, res) => {
     try {
@@ -115,6 +131,7 @@ app.post("/", (req, res) => {
                 solar_1: body_data["energieStatus"]["solar_1"],
                 solar_2: body_data["energieStatus"]["solar_2"],
                 akku: body_data["energieStatus"]["akku"],
+                strom: body_data["energieStatus"]["strom"]
             },
             settings: {
                 brightness: body_data["settings"]["brightness"],

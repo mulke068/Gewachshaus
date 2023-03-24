@@ -1,4 +1,8 @@
 export default defineEventHandler(async(event)=>{
-    const data = await fetch('http://localhost:8080/all').then(res=> res.json())
-    return data
+    const output = await fetch('http://localhost:8080/all')
+    const data = await output.json()
+    return {
+        statusCode: 200,
+        data: data
+    }
 })
