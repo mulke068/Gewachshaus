@@ -3,6 +3,8 @@
         <div align="center">
             <img src="https://github.com/mulke068/Gewachshaus/blob/c2ff0bcefa5d99ff24013ec02ff239405733d12e/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
             <h2 align="center">Sponsership BY LPEM©</h2>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=active+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=resolved+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
         </div>
         <table align="center">
             <tr>
@@ -74,29 +76,3 @@
                     <ul>
                         <li><a href="https://javl.github.io/image2cpp/" target="_blank">Converter BMP into C</a></li>
                     </ul>
-        </div>
-        <div>
-            <h1>Komponenten</h1>
-                <li>ESP32 V4</li>
-                <li>Windsensor</li>
-                <li>Regensensor</li>
-                <li>Wasserdurchfluss Sensor</li>
-                <li>Erdfeuchte Sensor</li>
-                <li>DHT21</li>
-                <li>DS18B20</li>
-                <li>Lichtintensität Sensor</li>
-                <li>Luftdrucksensor</li>
-                <li>Strom Sensor</li>
-                <li>Spannung Sensor</li>
-                <li>Bewegung Sensor</li>
-                <li>DC-DC Konverter</li>
-                <li>8 Channel Relay Module</li>
-                <li>12V Deckenventilator</li>
-                <li>Gardena T1030D Bewässerungsuhr</li>
-                <li>Autobatterie 80Ah</li>
-                <li>Getriebemotor für fenster öffnen</li>
-                <li>Solar Panel</li>
-                <li>Solar Laderegler</li>
-        </div>
-    </div>
-</div>
