@@ -1,7 +1,7 @@
 // CONFIG
 
 // ---- DATA
-
+char output[768];
 #define min_delay 1
 // ---- PINS
 

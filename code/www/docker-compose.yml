@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:6.0
+    #image: mongo:5.0.0
+    container_name: mongo_db
+    restart: unless-stopped
+    volumes:
+      - ./mongodb/data:/data/db
+      - ./mongodb/configdb:/data/configdb
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    networks:
+      - default
+    #environment:
+    #  MONGO_INITDB_ROOT_USERNAME: root
+    #  MONGO_INITDB_ROOT_PASSWORD: root
+    env_file:
+      - ./Docker/mongodb.env
+    command: mongod --auth
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api_app
+    restart: always
+    volumes:
+      - ./api:/api
+      - api_node_modules_container:/api/node_modules
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    networks:
+      - default
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    env_file:
+      - ./Docker/api.env
+    command: node .
+  nuxt:
+    build:
+      context: ./nuxt
+      dockerfile: Dockerfile
+    container_name: nuxt_app
+    restart: unless-stopped
+    volumes:
+      - ./nuxt:/nuxt
+      - nuxt_node_modules_container:/nuxt/node_modules
+    ports:
+      - "80:3000"
+    expose:
+      - "80"
+    networks:
+      - default
+    depends_on:
+      - api
+    links:
+      - api
+    env_file:
+      - ./Docker/nuxt.env
+    command: node .output/server/index.mjs
+volumes:
+  #mongodb_data_container:
+  api_node_modules_container:
+  nuxt_node_modules_container:
+networks:
+  default:
+    driver: bridge
