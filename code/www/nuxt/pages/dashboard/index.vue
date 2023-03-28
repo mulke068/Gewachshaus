@@ -5,7 +5,7 @@
         <div class="container">
             <div class="flex justify-center text-3xl">Dashboard</div>
             <NuxtErrorBoundary>
-                <DashboardOverview />
+                <Dashboard />
                 <template #error="{ error }">
                     <div class="p-5 text-center text-gray-500 text-2l">
                         Die Daten konnten nicht geladen werden.

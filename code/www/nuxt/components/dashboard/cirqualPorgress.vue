@@ -9,16 +9,13 @@
         </div>
         <svg width="160px" height="160px">
             <defs>
-                <linearGradient id="GradientColor">
+                <linearGradient id="GradientColor" x2="0%" y2="100%">
                     <stop offset="0%" stop-color="#FF0000" />
                     <stop offset="100%" stop-color="#00FF00" />
                 </linearGradient>
             </defs>
-            <circle cx="80" cy="80" r="70"
-            stroke-linecap="round"
-            class="progress-ring-circle"
-            :stroke-dasharray="440"
-            :stroke-dashoffset="strokeDashoffset" />
+            <circle cx="80" cy="80" r="70" stroke-linecap="round" class="progress-ring-circle" :stroke-dasharray="440"
+                :stroke-dashoffset="strokeDashoffset" />
         </svg>
     </div>
 </template>
@@ -37,7 +34,7 @@ export default {
             strokeDashoffset: 0
         }
     },
-    mounted(){
+    mounted() {
         this.calculateStrokeDashoffset();
     },
     watch: {
@@ -60,7 +57,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .main {
     width: 160px;
     height: 160px;
@@ -71,14 +67,16 @@ export default {
     width: 160px;
     height: 160px;
     padding: 20px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15), -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
     border-radius: 50%;
 }
 
 .inner {
     width: 120px;
     height: 120px;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 50%;
+    box-shadow: inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
 }
 
 #number {
@@ -96,8 +94,6 @@ export default {
     stroke: url(#GradientColor);
     stroke-width: 20px;
     stroke-linecap: round;
-
-
     animation: randani 2s linear forwards;
 }
 
@@ -105,6 +101,7 @@ export default {
     0% {
         stroke-dashoffset: 440;
     }
+
     100% {
         stroke-dashoffset: var(strokeDashoffset);
     }
@@ -115,13 +112,11 @@ svg {
     top: 0%;
     left: 0%;
 }
-
-
 </style>
 
 
 <!--
-    .outer {
+.outer {
     width: 160px;
     height: 160px;
     padding: 20px;
@@ -132,7 +127,7 @@ svg {
 .inner {
     width: 120px;
     height: 120px;
-    border: 1px solid black;
+    border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 50%;
     box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.2),inset
                 -4px -4px 6px -1px rgba(255,255,255,0.7),

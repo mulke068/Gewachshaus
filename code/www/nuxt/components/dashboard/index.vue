@@ -5,20 +5,33 @@
                 <div>
                     <div class="flex justify-center text-3xl">Devices</div>
                     <div class="p-4 text-lg ">
-                        <div class="flex justify-center p-3 ">{{ data.devices.esp32[0].connected }}</div>
-                        <div class="flex justify-center p-3">{{ data.devices.esp32[0].connected }}</div>
-                        <div class="flex justify-center p-3">{{ data.devices.raspberrypi.connected }}</div>
+                        <!--div v-for="esp32 in data.devices.esp32" :key="esp32">
+                            <div>{{ esp32.connected }}</div>
+                            <DashboardOnOff class="flex justify-center p-3" :value="esp32.connected" />
+                        </div-->
+                        <div>Display</div>
+                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.esp32[0].connected" />
+                        <div>Sensors</div>
+                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.esp32[1].connected" />
+                        <div>Raspberry PI</div>
+                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.raspberrypi.connected" />
                     </div>
                 </div>
             </div>
             <div class="container p-2 px-3 bg-minsk-900">
                 <div>
-                    <div class="flex justify-start text-3xl">TempHum</div>
-                    <div class="flex justify-center p-4 space-x-4 text-lg">
-                        <DashboardCirqualPorgress :value="data.tempHum.temperature_1" :max="80" :min="0" :unit="'°C'" />
-                        <DashboardCirqualPorgress :value="data.tempHum.humidity_1" :max="100" :min="0" :unit="'%'" />
-                        <DashboardCirqualPorgress :value="data.tempHum.temperature_2" :max="80" :min="0" :unit="'°C'" />
-                        <DashboardCirqualPorgress :value="data.tempHum.humidity_2" :max="100" :min="0" :unit="'%'" />
+                    <div class="flex text-3xl">TempHum</div>
+                    <div class="flex justify-center p-4 space-x-8 text-lg">
+                        <div>Senors 1</div>
+                        <div class="flex space-x-6 p-4">
+                            <DashboardCirqualPorgress :value="data.tempHum.temperature_1" :max="80" :min="0" :unit="'°C'" />
+                            <DashboardCirqualPorgress :value="data.tempHum.humidity_1" :max="100" :min="0" :unit="'%'" />
+                        </div>
+                        <div>Senors 2</div>
+                        <div class="flex space-x-6 p-4">
+                            <DashboardCirqualPorgress :value="data.tempHum.temperature_2" :max="80" :min="0" :unit="'°C'" />
+                            <DashboardCirqualPorgress :value="data.tempHum.humidity_2" :max="100" :min="0" :unit="'%'" />
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -38,7 +51,7 @@
                         <div>{{ data.lufterLeds.setLufter_2 }}</div>
                         <div>{{ data.lufterLeds.getLed }}</div>
                         <div>{{ data.lufterLeds.setLed }}</div>
-                    </div>    
+                    </div>
                 </div>
                 <div>
                     <div class="flex justify-start text-3xl">EnergieStatus</div>
@@ -69,8 +82,8 @@ export default {
     mode: 'client',
     data() {
         return {
-        data: [],
-        dataLoaded: false
+            data: [],
+            dataLoaded: false
         }
     },
     mounted() {
@@ -83,20 +96,18 @@ export default {
     methods: {
         fetchData() {
             fetch('http://localhost:8080/random')
-            .then(response => response.json())
-            .then(data => {
-                this.data = data[0]
-                this.dataLoaded = true
-            })
+                .then(response => response.json())
+                .then(data => {
+                    this.data = data[0]
+                    this.dataLoaded = true
+                })
         }
     }
 }
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 
 <!--
     <div>

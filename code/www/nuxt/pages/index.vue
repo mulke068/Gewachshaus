@@ -12,3 +12,5 @@ definePageMeta({
     layout: 'default'
 })
 </script>
+
+<style scoped></style>
