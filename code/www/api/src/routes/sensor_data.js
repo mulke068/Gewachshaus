@@ -1,33 +1,17 @@
 const express = require("express");
-const http = require("http");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
+const router = express.Router();
+
+const Sensor_Data = require("../modules/data.js");
 const mongoose = require("mongoose");
 
-require("dotenv").config( /*{ path: "../.env"}*/ );
-
-const app = express();
-const server = http.createServer(app);
-const port = process.env.PORT || 8181;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://root:root@127.0.0.1:27017/?authMechanism=DEFAULT";
-
-//
-const Sensor_Data = require("../scr/modules/data.js");
-
-// -------------------CORS-------------------------
-app.use(cors({
-    origin: true,
-    credentials: true
-}), bodyParser.json() /*express.json()*/ );
-
+// -------------------GET-------------------------
 var counter_get = 0;
 var counter_get_random = 0;
 var counter_get_all = 0;
 var counter_get_all_sorted = 0; 
 
-// -------------------GET-------------------------
-app.get("/", async (req, res) => {
+
+router.get("/", async (req, res, next) => {
     counter_get++;
     console.log("get data '/' client count: %d", counter_get);
     try {
@@ -43,7 +27,7 @@ app.get("/", async (req, res) => {
     };
 });
 
-app.get("/random", async (req,res) => {
+router.get("/random", async (req,res,next) => {
     counter_get_random++;
     console.log("get dta '/random' client count: %d", counter_get_random);
     try {
@@ -57,7 +41,7 @@ app.get("/random", async (req,res) => {
     };
 });
 
-app.get("/all", async (req, res) => {
+router.get("/all", async (req, res , next) => {
     counter_get_all++;
     console.log("get data '/all' client count: %d", counter_get_all);
     try {
@@ -71,7 +55,7 @@ app.get("/all", async (req, res) => {
     };
 });
 
-app.get("/all/sorted", async (req, res) => {
+router.get("/all/sorted", async (req, res , next) => {
     counter_get_all_sorted++;
     console.log("get data '/all/sorted' client count: %d", counter_get_all_sorted);
     try{
@@ -88,7 +72,7 @@ app.get("/all/sorted", async (req, res) => {
 });
 
 // --------------------POST------------------------
-app.post("/", (req, res) => {
+router.post("/", (req, res , next) => {
     try {
         //console.log(req.body);
         const body_data = req.body[0];
@@ -156,28 +140,7 @@ app.post("/", (req, res) => {
         });
     }
 });
+// export data in js
 
-// Connect to MongoDB
-async function connect() {
-    console.log("MongoDB connecting...")
-    try {
-        const client = await mongoose.connect(
-            MONGO_URI, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                dbName: 'gewachshaus'
-            }
-        );
-        console.log("MongoDB connected");
-    } catch (err) {
-        console.log(err);
-        console.log("MongoDB reconnecting..");
-        connect();
-    }
-}
-
-connect();
-
-server.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+//module.export = { routes as sensor_routes };
+module.exports = router;

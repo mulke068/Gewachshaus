@@ -1,21 +1,18 @@
 import express, { Express, Request, Response, NextFunction } from "express";
-import http from "http";
 import cors from "cors";
 import bodyParser from "body-parser";
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose from "mongoose";
 //import { dotenv } from "dotenv";
 import dotenv from "dotenv";
 dotenv.config();
 // imported files
-import { Sensor_Data } from "./modules/sensors";
-import { Sensor_Routes } from "./routes/sensors";
+import { All_Router } from "./routes/main";
 //
 const app: Express = express();
 const port: Number = parseInt(process.env.API_PORT as string) || 3030;
-const server = http.createServer(app);
-const mongodb_uri: String =
-  process.env.MONGODB_URI ||
-  "mongodb://root:root@127.0.0.1:27017/?authMechanism=DEFAULT";
+
+// Connect to database
+import connectDB from "./settings/db";
 
 app.use(
   cors({
@@ -25,29 +22,9 @@ app.use(
   bodyParser.json()
 );
 
-app.use("/", Sensor_Routes);
+app.use("/", All_Router);
 
-async function connectToDatabase() {
-  try {
-    console.log("Connecting to database ...");
-    await mongoose.connect(
-      mongodb_uri as string,
-      {
-        useCreateIndex: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      } as ConnectOptions
-    );
-    console.log("Connected to database");
-  } catch (error) {
-    console.log("Error connecting to database: ");
-    console.log(error);
-    console.log("Retrying in 5 seconds ...");
-    setTimeout(connectToDatabase, 5000);
-  }
-}
-
-app.listen(port, () => {
+app.listen(port, async () => {
+  await connectDB();
   console.log(`Server is running on http://localhost:${port}`);
-  connectToDatabase();
 });
