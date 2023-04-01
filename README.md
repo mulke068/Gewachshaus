@@ -76,29 +76,3 @@
                     <ul>
                         <li><a href="https://javl.github.io/image2cpp/" target="_blank">Converter BMP into C</a></li>
                     </ul>
-        </div>
-        <div>
-            <h1>Komponenten</h1>
-                <li>ESP32 V4</li>
-                <li>Windsensor</li>
-                <li>Regensensor</li>
-                <li>Wasserdurchfluss Sensor</li>
-                <li>Erdfeuchte Sensor</li>
-                <li>DHT21</li>
-                <li>DS18B20</li>
-                <li>Lichtintensität Sensor</li>
-                <li>Luftdrucksensor</li>
-                <li>Strom Sensor</li>
-                <li>Spannung Sensor</li>
-                <li>Bewegung Sensor</li>
-                <li>DC-DC Konverter</li>
-                <li>8 Channel Relay Module</li>
-                <li>12V Deckenventilator</li>
-                <li>Gardena T1030D Bewässerungsuhr</li>
-                <li>Autobatterie 80Ah</li>
-                <li>Getriebemotor für fenster öffnen</li>
-                <li>Solar Panel</li>
-                <li>Solar Laderegler</li>
-        </div>
-    </div>
-</div>
