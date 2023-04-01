@@ -2,20 +2,50 @@
 
 <template>
     <div class=" text-white-50">
-        <div class="text-xl">
-            <div class="flex justify-center text-3xl ">Dashboard</div>
-            <div class="grid grid-cols-2 gap-2">
-                <div class="col-span-1 p-5 bg-gray-800 rounded-lg">
-                    <div class="text-2xl">{{ data }}</div>
-                </div>
-            </div>
+        <div class="container">
+            <div class="flex justify-center text-3xl">Dashboard</div>
+            <NuxtErrorBoundary>
+                <Dashboard />
+                <template #error="{ error }">
+                    <div class="p-5 text-center text-gray-500 text-2l">
+                        Die Daten konnten nicht geladen werden.
+                        <br>
+                        {{ error.message }}
+                    </div>
+                </template>
+            </NuxtErrorBoundary>
         </div>
     </div>
 </template>
 
 <script setup>
-
-const data = 'Hello World'
-
 </script>
 
+
+<!--NuxtErrorBoundary @error="error">
+    <DashboardOverview />
+    <template #error="{ error }">
+        <div class="p-5 text-center text-gray-500 text-2l">
+            Die Daten konnten nicht geladen werden.
+            <br>
+            {{ error.message }}
+        </div>
+    </template>
+</NuxtErrorBoundary-->
+
+                <!--div class="p-5 text-center text-gray-500 text-2l" 
+                    v-for="item in items" v-bind:key="item._id">
+                    {{ item }}
+                </div-->
+
+<!--
+const { data: data_items ,error, refresh, pending } = await useFetch('/api/dataall')
+const items = data_items._rawValue.data
+console.log(items)
+-->
+
+<!--
+const { data: data_items ,error, refresh, pending } = await useFetch('/api/data')
+const items = data_items._rawValue.data[0]
+console.log(items)
+-->
