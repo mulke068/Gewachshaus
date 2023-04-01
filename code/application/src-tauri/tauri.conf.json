@@ -1,0 +1,122 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "../src",
+    "distDir": "../src",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "Gewachshaus Application",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "window": {
+        "all": true,
+        "center": false,
+        "close": false,
+        "create": false,
+        "hide": false,
+        "maximize": false,
+        "minimize": false,
+        "print": false,
+        "requestUserAttention": false,
+        "setAlwaysOnTop": false,
+        "setCursorGrab": false,
+        "setCursorIcon": false,
+        "setCursorPosition": false,
+        "setCursorVisible": false,
+        "setDecorations": false,
+        "setFocus": false,
+        "setFullscreen": false,
+        "setIcon": false,
+        "setIgnoreCursorEvents": false,
+        "setMaxSize": false,
+        "setMinSize": false,
+        "setPosition": false,
+        "setResizable": false,
+        "setSize": false,
+        "setSkipTaskbar": false,
+        "setTitle": false,
+        "show": false,
+        "startDragging": false,
+        "unmaximize": false,
+        "unminimize": false
+      }
+    },
+    "bundle": {
+      "active": true,
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.tauri.gewachshaus",
+      "targets": "all",
+      "windows": {
+        "allowDowngrades": true,
+        "certificateThumbprint": null,
+        "digestAlgorithm": null,
+        "timestampUrl": null,
+        "tsp": false,
+        "webviewFixedRuntimePath": null,
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "offlineInstaller"
+        },
+        "wix": null
+      },
+      "macOS": {
+        "minimumSystemVersion": "10.13"
+      },
+      "deb": {
+        "files": {
+          "/usr/share/gewachshaus-application/README.md": "../README.md"
+        }
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "url": "http://192.168.178.38:80",
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Gewachshaus Application",
+        "minWidth": 1300,
+        "minHeight": 970,
+        "maxWidth": 1920,
+        "maxHeight": 1080,
+        "center": true,
+        "transparent": false,
+        "decorations": true,
+        "visible": false
+      },
+      {
+        "url": "index.html",
+        "label": "loadingscreen",
+        "decorations": false,
+        "width": 400,
+        "height": 200,
+        "resizable": false,
+        "center": true
+      }
+    ]
+  }
+}
