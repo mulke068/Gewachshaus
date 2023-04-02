@@ -19,7 +19,6 @@
 
 <script>
 export default {
-    mode: 'client',
     props: {
         value: Boolean
     },

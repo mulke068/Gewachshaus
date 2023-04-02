@@ -23,12 +23,12 @@
                     <div class="flex text-3xl">TempHum</div>
                     <div class="flex justify-center p-4 space-x-8 text-lg">
                         <div>Senors 1</div>
-                        <div class="flex space-x-6 p-4">
+                        <div class="flex p-4 space-x-6">
                             <DashboardCirqualPorgress :value="data.tempHum.temperature_1" :max="80" :min="0" :unit="'°C'" />
                             <DashboardCirqualPorgress :value="data.tempHum.humidity_1" :max="100" :min="0" :unit="'%'" />
                         </div>
                         <div>Senors 2</div>
-                        <div class="flex space-x-6 p-4">
+                        <div class="flex p-4 space-x-6">
                             <DashboardCirqualPorgress :value="data.tempHum.temperature_2" :max="80" :min="0" :unit="'°C'" />
                             <DashboardCirqualPorgress :value="data.tempHum.humidity_2" :max="100" :min="0" :unit="'%'" />
                         </div>
@@ -79,7 +79,6 @@
 
 <script>
 export default {
-    mode: 'client',
     data() {
         return {
             data: [],
@@ -95,7 +94,8 @@ export default {
     },
     methods: {
         fetchData() {
-            fetch('http://localhost:8080/random')
+            const runtimeConfig = useRuntimeConfig()
+            fetch(`${runtimeConfig.api_host}/random`)
                 .then(response => response.json())
                 .then(data => {
                     this.data = data[0]

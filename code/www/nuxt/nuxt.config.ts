@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080"),
+    }
+  },
   // ...
   css: ["~/assets/css/main.css"],
   postcss: {
@@ -8,11 +13,13 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  //nitro: {},
+  nitro: {},
+  /*
   server: {
     port: 8000, // default: 3000
     host: '0.0.0.0', // default: localhost,
     timing: false
   },
+  */
   components: true,
 });
