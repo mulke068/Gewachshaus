@@ -6,9 +6,9 @@ WORKDIR /api
 # Install app dependencies
 COPY ./package*.json /api
 
+# Install app dependencies
 RUN npm install
-#RUN npx tsc
 RUN npm cache clean --force
 
-# Bundle app source
+# Bundle app sourcce
 COPY . .

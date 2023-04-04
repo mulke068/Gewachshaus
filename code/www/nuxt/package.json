@@ -21,7 +21,7 @@
   "name": "nuxt",
   "description": "Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
   "version": "1.0.0",
-  "main": "tailwind.config.js",
+  "main": "nuxt.config.js",
   "author": "mulke068",
   "license": "ISC",
   "repository": {
