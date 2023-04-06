@@ -10,7 +10,7 @@
                     <div class="p-5 text-center text-gray-500 text-2l">
                         Die Daten konnten nicht geladen werden.
                         <br>
-                        {{ error.message }}
+                        {{ error }}
                     </div>
                 </template>
             </NuxtErrorBoundary>
@@ -19,6 +19,16 @@
 </template>
 
 <script setup>
+definePageMeta({
+    layout: 'default'
+})
+useHead({
+    title: 'Dashboard',
+    meta: [
+        { name: 'description', content: 'Dashboard Page'},
+        { name: 'keywords', content: 'dashboard, page'}
+    ]
+})
 </script>
 
 

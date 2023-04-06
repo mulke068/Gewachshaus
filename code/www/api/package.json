@@ -2,25 +2,39 @@
   "name": "api",
   "version": "2.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "js": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "npx tsc -w"
   },
   "keywords": [],
-  "author": "",
+  "author": "mulke068",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mulke068/Gewachshaus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mulke068/Gewachshaus/issues"
+  },
+  "homepage": "https://github.com/mulke068/Gewachshaus#readme",
   "dependencies": {
+    "@types/mongodb": "^4.0.7",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "env": "^0.0.2",
     "express": "^4.18.2",
-    "http": "^0.0.1-security",
-    "mongoose": "^7.0.2"
+    "mongoose": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21"
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.2"
   }
 }

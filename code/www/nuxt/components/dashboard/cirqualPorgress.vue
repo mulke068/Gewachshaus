@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    mode: 'client',
+    mode: "client",
     props: {
         value: Number,
         max: Number,

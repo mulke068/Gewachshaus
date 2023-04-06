@@ -1,9 +1,9 @@
 <template>
     <div v-if="dataLoaded">
-        <div class="container flex">
+        <div class="container md:flex">
             <div class="container py-2 md:w-40 bg-clementine-700">
                 <div>
-                    <div class="flex justify-center text-3xl">Devices</div>
+                    <div class="flex justify-center text-3xl ">Devices</div>
                     <div class="p-4 text-lg ">
                         <!--div v-for="esp32 in data.devices.esp32" :key="esp32">
                             <div>{{ esp32.connected }}</div>
@@ -21,14 +21,14 @@
             <div class="container p-2 px-3 bg-minsk-900">
                 <div>
                     <div class="flex text-3xl">TempHum</div>
-                    <div class="flex justify-center p-4 space-x-8 text-lg">
+                    <div class="justify-center p-4 space-x-8 text-lg md:flex">
                         <div>Senors 1</div>
-                        <div class="flex space-x-6 p-4">
+                        <div class="p-4 space-x-6 md:flex">
                             <DashboardCirqualPorgress :value="data.tempHum.temperature_1" :max="80" :min="0" :unit="'°C'" />
                             <DashboardCirqualPorgress :value="data.tempHum.humidity_1" :max="100" :min="0" :unit="'%'" />
                         </div>
                         <div>Senors 2</div>
-                        <div class="flex space-x-6 p-4">
+                        <div class="p-4 space-x-6 md:flex">
                             <DashboardCirqualPorgress :value="data.tempHum.temperature_2" :max="80" :min="0" :unit="'°C'" />
                             <DashboardCirqualPorgress :value="data.tempHum.humidity_2" :max="100" :min="0" :unit="'%'" />
                         </div>
@@ -79,7 +79,6 @@
 
 <script>
 export default {
-    mode: 'client',
     data() {
         return {
             data: [],
@@ -95,7 +94,8 @@ export default {
     },
     methods: {
         fetchData() {
-            fetch('http://localhost:8080/random')
+            const runtimeConfig = useRuntimeConfig()
+            fetch(`${runtimeConfig.api_host}/random`)
                 .then(response => response.json())
                 .then(data => {
                     this.data = data[0]
