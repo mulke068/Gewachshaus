@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   mongodb:
-    image: mongo:6.0
+    image: mongo:6.0.5
     #image: mongo:5.0.0
     container_name: mongo_db
     restart: unless-stopped
@@ -41,7 +41,7 @@ services:
       - mongodb
     env_file:
       - ./Docker/api.env
-    command: node .
+    command: node ./dist/index.js
   nuxt:
     build:
       context: ./nuxt
@@ -63,7 +63,7 @@ services:
       - api
     env_file:
       - ./Docker/nuxt.env
-    command: node .output/server/index.mjs
+    command: node ./.output/server/index.mjs
 volumes:
   #mongodb_data_container:
   api_node_modules_container:

@@ -11,4 +11,13 @@ import { default } from './dashboard/index.vue';
 definePageMeta({
     layout: 'default'
 })
+useHead({
+    title: 'Home',
+    meta: [
+        { name: 'description', content: 'Home Page'},
+        { name: 'keywords', content: 'home, page' }
+    ]
+})
 </script>
+
+<style scoped></style>
