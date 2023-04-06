@@ -3,6 +3,8 @@
         <div align="center">
             <img src="https://github.com/mulke068/Gewachshaus/blob/c2ff0bcefa5d99ff24013ec02ff239405733d12e/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
             <h2 align="center">Sponsership BY LPEM©</h2>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=active+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
+            <a href="https://deepsource.io/gh/mulke068/Gewachshaus/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/mulke068/Gewachshaus.svg/?label=resolved+issues&show_trend=true&token=kTDBrKe6wC2Y4azPgtyigdFR"/></a>
         </div>
         <table align="center">
             <tr>
