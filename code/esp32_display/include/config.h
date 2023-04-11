@@ -51,4 +51,4 @@ char output[768];
 
 const char* ssid = "FRITZ!Box 7490";
 const char* password = "05767844606687810343";
-const char* api_url = "http://192.168.178.38/api/index.php";
+const char* api_url = "https://api.kevbchef.com";

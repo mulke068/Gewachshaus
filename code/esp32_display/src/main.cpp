@@ -591,8 +591,8 @@ void setup(void){
   Serial.println("Start   : WiFi    Configuration");
   initWiFi();
   get_data(false);
-  root_0_devices_esp32_1 = true;
-  put_data(false);
+  //root_0_devices_esp32_1 = true;
+  //put_data(false);
   Serial.println("Ended   : WiFi    Configuration");
   Serial.println("Start   : Display Configuration");
   tft.init();
