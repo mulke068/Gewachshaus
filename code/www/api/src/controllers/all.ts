@@ -1,6 +1,6 @@
 import { Request , Response , NextFunction } from 'express';
 
-import { Sensor_Data } from '../modules/sensors';
+import { Display_Data } from '../modules/sensors';
 
 let get_all_number: number = 0;
 let get_all_sorted_number: number = 0;
@@ -11,7 +11,7 @@ async function All(req: Request, res: Response , next: NextFunction){
     get_all_number++;
     console.log("Get '/all' Nr. " + get_all_number);
     try {
-        const data : any = await Sensor_Data.find();
+        const data : any = await Display_Data.find();
         return res.status(200).json(data) &&
             console.log("Status 200: OK");
     } catch (err : any) {
@@ -30,7 +30,7 @@ async function All_Sorted(req: Request, res: Response , next: NextFunction){
     get_all_sorted_number++;
     console.log("Get '/all/sorted' Nr. " + get_all_sorted_number);
     try {
-        const data : any = await Sensor_Data.find().sort({
+        const data : any = await Display_Data.find().sort({
             'timestamp': -1
         })
         return res.status(200).json(data) && 
@@ -64,7 +64,7 @@ async function All_Categories(req: Request<{category: string},{},{},{}>, res: Re
             _id: 1,
             created_at: 1
         }
-        const data : any = await Sensor_Data.aggregate().project(projection);
+        const data : any = await Display_Data.aggregate().project(projection);
         return res.status(200).json(data) &&
             console.log("Status 200: OK");
     } catch (err : any) {
@@ -97,7 +97,7 @@ async function All_Categories_Names(req: Request<{category: string ,name: string
             _id: 1,
             created_at: 1
         };
-        const data : any = await Sensor_Data.aggregate().project(projection);
+        const data : any = await Display_Data.aggregate().project(projection);
         return res.status(200).json(data) && 
             console.log("Status 200: OK");
     } catch (err :any ) {

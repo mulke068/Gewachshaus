@@ -6,7 +6,7 @@ export interface HookNextFunction {
     (error?: Error): any
 }
 
-export interface ISensor_Data extends mongoose.Document{
+export interface IDisplay_Data extends mongoose.Document{
     // _id: mongoose.Schema.Types.ObjectId;
     id: number;
     timestamp: Date;
@@ -150,13 +150,13 @@ const SensorSchema = new mongoose.Schema({
         }
     }
 });
-//SensorSchema.static.build = (attrs: ISensor_Data) => {
-//    return new Sensor_Data(attrs);
+//SensorSchema.static.build = (attrs: IDisplay_Data) => {
+//    return new Display_Data(attrs);
 //}
 
 SensorSchema.pre("save", async function (next: HookNextFunction) {
     try{
-        var count = await mongoose.model('Sensor_Data').countDocuments();
+        var count = await mongoose.model('Display_Data').countDocuments();
         const doc = this;
         if (doc.isNew) {
             doc.id = count + 1;
@@ -175,14 +175,14 @@ SensorSchema.pre("save", async function (next: HookNextFunction) {
     };
 });
 
-export const Sensor_Data = mongoose.model("Sensor_Data", SensorSchema);
+export const Display_Data = mongoose.model("Display_Data", SensorSchema);
 
-//export default Sensor_Data;
-//module.exports = Sensor_Data;
-//export { Sensor_Data}
+//export default Display_Data;
+//module.exports = Display_Data;
+//export { Display_Data}
 
 /*
-Sensor_Data.build({
+Display_Data.build({
     id: 1,
     timestamp: new Date(),
     created_at: new Date(),
