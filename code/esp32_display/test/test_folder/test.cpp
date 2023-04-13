@@ -240,11 +240,20 @@ void menu(int16_t ui){
   Serial.println("Loading ... ");
   if((WiFi.status() == WL_CONNECTED)){
     get_data();
+    
   }else {
     fetch_data();
   }
 
 }
+
+#define LOOP_DELAY 200
+uint32_t currentTime = 0;
+uint32_t upTime = 0;
+// that the 1s delay is not affected by the loop time
+int currentTime_delay = 1000 - LOOP_DELAY;
+int ss,mm;
+
 
 void setup(void){
   Serial.begin(115200);
@@ -263,9 +272,11 @@ void setup(void){
 
   // TEST PAGE
   //menuIndex = 5;
+  currentTime = millis() + currentTime_delay;
 }
 
 void loop(void){
+
   //fetch_data();
   /*
   WiFiClientSecure *client = new WiFiClientSecure;
@@ -281,9 +292,20 @@ void loop(void){
     Serial.println("Unable to create client");
   }
   */
-  menu(menuIndex);
-  Serial.print("response: ");
-  Serial.println(root_1_energieStatus_akku);
-  delay(10000);
+  //menu(menuIndex);
+  //Serial.print("response: ");
+  //Serial.println(root_1_energieStatus_akku);
+  //delay(10000);
 
+  if(currentTime < millis()){
+    currentTime = millis() + currentTime_delay;
+    ss++;
+    if(ss == 60){
+      ss = 0;
+      mm++;
+    }
+    Serial.println(String(mm)+"m"+String(ss)+"s");
+    Serial.println("Current Uptime: " + String(upTime = millis()) + "s"); 
+  }
+  delay(LOOP_DELAY);
 }
