@@ -4,7 +4,8 @@ dotenv.config();
 
 const mongodb_uri: String =
   process.env.MONGODB_URI ||
-  "mongodb://root:root@127.0.0.1:27017/?authMechanism=DEFAULT";
+  "mongodb://root:root@localhost:27017/?authMechanism=DEFAULT";
+  //"mongodb://root:root@127.0.0.1:27017/?authMechanism=DEFAULT";
 
 const connectDB = async ()=> {
   try {

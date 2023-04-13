@@ -55,7 +55,7 @@ export interface IDisplay_Data extends mongoose.Document{
     };
 }
 
-const SensorSchema = new mongoose.Schema({
+const DisplaySchema = new mongoose.Schema({
     // Schema for the data
     // _id: { type: mongoose.Schema.Types.ObjectId,auto: true, unique: true, index: true},
     id: {type: Number/*,auto: true,unique: true,index: true*/},
@@ -154,7 +154,7 @@ const SensorSchema = new mongoose.Schema({
 //    return new Display_Data(attrs);
 //}
 
-SensorSchema.pre("save", async function (next: HookNextFunction) {
+DisplaySchema.pre("save", async function (next: HookNextFunction) {
     try{
         var count = await mongoose.model('Display_Data').countDocuments();
         const doc = this;
@@ -175,7 +175,7 @@ SensorSchema.pre("save", async function (next: HookNextFunction) {
     };
 });
 
-export const Display_Data = mongoose.model("Display_Data", SensorSchema);
+export const Display_Data = mongoose.model("Display_Data", DisplaySchema);
 
 //export default Display_Data;
 //module.exports = Display_Data;

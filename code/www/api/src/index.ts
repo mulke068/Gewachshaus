@@ -6,7 +6,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 // imported files
-import { All_Router } from "./routes/main";
+import { Display_Router } from "./routes/display";
+import { Sensor_Router } from "./routes/sensor";
+import { Main_Router } from "./routes/main";
 //
 const app: Express = express();
 const port: Number = parseInt(process.env.API_PORT as string) || 3030;
@@ -22,7 +24,9 @@ app.use(
   bodyParser.json()
 );
 
-app.use("/", All_Router);
+app.use("/", Main_Router);
+app.use("/display", Display_Router);
+app.use("/sensor", Sensor_Router)
 
 app.listen(port, async () => {
   await connectDB();
