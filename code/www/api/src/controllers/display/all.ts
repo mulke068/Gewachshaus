@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Request , Response , NextFunction } from 'express';
 
 import { Display_Data } from '../../modules/display';
@@ -9,7 +11,7 @@ let get_all_categories_names_number: number = 0;
 
 async function All(req: Request, res: Response , next: NextFunction){
     get_all_number++;
-    console.log("Get '/display/all' Nr. " + get_all_number);
+    console.log("Get '/display/all' Nr. " + String(get_all_number));
     try {
         const data : any = await Display_Data.find();
         return res.status(200).json(data) &&
@@ -28,7 +30,7 @@ async function All(req: Request, res: Response , next: NextFunction){
 
 async function All_Sorted(req: Request, res: Response , next: NextFunction){
     get_all_sorted_number++;
-    console.log("Get '/display/all/sorted' Nr. " + get_all_sorted_number);
+    console.log("Get '/display/all/sorted' Nr. " + String(get_all_sorted_number));
     try {
         const data : any = await Display_Data.find().sort({
             'timestamp': -1
@@ -49,7 +51,7 @@ async function All_Sorted(req: Request, res: Response , next: NextFunction){
 
 async function All_Categories(req: Request<{category: string},{},{},{}>, res: Response, next: NextFunction){
     get_all_categories_number++;
-    console.log("Get '/display/all/categories' Nr."+get_all_categories_number);
+    console.log("Get '/display/all/categories' Nr."+String(get_all_categories_number));
     console.log(`Get '/display/all/${req.params.category}'`);
     try {
         let search : string;
@@ -82,7 +84,7 @@ async function All_Categories(req: Request<{category: string},{},{},{}>, res: Re
 // https://mongoosejs.com/docs/api/aggregate.html#Aggregate.prototype.project()
 async function All_Categories_Names(req: Request<{category: string ,name: string},{},{},{}>, res: Response, next: NextFunction){
     get_all_categories_names_number++;
-    console.log("Get '/display/all/categories/categorie/name' Nr. "+ get_all_categories_names_number);
+    console.log("Get '/display/all/categories/categorie/name' Nr. "+ String(get_all_categories_names_number));
     console.log(`Get '/display/all/categories/${req.params.category}/${req.params.name}`);
     try {
         let search : string;

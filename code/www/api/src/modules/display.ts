@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-this-alias */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createRequire } from "module";
 import mongoose, { Schema , Document } from "mongoose";
 
@@ -156,10 +161,10 @@ const DisplaySchema = new mongoose.Schema({
 
 DisplaySchema.pre("save", async function (next: HookNextFunction) {
     try{
-        var count = await mongoose.model('Display_Data').countDocuments();
-        const doc = this;
+        const counter: number = await mongoose.model('Display_Data').countDocuments();
+        const doc: any = this;
         if (doc.isNew) {
-            doc.id = count + 1;
+            doc.id = counter + 1;
             doc.timestamp = new Date();
             doc.created_at = new Date();
             return next();
@@ -167,12 +172,12 @@ DisplaySchema.pre("save", async function (next: HookNextFunction) {
             doc.timestamp = new Date();
             return next();
         }
-    } catch (err) {
+    } catch (err: any) {
         console.log(err);
-        /*return res.status(500).send({
+        /*res.status(500).send({
             message: err.message || "Some error occurred while creating the data."
         });*/
-    };
+    }
 });
 
 export const Display_Data = mongoose.model("Display_Data", DisplaySchema);

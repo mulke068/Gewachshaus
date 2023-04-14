@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import mongoose, { ConnectOptions } from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();

@@ -1,12 +1,13 @@
-import express , { Request , Response , NextFunction } from 'express';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { Request , Response , NextFunction } from 'express';
 
 import { Display_Data } from '../../modules/display';
 
-let get_random_number: number= 0;
+let get_random_number: number = 0;
 
 async function Get_Random(req: Request , res: Response , next: NextFunction) {
     get_random_number++;
-    console.log("Get '/display/random' Nr. " + get_random_number);
+    console.log("Get '/display/random' Nr. " + String(get_random_number));
     try {
         const data : any = await Display_Data.aggregate([{$sample: {size: 1}}]);
         return res.status(200).json(data) &&
