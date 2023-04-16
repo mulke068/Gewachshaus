@@ -16,14 +16,76 @@
 // or
 
 {
-  "sensor": [
-      {
-        "id": "Pin1",
-        "value": 233
-      },
-      {
-        "id": "Pin2",
-        "value": 3
-      }
-  ]
+    "sensor": [
+        {
+            "id": "Pin1",
+            "value": 50,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin2",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin3",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin4",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin5",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin6",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin7",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin8",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin9",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin10",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin11",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin12",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin13",
+            "value": 0,
+            "description": "Used for LED PWM"
+        },
+        {
+            "id": "Pin14",
+            "value": 0,
+            "description": "Used for LED PWM"
+        }
+    ]
 }

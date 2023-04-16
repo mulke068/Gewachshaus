@@ -12,6 +12,7 @@ export interface ISensor_Data extends mongoose.Document {
     {
       id: string;
       value: number;
+      description: string;
     }
   ];
 }
@@ -24,6 +25,7 @@ const SensorSchema = new mongoose.Schema({
     {
       id: String,
       value: Number,
+      description: String,
     },
   ],
 });

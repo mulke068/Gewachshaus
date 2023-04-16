@@ -1,9 +1,9 @@
 
 
 <template>
-    <div class=" text-white-50">
+    <div >
         <div class="container">
-            <div class="flex justify-center text-3xl">Dashboard</div>
+            <div class="flex justify-center p-5 text-3xl">Dashboard</div>
             <NuxtErrorBoundary>
                 <Dashboard />
                 <template #error="{ error }">

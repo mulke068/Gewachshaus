@@ -87,7 +87,6 @@ export default {
     },
     mounted() {
         this.fetchData()
-
         setInterval(() => {
             this.fetchData()
         }, 5000)
@@ -95,12 +94,15 @@ export default {
     methods: {
         fetchData() {
             const runtimeConfig = useRuntimeConfig()
-            fetch(`${runtimeConfig.api_host}/random`)
+            fetch(`${runtimeConfig.api_host}/display`)
                 .then(response => response.json())
                 .then(data => {
                     this.data = data[0]
                     this.dataLoaded = true
+                }).catch(error => {
+                    console.log(error)
                 })
+            console.log("Get display Status 200");
         }
     }
 }
