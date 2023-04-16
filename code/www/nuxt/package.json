@@ -15,7 +15,9 @@
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
+    "@gtm-support/vue-gtm": "^2.0.0",
     "@nuxt/http": "^0.6.4",
+    "@nuxtjs/google-adsense": "^2.1.0",
     "dotenv": "^16.0.3"
   },
   "name": "nuxt",
