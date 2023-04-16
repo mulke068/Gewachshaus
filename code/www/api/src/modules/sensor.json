@@ -1,0 +1,29 @@
+[
+  {
+    "sensor": [
+      {
+        "id": "Pin2",
+        "value": 1
+      },
+      {
+        "id": "Pin1",
+        "value": 2
+      }
+    ]
+  }
+]
+
+// or
+
+{
+  "sensor": [
+      {
+        "id": "Pin1",
+        "value": 233
+      },
+      {
+        "id": "Pin2",
+        "value": 3
+      }
+  ]
+}

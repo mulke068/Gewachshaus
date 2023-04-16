@@ -1,183 +1,179 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-this-alias */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createRequire } from "module";
-import mongoose, { Schema , Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface HookNextFunction {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (error?: Error): any
+  (error?: Error): any;
 }
 
-export interface IDisplay_Data extends mongoose.Document{
-    // _id: mongoose.Schema.Types.ObjectId;
-    id: number;
-    timestamp: Date;
-    created_at: Date;
-    devices: {
-        esp32: [
-            {
-                connected: boolean;
-            },
-            {
-                connected: boolean;
-            }
-        ];
-        raspberrypi: {
-            connected: boolean;
-        };
+export interface IDisplay_Data extends mongoose.Document {
+  // _id: mongoose.Schema.Types.ObjectId;
+  id: number;
+  timestamp: Date;
+  created_at: Date;
+  devices: {
+    esp32: [
+      {
+        connected: boolean;
+      },
+      {
+        connected: boolean;
+      }
+    ];
+    raspberrypi: {
+      connected: boolean;
     };
-    tempHum: {
-        temperature_1: number;
-        humidity_1: number;
-        temperature_2: number;
-        humidity_2: number;
-    };
-    waterSystem: {
-        sensor_1: number;
-        sensor_2: number;
-        pumpe: boolean;
-    };
-    lufterLeds: {
-        getLufter_1: number;
-        setLufter_1: boolean;
-        getLufter_2: number;
-        setLufter_2: boolean;
-        getLed: number;
-        setLed: boolean;
-    };
-    energieStatus: {
-        solar_1: number;
-        solar_2: number;
-        akku: number;
-        strom: number;
-    };
-    settings: {
-        brightness: number;
-        sound: number;
-    };
+  };
+  tempHum: {
+    temperature_1: number;
+    humidity_1: number;
+    temperature_2: number;
+    humidity_2: number;
+  };
+  waterSystem: {
+    sensor_1: number;
+    sensor_2: number;
+    pumpe: boolean;
+  };
+  lufterLeds: {
+    getLufter_1: number;
+    setLufter_1: boolean;
+    getLufter_2: number;
+    setLufter_2: boolean;
+    getLed: number;
+    setLed: boolean;
+  };
+  energieStatus: {
+    solar_1: number;
+    solar_2: number;
+    akku: number;
+    strom: number;
+  };
+  settings: {
+    brightness: number;
+    sound: number;
+  };
 }
 
 const DisplaySchema = new mongoose.Schema({
-    // Schema for the data
-    // _id: { type: mongoose.Schema.Types.ObjectId,auto: true, unique: true, index: true},
-    id: {type: Number/*,auto: true,unique: true,index: true*/},
-    timestamp: {type: Date/*,auto: true,default: Date.now()*/},
-    created_at: {type: Date/*,auto: true,default: Date.now()*/},
-    devices: {
-        esp32: [{
-                connected: {
-                    type: Boolean,
-                    index: false,
-                }
-            },
-            {
-                connected: {
-                    type: Boolean,
-                    index: false
-                }
-            }
-        ],
-        raspberrypi: {
-            connected: {
-                type: Boolean
-            },
-        }
+  // Schema for the data
+  // _id: { type: mongoose.Schema.Types.ObjectId,auto: true, unique: true, index: true},
+  id: { type: Number /*,auto: true,unique: true,index: true*/ },
+  timestamp: { type: Date /*,auto: true,default: Date.now()*/ },
+  created_at: { type: Date /*,auto: true,default: Date.now()*/ },
+  devices: {
+    esp32: [
+      {
+        connected: {
+          type: Boolean,
+          index: false,
+        },
+      },
+      {
+        connected: {
+          type: Boolean,
+          index: false,
+        },
+      },
+    ],
+    raspberrypi: {
+      connected: {
+        type: Boolean,
+      },
     },
-    tempHum: {
-        temperature_1: {
-            type: Number
-        },
-        humidity_1: {
-            type: Number
-        },
-        temperature_2: {
-            type: Number
-        },
-        humidity_2: {
-            type: Number
-        }
+  },
+  tempHum: {
+    temperature_1: {
+      type: Number,
     },
-    waterSystem: {
-        sensor_1: {
-            type: Number
-        },
-        sensor_2: {
-            type: Number
-        },
-        pumpe: {
-            type: Boolean
-        }
-
+    humidity_1: {
+      type: Number,
     },
-    lufterLeds: {
-        getLufter_1: {
-            type: Number
-        },
-        setLufter_1: {
-            type: Boolean
-        },
-        getLufter_2: {
-            type: Number
-        },
-        setLufter_2: {
-            type: Boolean
-        },
-        getLed: {
-            type: Number
-        },
-        setLed: {
-            type: Boolean
-        }
+    temperature_2: {
+      type: Number,
     },
-    energieStatus: {
-        solar_1: {
-            type: Number
-        },
-        solar_2: {
-            type: Number
-        },
-        akku: {
-            type: Number
-        },
-        strom: {
-            type: Number
-        }
+    humidity_2: {
+      type: Number,
     },
-    settings: {
-        brightness: {
-            type: Number
-        },
-        sound: {
-            type: Number
-        }
-    }
+  },
+  waterSystem: {
+    sensor_1: {
+      type: Number,
+    },
+    sensor_2: {
+      type: Number,
+    },
+    pumpe: {
+      type: Boolean,
+    },
+  },
+  lufterLeds: {
+    getLufter_1: {
+      type: Number,
+    },
+    setLufter_1: {
+      type: Boolean,
+    },
+    getLufter_2: {
+      type: Number,
+    },
+    setLufter_2: {
+      type: Boolean,
+    },
+    getLed: {
+      type: Number,
+    },
+    setLed: {
+      type: Boolean,
+    },
+  },
+  energieStatus: {
+    solar_1: {
+      type: Number,
+    },
+    solar_2: {
+      type: Number,
+    },
+    akku: {
+      type: Number,
+    },
+    strom: {
+      type: Number,
+    },
+  },
+  settings: {
+    brightness: {
+      type: Number,
+    },
+    sound: {
+      type: Number,
+    },
+  },
 });
 //SensorSchema.static.build = (attrs: IDisplay_Data) => {
 //    return new Display_Data(attrs);
 //}
 
 DisplaySchema.pre("save", async function (next: HookNextFunction) {
-    try{
-        const counter: number = await mongoose.model('Display_Data').countDocuments();
-        const doc: any = this;
-        if (doc.isNew) {
-            doc.id = counter + 1;
-            doc.timestamp = new Date();
-            doc.created_at = new Date();
-            return next();
-        } else {
-            doc.timestamp = new Date();
-            return next();
-        }
-    } catch (err: any) {
-        console.log(err);
-        /*res.status(500).send({
+  try {
+    const counter: number = await mongoose
+      .model("Display_Data")
+      .countDocuments();
+    const doc: any = this;
+    if (doc.isNew) {
+      doc.id = counter + 1;
+      doc.timestamp = new Date();
+      doc.created_at = new Date();
+      return next();
+    } else {
+      doc.timestamp = new Date();
+      return next();
+    }
+  } catch (err: unknown) {
+    console.log(err);
+    /*res.status(500).send({
             message: err.message || "Some error occurred while creating the data."
         });*/
-    }
+  }
 });
 
 export const Display_Data = mongoose.model("Display_Data", DisplaySchema);

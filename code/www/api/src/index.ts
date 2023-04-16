@@ -26,7 +26,7 @@ app.use(
 
 app.use("/", Main_Router);
 app.use("/display", Display_Router);
-app.use("/sensor", Sensor_Router)
+app.use("/sensor", Sensor_Router);
 
 app.listen(port, async () => {
   await connectDB();
