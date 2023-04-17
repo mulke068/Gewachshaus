@@ -23,7 +23,6 @@ import { NuxtLink } from '../.nuxt/components';
                 </div>
             </nav>
         </header>
-
         <!-- Output -->
         <article class="m-3 shadow-md shadow-white-400">
             <div class="container p-3 mx-auto ">
@@ -33,7 +32,30 @@ import { NuxtLink } from '../.nuxt/components';
     </div>
 </template>
 
-<script>
+<script setup>
+useHead({
+    script: [
+        {
+            src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5201653139270385',
+            async: true,
+            crossorigin: 'anonymous',
+        },
+        {
+            src: 'https://www.googletagmanager.com/gtag/js?id=G-QL29HF54EY',
+            async: true,
+        }, 
+        {
+            innerHTML: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                
+                gtag('config', 'G-QL29HF54EY');
+            `,
+            type: 'text/javascript',
+        }
+    ],
+});
 </script>
 
 <style>
