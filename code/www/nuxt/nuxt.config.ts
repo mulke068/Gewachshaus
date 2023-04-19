@@ -13,6 +13,11 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  loading: {
+    name: "circle",
+    color: "#3B8070",
+    background: "white",
+  },
   nitro: {},
   /*
   server: {

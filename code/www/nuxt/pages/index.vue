@@ -1,10 +1,13 @@
+
 <template>
     <ClientOnly>
+        <NuxtLoadingIndicators />
         <Home />
     </ClientOnly>
 </template>
 
 <script setup>
+
 definePageMeta({
     layout: 'home',
 })

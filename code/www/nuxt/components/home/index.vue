@@ -1,98 +1,120 @@
 
 <script lang="ts" setup>
-    import {  GridHelper, PerspectiveCamera, Scene, TextureLoader, WebGLRenderer } from 'three';
-    import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-    import { Ref } from 'vue';
+import { AmbientLight, BoxGeometry, Color, GridHelper, Mesh, MeshBasicMaterial, PerspectiveCamera, PointLight, Scene, TextureLoader, WebGLRenderer } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { Ref } from 'vue';
 
-    let renderer: WebGLRenderer;
-    const html_scene: Ref<HTMLCanvasElement | null> = ref(null);
+let renderer: WebGLRenderer;
+const html_scene: Ref<HTMLCanvasElement | null> = ref(null);
+let controls: OrbitControls;
 
-    const aspectRatio = computed(() => window.innerWidth / window.innerHeight);
-    
-    const scene = new Scene();
+const aspectRatio = computed(() => window.innerWidth / window.innerHeight);
 
-    const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0 , 0 , 30);
-    scene.add(camera);
+const scene = new Scene();
 
-    const gridHelper = new GridHelper(100,100);
-    scene.add(gridHelper);
+const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0, 30);
+scene.add(camera);
 
-    const spaceTexture = new TextureLoader().load('../../assets/img/space.jpg');
-    scene.background = spaceTexture;
+const ambientLight = new AmbientLight( 0xcccccc, 0.4 );
+scene.add( ambientLight );
 
-    function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
+const pointLight = new PointLight( 0xffffff, 0.8 );
+camera.add( pointLight );
+scene.add( camera );
+
+const gridHelper = new GridHelper(100, 100);
+scene.add(gridHelper);
+
+//const spaceTexture = new TextureLoader().load('_nuxt/assets/img/space.webp');
+const spaceTexture = new TextureLoader().load('../../assets/img/space.webp');
+scene.background = spaceTexture;
+
+// Copilot off
+const objLoader = new OBJLoader();
+objLoader.load('/3dObjects/OBJ_PCB_Gewachshaus.obj', 
+    (object) => {
+        object.position.set(0, 0, 0);
+        object.scale.set(0.01, 0.01, 0.01);
+        scene.add(object);
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    (error) => {
+        console.log('An error happened'+ error);
     }
+)
 
-    function updateCamera() {
-        camera.aspect = aspectRatio.value;
-        camera.updateProjectionMatrix();
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+function updateOrientation() {
+    camera.aspect = aspectRatio.value;
+    camera.updateProjectionMatrix();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function setRenderer() {
+    if (html_scene.value) {
+        renderer = new WebGLRenderer({
+            canvas: html_scene.value,
+        });
+        updateOrientation();
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        animate();
     }
+}
 
-    function updateRenderer() { 
-        //renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.render(scene, camera);
-    }
-    
-    function setRenderer() {
-        if (html_scene.value) {
-            renderer = new WebGLRenderer( {
-                canvas: html_scene.value,
-            });
-            updateRenderer()
-            const controls = new OrbitControls(camera, renderer.domElement);
-            animate();
-        }
-    }
+watch(aspectRatio, () => {
+    updateOrientation();
+})
 
-
-    watch(aspectRatio, () => {
-        updateCamera()
-        updateRenderer();
-    })
-
-    onMounted(() => {
-        setRenderer();
-    })
+onMounted(() => {
+    setRenderer();
+})
 </script>
 
 <template>
-    <div class="container">
-        <canvas ref="html_scene" />
-        <main class="content">
-            <h1 class="title">
-                Home
-            </h1>
-            <p class="description">
-                This is the home page
-            </p>
-            <p>
-                Work in Progress
-            </p>
-            <p>
-                Page View 3d Model from The Projeckt + Text Description
-            </p>
-        </main>
+    <div>
+        <div class="scene">
+            <canvas ref="html_scene" />
+        </div>
+        <div class="content">
+            <div class="container mx-auto">
+                <h1 class="text-3xl ">
+                    Home
+                </h1>
+                <p>
+                    This is the home page
+                </p>
+                <p>
+                    Work in Progress
+                </p>
+                <p>
+                    Page View 3d Model from The Projeckt + Text Description
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.container {
-    position: absolute;
-}
-canvas {
-    width: 50wv;
-    height: 50vh;
+.scene {
     position: fixed;
-    top: 0;
-    left: 0;
+    width: 100vw;
+    height: 100vh;
 }
+
 .content {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static;
+    width: 100vw;
+    height: 80vh;
 }
 </style>
