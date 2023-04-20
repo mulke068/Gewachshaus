@@ -1,12 +1,12 @@
+
 <script lang="ts" setup>
-import { AmbientLight, GridHelper, PerspectiveCamera, PointLight, Scene, TextureLoader, Vector3, WebGLRenderer } from 'three';
+import { AmbientLight, BoxGeometry, Color, GridHelper, Mesh, MeshBasicMaterial, PerspectiveCamera, PointLight, Scene, TextureLoader, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Ref } from 'vue';
 
 let renderer: WebGLRenderer;
-const container: Ref<HTMLCanvasElement | null> = ref(null);
+const html_scene: Ref<HTMLCanvasElement | null> = ref(null);
 let controls: OrbitControls;
 
 const aspectRatio = computed(() => window.innerWidth / window.innerHeight);
@@ -25,38 +25,27 @@ camera.add( pointLight );
 scene.add( camera );
 
 const gridHelper = new GridHelper(100, 100);
-gridHelper.position.set(0, 0, 0);
 scene.add(gridHelper);
 
 //const spaceTexture = new TextureLoader().load('_nuxt/assets/img/space.webp');
 const spaceTexture = new TextureLoader().load('../../assets/img/space.webp');
 scene.background = spaceTexture;
 
-const objMateial = new MTLLoader();
-objMateial.load('/3dObjects/OBJ_PCB_Gewachshaus.mtl',
-    (materials) => {
-        materials.preload();
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.load('/3dObjects/OBJ_PCB_Gewachshaus.obj',
-            (object) => {
-                object.position.set(0,0,0);
-                object.scale.set(0.01, 0.01, 0.01);
-                scene.add(object);
-                // Setup renderer
-                setRenderer();
-                setSize();
-            },
-            (xhr) => {
-                let count = Math.round(xhr.loaded / xhr.total * 100);
-                console.log(String(count)+ '% 3dObject ');
-            },
-            (error) => {
-                console.warn('An error happened loading 3DObject \n'+ error);
-            }
-        )
+// Copilot off
+const objLoader = new OBJLoader();
+objLoader.load('/3dObjects/OBJ_PCB_Gewachshaus.obj', 
+    (object) => {
+        object.position.set(0, 0, 0);
+        object.scale.set(0.01, 0.01, 0.01);
+        scene.add(object);
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    (error) => {
+        console.log('An error happened'+ error);
     }
-);
+)
 
 function animate() {
     requestAnimationFrame(animate);
@@ -64,11 +53,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-window.onresize = () => {
-    setSize();
-} 
-
-function setSize() {
+function updateOrientation() {
     camera.aspect = aspectRatio.value;
     camera.updateProjectionMatrix();
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -76,39 +61,60 @@ function setSize() {
 }
 
 function setRenderer() {
-    if (container.value) {
+    if (html_scene.value) {
         renderer = new WebGLRenderer({
-            canvas: container.value,
+            canvas: html_scene.value,
         });
+        updateOrientation();
         controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         animate();
     }
 }
+
+watch(aspectRatio, () => {
+    updateOrientation();
+})
+
+onMounted(() => {
+    setRenderer();
+})
 </script>
 
 <template>
     <div>
-        <div class="model">
-            <canvas ref="container" id="container"></canvas>
+        <div class="scene">
+            <canvas ref="html_scene" />
         </div>
         <div class="content">
-            <div id="title">Hello World</div>
-            <div id="subtitle">This is a subtitle</div>
-        </div>   
+            <div class="container mx-auto">
+                <h1 class="text-3xl ">
+                    Home
+                </h1>
+                <p>
+                    This is the home page
+                </p>
+                <p>
+                    Work in Progress
+                </p>
+                <p>
+                    Page View 3d Model from The Projeckt + Text Description
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.model {
+.scene {
     position: fixed;
     width: 100vw;
     height: 100vh;
 }
+
 .content {
     position: static;
     width: 100vw;
     height: 80vh;
 }
 </style>
-
