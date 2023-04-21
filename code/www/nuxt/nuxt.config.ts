@@ -33,7 +33,7 @@ export default defineNuxtConfig({
           {
               src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5201653139270385',
               async: true,
-              crossorigin: 'anonymous',
+              crossorigin: 'anonymous'
           },
           {
               src: 'https://www.googletagmanager.com/gtag/js?id=G-QL29HF54EY',

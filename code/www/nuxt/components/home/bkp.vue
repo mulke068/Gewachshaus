@@ -87,20 +87,6 @@ onMounted(() => {
             <canvas ref="html_scene" />
         </div>
         <div class="content">
-            <div class="container mx-auto">
-                <h1 class="text-3xl ">
-                    Home
-                </h1>
-                <p>
-                    This is the home page
-                </p>
-                <p>
-                    Work in Progress
-                </p>
-                <p>
-                    Page View 3d Model from The Projeckt + Text Description
-                </p>
-            </div>
         </div>
     </div>
 </template>
