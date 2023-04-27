@@ -25,8 +25,10 @@ definePageMeta({
 useHead({
     title: 'Dashboard',
     meta: [
+        { name: 'title', content: 'Dashboard'},
         { name: 'description', content: 'Dashboard Page'},
-        { name: 'keywords', content: 'dashboard, page'}
+        { name: 'keywords', content: 'dashboard, page'},
+        { name: 'og:site_name', content: 'Dashboard'}
     ]
 })
 </script>

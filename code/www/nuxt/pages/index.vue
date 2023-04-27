@@ -14,8 +14,8 @@ definePageMeta({
 useHead({
     title: 'Home',
     meta: [
-        { name: 'description', content: 'Home Page'},
-        { name: 'keywords', content: 'home, page' }
+        { name: 'keywords', content: 'Home , Main' },
+        { property: 'og:site_name', content: 'Home' },
     ]
 })
 </script>
