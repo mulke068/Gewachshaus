@@ -26,7 +26,7 @@ useHead({
     title: 'Dashboard',
     meta: [
         { name: 'title', content: 'Dashboard'},
-        { name: 'description', content: 'Dashboard Page'},
+        { name: 'description', content: 'Dashboard Seite vom Gewaechshaus'},
         { name: 'keywords', content: 'dashboard, page'},
         { name: 'og:site_name', content: 'Dashboard'}
     ]

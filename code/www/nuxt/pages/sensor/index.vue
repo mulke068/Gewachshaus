@@ -27,7 +27,7 @@ useHead({
     title: 'Sensor Data',
     meta: [
         { name: 'title', content: 'Sensor Data'},
-        { name: 'description', content: 'Shwo all the sensor data'},
+        { name: 'description', content: 'Show all the sensor data'},
         { name: 'keywords', content: 'sensor, data'},
         { name: 'og:site_name', content: 'Sensor Data'}
     ]
