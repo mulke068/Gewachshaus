@@ -55,10 +55,10 @@ export default defineNuxtConfig({
         { name: "og:description", content: "Das Gewachshaus Dashboard für die Steuerung des Gewachshauses"},
         { name: "og:type", content: "website"},
         { name: "og:url", content: "https://www.kevbchef.com"},
-        { name: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"}
+        { name: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
         { name: "og:locale", content: "de_DE"},
         { name: "og:locale:alternate", content: "lu_LU"},
-        { name: "og:locale:alternate", content: "en_US"},
+        { name: "og:locale:alternate", content: "en_US"}
       ],
       script: [
           {
