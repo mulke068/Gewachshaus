@@ -12,8 +12,9 @@ definePageMeta({
     layout: 'home',
 })
 useHead({
-    title: 'Home',
     meta: [
+        { name: 'title', content: 'Home'},
+        { name: 'description', content: 'Dashboard für die Steuerung des Gewachshaus' },
         { name: 'keywords', content: 'Home , Main' },
         { property: 'og:site_name', content: 'Home' },
     ]

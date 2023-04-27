@@ -41,12 +41,9 @@ export default defineNuxtConfig({
         { name: "theme-color", content: "#ffffff" },
         { name: "theme-color", content: "#000000" },
         /*
-          Robots & Google Tags
+          Robots Tags
         */
         //{ name: 'robots', content: 'index, follow' },
-        //{ name: 'googlebot', content: 'index, follow' },
-        //{ name: 'google', content: 'nositelinkssearchbox' },
-        { name: 'google', content: 'notranslate' },
         //{ name: 'format-detection', content: 'telephone=no' },
         //{ name: 'msapplication-tap-highlight', content: 'no' },
         /*
@@ -63,11 +60,20 @@ export default defineNuxtConfig({
         { property: "og:locale:alternate", content: "lu_LU"},
         { property: "og:locale:alternate", content: "en_US"},
         /*
+          Google Tags
+        */
+        //{ name: 'googlebot', content: 'index, follow' },
+        //{ name: 'google', content: 'nositelinkssearchbox' },
+        { name: 'google', content: 'notranslate' },
+        { itemprop: 'name', content: 'Gewachshaus' },
+        { itemprop: 'description', content: 'Dashboard für die Steuerung des Gewachshauses' },
+        { itemprop: 'image', content: 'https://www.kevbchef.com/img/logo_1024x1024.png'},
+        /*
           Twitter Tags
         */
         //{ name : "twitter:creator", content: "@Mulke068"},
         //{ name: "twitter:site", content: "@Mulke068"},
-        { name: "twitter:card", content: "website"},
+        { name: "twitter:card", content: "summary_large_image"},
         { name: "twitter:title", content: "Gewachshaus"},
         { name: "twitter:description", content: "Dashboard für die Steuerung des Gewachshauses"},
         { name: "twitter:url", content: "https://www.kevbchef.com"},
