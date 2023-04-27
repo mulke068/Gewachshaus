@@ -28,7 +28,7 @@ useHead({
         { name: 'title', content: 'Dashboard'},
         { name: 'description', content: 'Dashboard Seite vom Gewaechshaus'},
         { name: 'keywords', content: 'dashboard, page'},
-        { name: 'og:site_name', content: 'Dashboard'}
+        { property: 'og:site_name', content: 'Dashboard'}
     ]
 })
 </script>

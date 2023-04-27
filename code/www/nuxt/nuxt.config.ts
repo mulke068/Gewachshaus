@@ -52,17 +52,19 @@ export default defineNuxtConfig({
         /*
           OG Tags
         */
-        { name: "og:title", content: "Gewachshaus"},
-        { name: "og:description", content: "Dashboard für die Steuerung des Gewachshauses"},
-        { name: "og:type", content: "website"},
-        { name: "og:url", content: "https://www.kevbchef.com"},
-        { name: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
-        { name: 'og:image:width', content: '1024'},
-        { name: 'og:image:height', content: '1024'},
-        { name: "og:locale", content: "de_DE"},
-        { name: "og:locale:alternate", content: "lu_LU"},
-        { name: "og:locale:alternate", content: "en_US"},
-        /* Twitter Tags */
+        { property: "og:title", content: "Gewachshaus"},
+        { property: "og:description", content: "Dashboard für die Steuerung des Gewachshauses"},
+        { property: "og:type", content: "website"},
+        { property: "og:url", content: "https://www.kevbchef.com"},
+        { property: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
+        { property: 'og:image:width', content: '1024'},
+        { property: 'og:image:height', content: '1024'},
+        { property: "og:locale", content: "de_DE"},
+        { property: "og:locale:alternate", content: "lu_LU"},
+        { property: "og:locale:alternate", content: "en_US"},
+        /*
+          Twitter Tags
+        */
         //{ name : "twitter:creator", content: "@Mulke068"},
         //{ name: "twitter:site", content: "@Mulke068"},
         { name: "twitter:card", content: "website"},

@@ -29,7 +29,7 @@ useHead({
         { name: 'title', content: 'Sensor Data'},
         { name: 'description', content: 'Show all the sensor data'},
         { name: 'keywords', content: 'sensor, data'},
-        { name: 'og:site_name', content: 'Sensor Data'}
+        { property: 'og:site_name', content: 'Sensor Data'}
     ]
 })
 </script>
