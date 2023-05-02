@@ -45,19 +45,58 @@ char output[768];
 #define BOX_COLOR 0x9CD3
 
 // ----- API & W-Lan
+
+// Set your Static IP address
+IPAddress ipv4(192, 168, 178, 55);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 178, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress DNS1(8, 8, 8, 8);
+IPAddress DNS2(192, 168, 178, 1);
+
+const byte mac[] = {0x78,0x21,0x84,0xE6,0x32,0x78};
+const String hostname = "Display-ESP32";
+
 const char* ssid = "FRITZ!Box 7490";
 const char* password = "05767844606687810343";
-const char* api_url = /*"https://api.kevbchef.com";*/ "http://34.159.6.21:8080";
+const String api_url = "http://192.168.178.38:8080/display";
 
-
-// Error when using api.kevbchef.com
 /*
-httpclient 
-[ 4048][E][ssl_client.cpp:37] _handle_error(): [start_ssl_client():278]: (-30592) SSL - A fatal alert message was received from our peer
-[ 4050][E][WiFiClientSecure.cpp:135] connect(): start_ssl_client: -30592
+PROGMEM const static char* root_ca = \
+    "-----BEGIN CERTIFICATE-----\n" \
+    "MIIFODCCBN6gAwIBAgIQDpPYv5WQwsfpP/P0gVWBgzAKBggqhkjOPQQDAjBKMQsw\n" \
+    "CQYDVQQGEwJVUzEZMBcGA1UEChMQQ2xvdWRmbGFyZSwgSW5jLjEgMB4GA1UEAxMX\n" \
+    "Q2xvdWRmbGFyZSBJbmMgRUNDIENBLTMwHhcNMjIwOTIxMDAwMDAwWhcNMjMwOTIx\n" \
+    "MjM1OTU5WjB1MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQG\n" \
+    "A1UEBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQQ2xvdWRmbGFyZSwgSW5jLjEe\n" \
+    "MBwGA1UEAxMVc25pLmNsb3VkZmxhcmVzc2wuY29tMFkwEwYHKoZIzj0CAQYIKoZI\n" \
+    "zj0DAQcDQgAEqbHA+RkgZssePl4hTgJWlKUbc6fGjKFQPVSUhpV1TYVAZ8ZiB95q\n" \
+    "Cb3TR8nC/Fd04JHyz0GGAhH5iuTFywXDMaOCA3kwggN1MB8GA1UdIwQYMBaAFKXO\n" \
+    "N+rrsHUOlGeItEX62SQQh5YfMB0GA1UdDgQWBBTMsoLVdW/mSSieOaHQSEFkz2bs\n" \
+    "DjA+BgNVHREENzA1gg4qLmtldmJjaGVmLmNvbYIVc25pLmNsb3VkZmxhcmVzc2wu\n" \
+    "Y29tggxrZXZiY2hlZi5jb20wDgYDVR0PAQH/BAQDAgeAMB0GA1UdJQQWMBQGCCsG\n" \
+    "AQUFBwMBBggrBgEFBQcDAjB7BgNVHR8EdDByMDegNaAzhjFodHRwOi8vY3JsMy5k\n" \
+    "aWdpY2VydC5jb20vQ2xvdWRmbGFyZUluY0VDQ0NBLTMuY3JsMDegNaAzhjFodHRw\n" \
+    "Oi8vY3JsNC5kaWdpY2VydC5jb20vQ2xvdWRmbGFyZUluY0VDQ0NBLTMuY3JsMD4G\n" \
+    "A1UdIAQ3MDUwMwYGZ4EMAQICMCkwJwYIKwYBBQUHAgEWG2h0dHA6Ly93d3cuZGln\n" \
+    "aWNlcnQuY29tL0NQUzB2BggrBgEFBQcBAQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6\n" \
+    "Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0aHR0cDovL2NhY2VydHMu\n" \
+    "ZGlnaWNlcnQuY29tL0Nsb3VkZmxhcmVJbmNFQ0NDQS0zLmNydDAMBgNVHRMBAf8E\n" \
+    "AjAAMIIBfwYKKwYBBAHWeQIEAgSCAW8EggFrAWkAdQDoPtDaPvUGNTLnVyi8iWvJ\n" \
+    "A9PL0RFr7Otp4Xd9bQa9bgAAAYNdhTkhAAAEAwBGMEQCICGY+olYmcTEWzcCi5Qh\n" \
+    "npmjTobzMo1Aq2VrfjQLgu2jAiAeEuiws/0ZqqqRDFuqwYdWvXmyMkRpwNvGEgBC\n" \
+    "zfKp1wB3ADXPGRu/sWxXvw+tTG1Cy7u2JyAmUeo/4SrvqAPDO9ZMAAABg12FOWAA\n" \
+    "AAQDAEgwRgIhALrLlU/w84i+UiocEBq2jHXJujOfjG9Lu1HGcvMxoup0AiEAj15w\n" \
+    "3xHFVwVrNdslEiTUVdcz0c0k4TdA1NpJPTUKRD8AdwC3Pvsk35xNunXyOcW6WPRs\n" \
+    "XfxCz3qfNcSeHQmBJe20mQAAAYNdhTlZAAAEAwBIMEYCIQDpYIz/BhLJc9WNGzQT\n" \
+    "h2LnJB8F1pywJwGc4AQoCXsivQIhAMDIT/3dNuXULop4TBxx7+0lRp//E3Oy6/sP\n" \
+    "xGKlxKQNMAoGCCqGSM49BAMCA0gAMEUCIQDexFllXbcUhCw2CJD9GytQUvKdqDQ9\n" \
+    "WsIojKzOZBFL9gIgBnh09trDDtG/uYp20jbLHwVyMD4vaTnWI4SUgdKpTKk=\n" \
+    "-----END CERTIFICATE-----\n";
 */
+
 /*
-const char* client_cert = \
+const char* root_cert PROGMEM = \
     "-----BEGIN CERTIFICATE-----\n" \
     "MIIEFTCCAv2gAwIBAgIUQsEuZ5CJxrxXE1Wa/y2NZbTognwwDQYJKoZIhvcNAQEL\n" \
     "BQAwgagxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\n" \
@@ -82,4 +121,4 @@ const char* client_cert = \
     "grc9M7Qz6ZT2YhUsSFJXlg8FZHLhjDz6pA6OaxSDqar2nnSke/HcgTwckFDPk/T1\n" \
     "J3XGbzYix5xEZnzpk3AdyQVIXJszQ7PmROcc8rYbWoAMj2dcF03LVnY=\n" \
     "-----END CERTIFICATE-----\n";
-*/
+    */

@@ -32,3 +32,8 @@ pio test -e native
 
 ```bash
 pio test -e native --coverage --coverage-html
+```
+
+
+# Use Github Actions
+https://piolabs.com/blog/insights/unit-testing-part-3.html

@@ -26,18 +26,33 @@
 // ================================================= HTTP Start ================================================================
 
 void initWiFi(){
+  WiFi.disconnect();
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.config(ipv4, gateway, subnet, DNS1, DNS2);
+  WiFi.setHostname(hostname.c_str());
+  WiFi.begin(ssid, password)
+  int waitWifi = 0;
   Serial.println("--------------------------------");
   Serial.print("Connecting to WiFi ");
   while ((WiFi.status() != WL_CONNECTED)){
-    Serial.print(".");
-    sleep(min_delay);
+    if(waitWifi > 10) {
+      Serial.println(" ");
+      Serial.println("Error WiFi not connected");
+      Serial.println("--------------------------------");
+      return;
+    } else {
+      Serial.print(".");
+      waitWifi++;
+      sleep(min_delay);
+    }
   }
   Serial.println(" ");
-  Serial.print("Host IP : ");
-  Serial.println(WiFi.localIP());
-  Serial.println("SSID    : " + WiFi.SSID());
+  Serial.print("Host IP : "); Serial.println(WiFi.localIP());
+  Serial.print("SSID    : "); Serial.println(WiFi.SSID());
+  Serial.print("Hostname: "); Serial.println(WiFi.getHostname());
+  Serial.print("Subnet  : "); Serial.println(WiFi.subnetMask());
+  Serial.print("Gateway : "); Serial.println(WiFi.gatewayIP());
+  Serial.print("DNS     : "); Serial.println(WiFi.dnsIP());
   Serial.println("--------------------------------");
 }
 
@@ -618,6 +633,7 @@ void loop(void){
 
   bool pressed = tft.getTouch(&touch_x,&touch_y);
 
+  // if the button is pressed
   if(pressed){
 
     Serial.println("x"+String(touch_x)+"y"+String(touch_y));
