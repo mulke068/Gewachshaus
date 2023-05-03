@@ -1,12 +1,18 @@
-#include <WiFi.h>
-#include <config.h>
-
 #include <Wlan.h>
+
+Wlan::Wlan() {
+    Serial.println("Wlan created");
+}
+
+Wlan::~Wlan() {
+    Serial.println("Wlan destroyed");
+}
 
 void Wlan::connect() {
     try {
-        Wlan::disconnect();
+        disconnect();
         WiFi.mode(WIFI_STA);
+        WiFi.setHostname(WIFI_HOSTNAME);
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
         Serial.print("Connecting to WiFi");

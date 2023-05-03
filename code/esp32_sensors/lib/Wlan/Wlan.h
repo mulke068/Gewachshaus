@@ -6,6 +6,8 @@
 
 class Wlan {
     public:
+        Wlan();
+        ~Wlan();
         void connect();
         void disconnect();
 };

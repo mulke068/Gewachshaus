@@ -9,10 +9,13 @@
 
 class Request {
     public:
-        Request(string url);
+        Request(String url);
+        ~Request();
+        void get();
         void post();
     private:
-        string _url;
+        String _url;
+        String _payload;
 };
 
 #endif
