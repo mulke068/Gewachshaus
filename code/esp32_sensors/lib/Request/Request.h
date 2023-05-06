@@ -19,6 +19,7 @@ class Request {
         void test();
         // 
         const char* request_id;
+        const char* request_unique_id;
         const char* request_created_at;
         const char* request_timestamp;
         const char* request_unique_id;

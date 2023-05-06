@@ -19,7 +19,7 @@ void Request::get() {
     if (http_code >= 200) {
         Serial.println("HTTP response code: " + http_code);
         _req = http.getString();
-        Serial.println("HTTP response : " + _req);
+        // Serial.println("HTTP response : " + _req);
         deserializeData();
     } else {
         Serial.println("HTTP GET request failed");
@@ -66,6 +66,11 @@ void Request::set(String name,String pin, String value, String description, bool
 void Request::end() {
     _req = "";
     _res = "";
+    request_sensor_id = "";
+    request_sensor_name = "";
+    request_sensor_pin = "";
+    request_sensor_value = "";
+    request_sensor_description = "";
 }
 
 /// @brief 
@@ -79,7 +84,7 @@ void Request::deserializeData() {
         return;
     }
     JsonObject root_0 = doc[0];
-    request_id = root_0["_id"];
+    request_unique_id = root_0["_id"];
     for (JsonObject root_0_sensor_item : root_0["sensor"].as<JsonArray>()) {
         request_sensor_id = root_0_sensor_item["_id"];
         request_sensor_name = root_0_sensor_item["name"];
