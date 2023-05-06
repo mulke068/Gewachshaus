@@ -10,8 +10,9 @@ export interface ISensor_Data extends mongoose.Document {
   created_at: Date;
   sensor: [
     {
-      id: string;
-      value: number;
+      name: string;
+      pin: string;
+      value: string;
       description: string;
     }
   ];
@@ -23,8 +24,9 @@ const SensorSchema = new mongoose.Schema({
   created_at: { type: Date /*,auto: true,default: Date.now()*/ },
   sensor: [
     {
-      id: String,
-      value: Number,
+      name: String,
+      pin: String,
+      value: String,
       description: String,
     },
   ],
