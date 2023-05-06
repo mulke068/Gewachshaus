@@ -13,7 +13,12 @@ void setup() {
 }
 
 void loop() {
-  api.get();
-  Serial.println("Starting loop ...");
+  Serial.println("--------------------");
+  api.set("Temperature", "Pin1" , String(random(0, 100)), "Temperature Sensor");
+  api.set("Lüfter", "Pin3" , String(true), "Lüfter an aus");
+  api.set("Pumpe" , "Pin4" , String(false), "Pumpe an aus", true);
+  api.test();
+  api.end();
+  Serial.println("--------------------");
   delay(2000);
 }
