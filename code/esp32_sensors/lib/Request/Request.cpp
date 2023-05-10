@@ -3,40 +3,39 @@
 /// @brief 
 /// @param url 
 Request::Request(String url) {
-    Serial.println("Request created");
     _url = url;
 }
 
 Request::~Request() {
-    Serial.println("Request destroyed");
+    return;
 }
 
-void Request::get() {
+int Request::get() {
     HTTPClient http;
     http.begin(_url);
     http.addHeader("Content-Type", "application/json");
     int http_code = http.GET();
     if (http_code >= 200) {
-        Serial.println("HTTP response code: " + http_code);
         _req = http.getString();
         // Serial.println("HTTP response : " + _req);
-        deserializeData();
+        storeData();
+        return http_code;
     } else {
-        Serial.println("HTTP GET request failed");
+        return http_code;
     }
     http.end();
 }
 
-void Request::post() {
+int Request::post() {
     HTTPClient http;
     http.begin(_url);
     http.addHeader("Content-Type", "application/json");
     String payload = "{\"Sensor\":[" + _res + "]}";
     int http_code = http.POST(payload);
     if(http_code >= 200) {
-        Serial.print("HTTP response code: " + http_code);  
+        return http_code;
     } else {
-        Serial.print("HTTP POST request failed");
+        return http_code;
     }
     http.end();
 }
@@ -66,38 +65,84 @@ void Request::set(String name,String pin, String value, String description, bool
 void Request::end() {
     _req = "";
     _res = "";
-    request_sensor_id = "";
-    request_sensor_name = "";
-    request_sensor_pin = "";
-    request_sensor_value = "";
-    request_sensor_description = "";
+    //
 }
 
-/// @brief 
-/// @param data 
-void Request::deserializeData() {
-    // const int capacity = JSON_OBJECT_SIZE(3) + 2 * JSON_OBJECT_SIZE(1);
-    DynamicJsonDocument doc(6144); // 6144
-    DeserializationError error = deserializeJson(doc, _req);
+
+void Request::storeData() {
+    StaticJsonDocument<2048> _doc;
+    DeserializationError error = deserializeJson(_doc, _req);
     if (error) {
-        Serial.println("deserialize failed: "+ String(error.c_str()));
+        Serial.print("deserialize failed: ");
+        Serial.println(error.c_str());
         return;
     }
-    JsonObject root_0 = doc[0];
-    request_unique_id = root_0["_id"];
-    for (JsonObject root_0_sensor_item : root_0["sensor"].as<JsonArray>()) {
-        request_sensor_id = root_0_sensor_item["_id"];
-        request_sensor_name = root_0_sensor_item["name"];
-        request_sensor_pin = root_0_sensor_item["pin"];
-        request_sensor_value = root_0_sensor_item["value"];
-        request_sensor_description = root_0_sensor_item["description"];
+    JsonObject root = _doc[0];
+    _sensorData.request_id = root["id"];
+    _sensorData.request_unique_id = root["_id"];
+    _sensorData.request_created_at = root["created_at"];
+    _sensorData.request_timestamp = root["timestamp"];
+    _sensorData.request_version = root["__v"];
+
+    JsonArray sensorArray = root["sensor"].as<JsonArray>();
+    const size_t numSensor = sensorArray.size();
+    // const char* sensorId[numSensor];
+    // const char* sensorName[numSensor];
+    // const char* sensorPin[numSensor];
+    // const char* sensorValue[numSensor];
+    // const char* sensorDescription[numSensor];
+    
+    for (size_t i = 0; i < numSensor; i++) {
+        JsonObject sensorObj = sensorArray[i];
+        const char* id = sensorObj["_id"];
+        const char* name = sensorObj["name"];
+        const char* pin = sensorObj["pin"];
+        const char* value = sensorObj["value"];
+        const char* description = sensorObj["description"]; 
+        // strcpy(sensorId[i+1], id);
+        _sensorData.id[i+1] = id;
+        _sensorData.name[i+1] = name;
+        _sensorData.pin[i+1] = pin;
+        _sensorData.value[i+1] = value;
+        _sensorData.description[i+1] = description;
     }
-    request_id = root_0["id"];
-    request_timestamp = root_0["timestamp"];
-    request_created_at = root_0["created_at"];
+}
+
+int IndexCheck(int index) {
+    index == NAN ? index = 0 : index = index;
+    return index;
+}
+
+String Request::id(int index) {
+    int i = IndexCheck(index);
+    return _sensorData.id[i];
+}
+
+String Request::name(int index) {
+    int i = IndexCheck(index);
+    return _sensorData.name[i];
+}
+
+String Request::pin(int index) {
+    int i = IndexCheck(index);
+    return _sensorData.pin[i];
+}
+
+String Request::value(int index) {
+    int i = IndexCheck(index);
+    return _sensorData.value[i];
+}
+
+String Request::description(int index) {
+    int i = IndexCheck(index);
+    return _sensorData.description[i];
 }
 
 void Request::test() {
+    Serial.println(_req);
+}
+
+void Request::setTest() {
     String payload = "{\"Sensor\":[" + _res + "]}";
     Serial.println("Test");
     Serial.println(payload);

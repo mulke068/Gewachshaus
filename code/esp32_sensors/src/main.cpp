@@ -17,14 +17,13 @@ void loop() {
   // api.set("Temperature", "Pin1" , String(random(0, 100)), "Temperature Sensor");
   // api.set("Lüfter", "Pin3" , String(true), "Lüfter an aus");
   // api.set("Pumpe" , "Pin4" , String(false), "Pumpe an aus", true);
-  // api.test();
+  // api.setTest();
   api.get();
-  Serial.println("Request ID:");
-  Serial.println(api.request_id);
+  // api.test();
   Serial.println("Request Sensor ID:");
-  Serial.println(api.request_sensor_id);
+  Serial.println(api.pin(3));
   Serial.println("Request Sensor Name:");
-  Serial.println(api.request_sensor_name[1]);
+  Serial.println(api.name(1));
   api.end();
   Serial.println("--------------------");
   delay(2000);
