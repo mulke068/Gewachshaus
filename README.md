@@ -17,6 +17,11 @@
         </table>
     </div>
     <div class="content">
+        <h1>All Docs</h1>
+        <a href="code/www/README.md">www</a>
+        <ul><a href="code/www/nuxt/README.md">Website</a></ul>
+        <ul><a href="code/www/api/README.md">API</a></ul>
+        <a href="code/application/README.md">application</a>
         <h1>Stellungsannahme</h1>
         <h2>Plexiglas</h2>
             <ul>max grösse 600x400 m^2</ul>
