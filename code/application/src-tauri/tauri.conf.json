@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Gewachshaus Application",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "tauri": {
     "systemTray": {
@@ -95,8 +95,8 @@
     },
     "windows": [
       {
-        "url": "http://192.168.178.38:80",
-        "fullscreen": false,
+        "url": "http://localhost:80",
+        "fullscreen": false, 
         "resizable": true,
         "title": "Gewachshaus Application",
         "minWidth": 1300,
@@ -112,8 +112,8 @@
         "url": "index.html",
         "label": "loadingscreen",
         "decorations": false,
-        "width": 400,
-        "height": 200,
+        "width": 420,
+        "height": 480,
         "resizable": false,
         "center": true
       }
