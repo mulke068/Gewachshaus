@@ -5,7 +5,7 @@ services:
     #image:mongo:4.4.9 # raspberrypi
     #image: mongo:5.0.0 # backup image
     container_name: mongo_db
-    restart: unless-stopped
+    restart: unless-stopped # always
     volumes:
       # - ./mongodb/data:/data/db
       - mongodb_data_container:/data/db
@@ -49,7 +49,7 @@ services:
       context: ./nuxt
       dockerfile: Dockerfile
     container_name: nuxt_app
-    restart: unless-stopped
+    restart: unless-stopped # always
     volumes:
       #- ./nuxt:/nuxt
       - nuxt_main_container:/nuxt
