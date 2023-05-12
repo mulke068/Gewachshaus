@@ -6,10 +6,13 @@ Request::Request(String url) {
     _url = url;
 }
 
+/// @brief In case of a Crash
 Request::~Request() {
     return;
 }
 
+/// @brief 
+/// @return 
 int Request::get() {
     HTTPClient http;
     http.begin(_url);
@@ -26,11 +29,13 @@ int Request::get() {
     http.end();
 }
 
+/// @brief 
+/// @return 
 int Request::post() {
     HTTPClient http;
     http.begin(_url);
     http.addHeader("Content-Type", "application/json");
-    String payload = "{\"Sensor\":[" + _res + "]}";
+    String payload = "{\"sensor\":[" + _res + "]}";
     int http_code = http.POST(payload);
     if(http_code >= 200) {
         return http_code;
@@ -46,7 +51,7 @@ int Request::post() {
 /// @param value 
 /// @param description 
 void Request::set(String name,String pin, String value, String description) {
-    String payload = "{\"name\":\"" + name + "\",\"pin\":" + pin + ",\"value\":" + value + ",\"description\":\"" + description + "\"},";
+    String payload = "{\"name\":\"" + name + "\",\"pin\":\"" + pin + "\",\"value\":\"" + value + "\",\"description\":\"" + description + "\"},";
     _res += payload;
 }
 
@@ -58,10 +63,11 @@ void Request::set(String name,String pin, String value, String description) {
 /// @param last 
 void Request::set(String name,String pin, String value, String description, boolean last = false) {
     String payload;
-    last ? payload = "{\"name\":\"" + name + "\",\"pin\":" + pin + ",\"value\":" + value + ",\"description\":\"" + description + "\"}" : payload = "{\"name\":\"" + name + "\",\"pin\":" + pin + ",\"value\":" + value + ",\"description\":\"" + description + "\"},";
+    last ? payload = "{\"name\":\"" + name + "\",\"pin\":\"" + pin + "\",\"value\":\"" + value + "\",\"description\":\"" + description + "\"}" : payload = "{\"name\":\"" + name + "\",\"pin\":\"" + pin + "\",\"value\":\"" + value + "\",\"description\":\"" + description + "\"},";
     _res += payload;
 }
 
+/// @brief 
 void Request::end() {
     _req = "";
     _res = "";
@@ -69,6 +75,7 @@ void Request::end() {
 }
 
 
+/// @brief 
 void Request::storeData() {
     StaticJsonDocument<2048> _doc;
     DeserializationError error = deserializeJson(_doc, _req);
@@ -108,40 +115,61 @@ void Request::storeData() {
     }
 }
 
+
+/// @brief 
+/// @param index 
+/// @return 
 int IndexCheck(int index) {
     index == NAN ? index = 0 : index = index;
     return index;
 }
 
+/// @brief 
+/// @param index 
+/// @return 
 String Request::id(int index) {
     int i = IndexCheck(index);
     return _sensorData.id[i];
 }
 
+/// @brief 
+/// @param index 
+/// @return 
 String Request::name(int index) {
     int i = IndexCheck(index);
     return _sensorData.name[i];
 }
 
+/// @brief 
+/// @param index 
+/// @return 
 String Request::pin(int index) {
     int i = IndexCheck(index);
     return _sensorData.pin[i];
 }
 
+/// @brief 
+/// @param index 
+/// @return 
 String Request::value(int index) {
     int i = IndexCheck(index);
     return _sensorData.value[i];
 }
 
+/// @brief 
+/// @param index 
+/// @return 
 String Request::description(int index) {
     int i = IndexCheck(index);
     return _sensorData.description[i];
 }
 
+/// @brief 
 void Request::test() {
     Serial.println(_req);
 }
 
+/// @brief 
 void Request::setTest() {
     String payload = "{\"Sensor\":[" + _res + "]}";
     Serial.println("Test");

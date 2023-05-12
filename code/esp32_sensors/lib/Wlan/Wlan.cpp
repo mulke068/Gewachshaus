@@ -1,11 +1,10 @@
 #include <Wlan.h>
 
 Wlan::Wlan() {
-    Serial.println("Wlan created");
 }
 
 Wlan::~Wlan() {
-    Serial.println("Wlan destroyed");
+    return;
 }
 
 void Wlan::connect() {
@@ -15,27 +14,27 @@ void Wlan::connect() {
         WiFi.setHostname(WIFI_HOSTNAME);
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-        Serial.print("Connecting to WiFi");
+        Serial.print("Connecting to WiFi ");
         while(WiFi.status() != WL_CONNECTED) {
             delay(250);
             Serial.print(".");
         }
         Serial.println("");
         Serial.println("WiFi connected");
-        Serial.println("IP address: ");
-        Serial.print(WiFi.localIP());
-        Serial.println("MAC address: ");
-        Serial.print(WiFi.macAddress());
-        Serial.println("Hostname: ");
-        Serial.print(WiFi.getHostname());
-        Serial.println("SSID: ");
-        Serial.print(WiFi.SSID());
-        Serial.println("Gateway: ");
-        Serial.print(WiFi.gatewayIP());
-        Serial.println("Subnet: ");
-        Serial.print(WiFi.subnetMask());
-        Serial.println("DNS: ");
-        Serial.print(WiFi.dnsIP());
+        Serial.print("IP address: ");
+        Serial.println(WiFi.localIP());
+        Serial.print("MAC address: ");
+        Serial.println(WiFi.macAddress());
+        Serial.print("Hostname: ");
+        Serial.println(WiFi.getHostname());
+        Serial.print("SSID: ");
+        Serial.println(WiFi.SSID());
+        Serial.print("Gateway: ");
+        Serial.println(WiFi.gatewayIP());
+        Serial.print("Subnet: ");
+        Serial.println(WiFi.subnetMask());
+        Serial.print("DNS: ");
+        Serial.println(WiFi.dnsIP());
     } catch (const std::exception& e){
         Serial.println("Could not connect to WiFi");
         Serial.println(e.what());
