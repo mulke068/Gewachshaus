@@ -5,10 +5,6 @@
                 <div>
                     <div class="flex justify-center text-3xl ">Devices</div>
                     <div class="p-4 text-lg ">
-                        <!--div v-for="esp32 in data.devices.esp32" :key="esp32">
-                            <div>{{ esp32.connected }}</div>
-                            <DashboardOnOff class="flex justify-center p-3" :value="esp32.connected" />
-                        </div-->
                         <div>Display</div>
                         <DashboardOnOff class="flex justify-center p-3" :value="data.devices.esp32[0].connected" />
                         <div>Sensors</div>
@@ -35,45 +31,71 @@
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-start text-3xl">WaterSystem</div>
-                    <div class="flex justify-center p-4 space-x-4 text-lg">
-                        <div>{{ data.waterSystem.sensor_1 }}</div>
-                        <div>{{ data.waterSystem.sensor_2 }}</div>
-                        <div>{{ data.waterSystem.pumpe }}</div>
+                    <div class="justify-start text-3xl ">WaterSystem</div>
+                    <div class="justify-center p-4 space-x-4 text-lg md:flex">
+                        <div class="radial-progress" :style="`--value: ${data.waterSystem.sensor_1}`">{{ data.waterSystem.sensor_1 }}</div>
+                        <div class="radial-progress" :style="`--value: ${data.waterSystem.sensor_2}`">{{ data.waterSystem.sensor_2 }}</div>
+                        <div>
+                            <input type="checkbox" class="toggle" v-model="data.waterSystem.pumpe" />
+                            {{ data.waterSystem.pumpe ? 'ON' : 'OFF' }}
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-start text-3xl">LufterLeds</div>
-                    <div class="flex justify-center p-4 space-x-4 text-lg">
-                        <div>{{ data.lufterLeds.getLufter_1 }}</div>
-                        <div>{{ data.lufterLeds.setLufter_1 }}</div>
-                        <div>{{ data.lufterLeds.getLufter_2 }}</div>
-                        <div>{{ data.lufterLeds.setLufter_2 }}</div>
-                        <div>{{ data.lufterLeds.getLed }}</div>
-                        <div>{{ data.lufterLeds.setLed }}</div>
+                    <div class="justify-start text-3xl ">LufterLeds</div>
+                    <div class="justify-center p-4 space-x-4 text-lg md:flex">
+                        <div>
+                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLufter_1" class="range" />
+                        </div>
+                        <div>
+                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLufter_1" />
+                            {{ data.lufterLeds.setLufter_1 ? 'ON' : 'OFF' }}
+                        </div>
+                        <div>
+                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLufter_2" class="range" />
+                        </div>
+                        <div>
+                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLufter_2" />
+                            {{ data.lufterLeds.setLufter_2 ? 'ON' : 'OFF' }}
+                        </div>
+                        <div>
+                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLed" class="range" />
+                        </div>
+                        <div>
+                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLed" />
+                            {{ data.lufterLeds.setLed ? 'ON' : 'OFF' }}
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-start text-3xl">EnergieStatus</div>
-                    <div class="flex justify-center p-4 space-x-4 text-lg">
-                        <div>{{ data.energieStatus.solar_1 }}</div>
-                        <div>{{ data.energieStatus.solar_2 }}</div>
-                        <div>{{ data.energieStatus.akku }}</div>
-                        <div>{{ data.energieStatus.strom }}</div>
+                    <div class="justify-start text-3xl ">EnergieStatus</div>
+                    <div class="justify-center p-4 space-x-4 text-lg md:flex">
+                        <div>{{ data.energieStatus.solar_1 }}V</div>
+                        <div>{{ data.energieStatus.solar_2 }}V</div>
+                        <div>{{ data.energieStatus.akku }}%</div>
+                        <div>{{ data.energieStatus.strom }}V</div>
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-start text-3xl">Settings</div>
-                    <div class="flex justify-center p-4 space-x-4 text-lg">
-                        <div>{{ data.settings.brightness }}</div>
-                        <div>{{ data.settings.sound }}</div>
+                    <div class="justify-start text-3xl ">Settings</div>
+                    <div class="justify-center p-4 space-x-4 text-lg md:flex">
+                        <div>
+                            <input type="range" min="0" max="100" :value="data.settings.brightness" class="range" />
+                        </div>
+                        <div>
+                            <input type="range" min="0" max="100" :value="data.settings.sound" class="range" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div v-else class="animate-pulse">
-        Loading...
+    <div v-else>
+        <div class="flex items-center justify-center space-x-2">
+	        <div class="w-4 h-4 rounded-full animate-pulse dark:bg-white-600"></div>
+	        <div class="w-4 h-4 rounded-full animate-pulse dark:bg-white-600"></div>
+	        <div class="w-4 h-4 rounded-full animate-pulse dark:bg-white-600"></div>
+        </div>
     </div>
 </template>
 

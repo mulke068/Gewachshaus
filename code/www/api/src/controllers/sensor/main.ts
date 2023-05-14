@@ -51,8 +51,8 @@ async function Get_Main_By_Id(
         }) && console.log("Status 406")
       );
     } else {
-      //const data: any = await Sensor_Data.findById(req.params.id);
-      const data: any = await Sensor_Data.find({ id: req.params.id });
+      const data: any = await Sensor_Data.findById(req.params.id);
+      //const data: any = await Sensor_Data.find({ id: req.params.id });
       if (!data || data.length === 0) {
         return (
           res.status(404).json({

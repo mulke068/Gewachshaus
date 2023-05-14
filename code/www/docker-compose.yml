@@ -27,7 +27,7 @@ services:
       context: ./api
       dockerfile: Dockerfile
     container_name: api_app
-    restart: always
+    restart: unless-stopped # always
     volumes:
       - api_main_container:/api
       - api_nodeModules_container:/api/node_modules
