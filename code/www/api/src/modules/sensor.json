@@ -1,0 +1,79 @@
+[
+  {
+    "sensor": [
+        {
+            "name": "Pin1",
+            "pin": "Pin1",
+            "value": "50",
+            "description": "Used for LED PWM"
+        },
+    ]
+  }
+]
+
+// or
+
+{
+    "sensor": [
+        {
+            "name": "Test-Name 1",
+            "pin": "Test-Pin 1",
+            "value": "50",
+            "description": "Test-Description 1"
+        },
+        {
+            "name": "Test-Name 2",
+            "pin": "Test-Pin 2",
+            "value": "45",
+            "description": "Test-Description 2"
+        },
+        {
+            "name": "Test-Name 3",
+            "pin": "Test-Pin 3",
+            "value": "12",
+            "description": "Test-Description 3"
+        },
+        {
+            "name": "Test-Name 4",
+            "pin": "Test-Pin 4",
+            "value": "10.55",
+            "description": "Test-Description 4"
+        },
+        {
+            "name": "Test-Name 5",
+            "pin": "Test-Pin 5",
+            "value": "41",
+            "description": "Test-Description 5"
+        },
+        {
+            "name": "Test-Name 6",
+            "pin": "Test-Pin 6",
+            "value": "10",
+            "description": "Test-Description 6"
+        },
+        {
+            "name": "Test-Name 7",
+            "pin": "Test-Pin 7",
+            "value": "45",
+            "description": "Test-Description 7"
+        },
+        {
+            "name": "Test-Name 8",
+            "pin": "Test-Pin 8",
+            "value": "true",
+            "description": "Test-Description 8"
+        },
+        {
+            "name": "Test-Name 9",
+            "pin": "Test-Pin 9",
+            "value": "5.548",
+            "description": "Test-Description 9"
+        },
+        {
+            "name": "Test-Name 10",
+            "pin": "Test-Pin 10",
+            "value": "false",
+            "description": "Test-Description 10"
+        }
+    ]
+}
