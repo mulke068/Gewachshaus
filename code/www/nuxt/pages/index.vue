@@ -1,21 +1,22 @@
-import { default } from './dashboard/index.vue';
-<template>
-    <div class="text-3xl text-black">
-        <h1>Home</h1>
-        <h2>Welcome Home</h2>
+import { LazyNuxtLoadingIndicator } from '../.nuxt/components';
 
-    </div>
+<template>
+    <ClientOnly>
+        <Home LazyNuxtLoadingIndicator="true"/>
+    </ClientOnly>
 </template>
 
 <script setup>
+
 definePageMeta({
-    layout: 'default'
+    layout: 'home',
 })
 useHead({
-    title: 'Home',
     meta: [
-        { name: 'description', content: 'Home Page'},
-        { name: 'keywords', content: 'home, page' }
+        { name: 'title', content: 'Home'},
+        { name: 'description', content: 'Dashboard für die Steuerung des Gewachshaus' },
+        { name: 'keywords', content: 'Home , Main' },
+        { property: 'og:site_name', content: 'Home' },
     ]
 })
 </script>
