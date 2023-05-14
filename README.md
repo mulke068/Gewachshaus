@@ -2,16 +2,26 @@
     <div class="heder">
         <div align="center">
             <img src="https://github.com/mulke068/Gewachshaus/blob/c2ff0bcefa5d99ff24013ec02ff239405733d12e/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
-            <h2 align="center">Sponsership BY LPEM©</h2>
         </div>
         <table align="center">
             <tr>
                 <td><img src="https://github.com/mulke068/Gewachshaus/blob/c2ff0bcefa5d99ff24013ec02ff239405733d12e/img/qwa.png" width="70" height="70"/></td>
-                <td><h2 >Created By Kevbchef ©2023</h2></td>
+                <td><h2 >©2023</h2></td>
+                <div align="center">
+                    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/mulke068/Gewachshaus?color=blue&logo=Gewachshaus&logoColor=red">
+                    <img alt="GitHub" src="https://img.shields.io/github/license/mulke068/Gewachshaus">
+                    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mulke068/Gewachshaus">
+                    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/mulke068/Gewachshaus?display_name=tag">
+                </div>
             </tr>
         </table>
     </div>
     <div class="content">
+        <h1>All Docs</h1>
+        <a href="code/www/README.md">www</a>
+        <ul><a href="code/www/nuxt/README.md">Website</a></ul>
+        <ul><a href="code/www/api/README.md">API</a></ul>
+        <a href="code/application/README.md">application</a>
         <h1>Stellungsannahme</h1>
         <h2>Plexiglas</h2>
             <ul>max grösse 600x400 m^2</ul>
