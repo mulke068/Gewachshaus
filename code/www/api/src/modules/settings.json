@@ -1,0 +1,9 @@
+{
+	"settings": [
+		{
+			"name": "setting1",
+			"value": "true",
+			"description": "used for ..."
+		}
+	]
+}
