@@ -1,9 +1,15 @@
+import { NuxtPage, NuxtLink, Settings } from '../../.nuxt/components';
 
 
 <template>
     <div >
         <div class="container">
-            <div class="flex justify-center p-5 text-3xl">Dashboard</div>
+            <div class="flex justify-between ">
+                <h1 class="p-5 text-3xl ">Dashboard</h1>
+                <NuxtLink :to="`dashboard/settings`" >
+                    <button class="btn btn-info">Settings</button>
+                </NuxtLink>
+            </div>
             <NuxtErrorBoundary>
                 <Dashboard />
                 <template #error="{ error }">
