@@ -3,9 +3,11 @@
 #include <Request.h>
 #include <config.h>
 
+#include <SPI.h>
+
 #include "DHT.h"
 
-Wlan wlan;
+Wlan wlan("ESP32_Sensor");
 Request api("http://192.168.178.38:8080/sensor");
 
 // DHT help
@@ -13,8 +15,8 @@ Request api("http://192.168.178.38:8080/sensor");
 // VCC -> 5V
 // GND -> GND
 // DATA -> PIN (27 / 14) -> 10K RESISTOR -> 5V
-#define DHTPIN_1 27     // Digital pin connected to the DHT sensor
-#define DHTPIN_2 14     // Digital pin connected to the DHT sensor
+#define DHTPIN_1 32     // Digital pin connected to the DHT sensor
+#define DHTPIN_2 33     // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 DHT dht_1(DHTPIN_1, DHTTYPE);
 DHT dht_2(DHTPIN_2, DHTTYPE);
@@ -23,11 +25,11 @@ DHT dht_2(DHTPIN_2, DHTTYPE);
 // https://media.digikey.com/pdf/data%20sheets/dfrobot%20pdfs/sen0193_web.pdf
 // VCC -> 5V
 // GND -> GND
-// DATA -> Pin 23
+// DATA -> Pin 23 / 
 // 2006.0 = 100%
 // 4095.0 = 0%
-const int soilMoisturePin_1 = 32;
-const int soilMoisturePin_2 = 33;
+const int soilMoisturePin_1 = 25;
+const int soilMoisturePin_2 = 26;
 
 void setup() {
   Serial.begin(115200);
@@ -69,12 +71,7 @@ void loop() {
   api.set("Test", "Pin Last", "false", "Testing", true);
   api.setTest();
   int res_code = api.post();
-  Serial.println("Response: " + String(res_code));
-  Serial.println("--------------------");
-
-  Serial.println("--------------------");
-  api.get();
-
+  Serial.println("Response Code: " + String(res_code));
   Serial.println("--------------------");
   api.end();
   delay(2000);

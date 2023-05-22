@@ -1,6 +1,7 @@
 #include <Wlan.h>
 
-Wlan::Wlan() {
+Wlan::Wlan(string Hostname) {
+    _Hostname = Hostname;
 }
 
 Wlan::~Wlan() {
@@ -11,7 +12,7 @@ void Wlan::connect() {
     try {
         disconnect();
         WiFi.mode(WIFI_STA);
-        WiFi.setHostname(WIFI_HOSTNAME);
+        WiFi.setHostname(_Hostname);
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
         Serial.print("Connecting to WiFi ");
