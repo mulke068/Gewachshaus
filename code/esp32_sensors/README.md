@@ -32,22 +32,26 @@ pwm -> ?
 | humanity_1        | float     | Cell                |
 | temperature_2     | float     | Cell                |
 | humanity_2        | float     | Cell                |
-| soilMoisture_1    | float     | Bodenfeuchtigkeit   |
-| soilMoisture_2    | float     | Cell                |
+| soilMoisture_1    | float     | Bodenfeuchtigkeit 1 |
+| soilMoisture_2    | float     | Bodenfeuchtigkeit 2 |
 | statusPumpe       | boolean   | Status der Pumpe    |
 | statusLufter_1    | boolean   | Status der Lüfter 1 |
 | statusLufter_2    | boolean   | Status der Lüfter 2 |
-| statusRgbled      | boolean   | Status der RGB LED  |
+| statusLight       | boolean   | Status of Light     |
+| getRgbled         | string    | Status der RGB LED  |
 
 ## Settings
 
 | Name              | Values    | Description                                           |
 |-------------------|-----------|-------------------------------------------------------|
+| temperature_Min   | int       | Min - value for map                                   |
+| temperature_Max   | int       | Max - Value for map                                   |
 | soilMoisture_Min  | int       | Min - Value for map                                   |
 | soilMoisture_Max  | int       | Max - Value for map                                   |
-| bewasserung_Min   | int       | ab vie viel prozent bodenfeuctigkeit es muss haben    |
 | ledMatrix         | string    | Text anzeige für led matrix                           |
 | setLufter_1       | boolean   | lufter 1 an oder aus                                  |
 | setLufter_2       | boolean   | lufter 2 an oder aus                                  |
 | setPumpe          | boolean   | pumpe an oder aus                                     |
+| setLight          | boolean   | set Light on or off                                   |
 | setRgbled         | string    | rgb led farbe                                         |
+
