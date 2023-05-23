@@ -4,8 +4,8 @@
 
 ## Libraries
 
-- [Wlan](/lib/Wlan/README.md)
-- [Request](/lib/Request/README.md)
+- [Wlan](lib/Wlan/README.md)
+- [Request](lib/Request/README.md)
 
 
 ## PINS - Layout - ESP32_Sensor
