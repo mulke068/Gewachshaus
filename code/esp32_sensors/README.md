@@ -20,6 +20,8 @@
 |  05  | LedMatrix      | CS    |
 |  18  | LedMatrix      | CLK   |
 |  17  | Buzzer         | VCC   |
+2x lüfter
+pwm -> ?
 
 
 ## Data Structure
@@ -33,6 +35,9 @@
 | soilMoisture_1    | float     | Bodenfeuchtigkeit         |
 | soilMoisture_2    | float     | Cell          |
 | pumpe_status      | boolean   | Status der Pumpe           |
+| lufter_status_1   | boolean   | Status der Lüfter 1         |
+| lufter_status_2   | boolean   | Status der Lüfter 2         |
+| rgbLed_status    | boolean   | Status der RGB LED          |
 
 ## Settings
 

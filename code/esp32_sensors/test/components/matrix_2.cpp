@@ -8,7 +8,7 @@
 // https://lastminuteengineers.com/max7219-dot-matrix-arduino-tutorial/
 // VCC  ->  5V
 // GND  ->  GND
-// DIN  ->  Pin 23
+// DIN  ->  Pin 23 / 19
 // CS   ->  Pin 5
 // CLK  ->  Pin 18
 
