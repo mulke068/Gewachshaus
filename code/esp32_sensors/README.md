@@ -37,7 +37,7 @@ pwm -> ?
 | statusPumpe       | boolean   | Status der Pumpe    |
 | statusLufter_1    | boolean   | Status der Lüfter 1 |
 | statusLufter_2    | boolean   | Status der Lüfter 2 |
-| statusRgbLed      | boolean   | Status der RGB LED  |
+| statusRgbled      | boolean   | Status der RGB LED  |
 
 ## Settings
 
@@ -47,7 +47,7 @@ pwm -> ?
 | soilMoisture_Max  | int       | Max - Value for map                                   |
 | bewasserung_Min   | int       | ab vie viel prozent bodenfeuctigkeit es muss haben    |
 | ledMatrix         | string    | Text anzeige für led matrix                           |
-| lufterSet_1       | boolean   | lufter 1 an oder aus                                  |
-| lufterSet_2       | boolean   | lufter 2 an oder aus                                  |
-| pumpeSet          | boolean   | pumpe an oder aus                                     |
-| rgbLed            | string    | rgb led farbe                                         |
+| setLufter_1       | boolean   | lufter 1 an oder aus                                  |
+| setLufter_2       | boolean   | lufter 2 an oder aus                                  |
+| setPumpe          | boolean   | pumpe an oder aus                                     |
+| setRgbled         | string    | rgb led farbe                                         |
