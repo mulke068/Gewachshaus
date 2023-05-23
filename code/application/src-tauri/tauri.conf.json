@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Gewachshaus Application",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "tauri": {
     "systemTray": {
@@ -95,27 +95,43 @@
     },
     "windows": [
       {
-        "url": "http://192.168.178.38:80",
-        "fullscreen": false,
-        "resizable": true,
         "title": "Gewachshaus Application",
-        "minWidth": 1300,
-        "minHeight": 970,
-        "maxWidth": 1920,
-        "maxHeight": 1080,
-        "center": true,
-        "transparent": false,
+        "url": "https://www.kevbchef.com",
+        "fullscreen": false, 
+        "visible": false,
         "decorations": true,
-        "visible": false
+        "resizable": true,
+        "transparent": false,
+        "center": true,
+        "minWidth": 410,
+        "minHeight": 560,
+        "width": 980,
+        "height": 580,
+        "maxWidth": 1920,
+        "maxHeight": 1080
       },
       {
         "url": "index.html",
         "label": "loadingscreen",
         "decorations": false,
-        "width": 400,
-        "height": 200,
+        "center": true,
         "resizable": false,
-        "center": true
+        "width": 420,
+        "height": 480
+      },
+      {
+        "title": "Gewachshaus Localhost",
+        "url": "http://localhost:80",
+        "label": "local",
+        "visible": false,
+        "decorations": true
+      },
+      {
+        "title": "Gewachshaus Online",
+        "url": "https://www.kevbchef.com",
+        "label": "online",
+        "visible": false,
+        "decorations": true
       }
     ]
   }

@@ -2,12 +2,14 @@ version: "3.9"
 services:
   mongodb:
     image: mongo:6.0.5
-    #image: mongo:5.0.0
+    #image:mongo:4.4.9 # raspberrypi
+    #image: mongo:5.0.0 # backup image
     container_name: mongo_db
-    restart: unless-stopped
+    restart: unless-stopped # always
     volumes:
-      - ./mongodb/data:/data/db
-      - ./mongodb/configdb:/data/configdb
+      # - ./mongodb/data:/data/db
+      - mongodb_data_container:/data/db
+      - mongodb_config_container:/data/configdb
     ports:
       - "27017:27017"
     expose:
@@ -25,10 +27,10 @@ services:
       context: ./api
       dockerfile: Dockerfile
     container_name: api_app
-    restart: always
+    restart: unless-stopped # always
     volumes:
-      - ./api:/api
-      - api_node_modules_container:/api/node_modules
+      - api_main_container:/api
+      - api_nodeModules_container:/api/node_modules
     ports:
       - "8080:8080"
     expose:
@@ -47,10 +49,11 @@ services:
       context: ./nuxt
       dockerfile: Dockerfile
     container_name: nuxt_app
-    restart: unless-stopped
+    restart: unless-stopped # always
     volumes:
-      - ./nuxt:/nuxt
-      - nuxt_node_modules_container:/nuxt/node_modules
+      #- ./nuxt:/nuxt
+      - nuxt_main_container:/nuxt
+      - nuxt_nodeModules_container:/nuxt/node_modules
     ports:
       - "80:3000"
     expose:
@@ -65,9 +68,12 @@ services:
       - ./Docker/nuxt.env
     command: node ./.output/server/index.mjs
 volumes:
-  #mongodb_data_container:
-  api_node_modules_container:
-  nuxt_node_modules_container:
+  mongodb_data_container:
+  mongodb_config_container:
+  api_main_container:
+  api_nodeModules_container:
+  nuxt_main_container:
+  nuxt_nodeModules_container:
 networks:
   default:
     driver: bridge
