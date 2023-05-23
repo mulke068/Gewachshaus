@@ -2,7 +2,14 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 
-use tauri::{Manager, Menu /* ,CustomMenuItem , MenuItem , Submenu*/};
+use tauri::{
+    Manager, 
+    Menu ,
+    CustomMenuItem , 
+    SystemTrayMenu, 
+    SystemTray, 
+    SystemTrayEvent, 
+    AppHandle};
 /*
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -24,7 +31,16 @@ fn main() {
 
 fn main() {
     let menu = Menu::new();
+    
+    let tray_menu = SystemTrayMenu::new()
+        .add_item(CustomMenuItem::new("local", "local"))
+        .add_item(CustomMenuItem::new("online", "online"));
+    
+    let tray = SystemTray::new().with_menu(tray_menu);
+
     tauri::Builder::default()
+        .system_tray(tray)
+        .on_system_tray_event(on_system_tray_event)
         .setup(|app| {
             let loadingscreen_window = app.get_window("loadingscreen").unwrap();
             let main_window = app.get_window("main").unwrap();
@@ -49,4 +65,42 @@ fn main() {
         })
         .run(tauri::generate_context!())
         .expect("Error while running the application");
+}
+
+fn on_system_tray_event(
+    app: &AppHandle,
+    event: SystemTrayEvent,
+) {
+    match event {
+        SystemTrayEvent::MenuItemClick { id, .. } => {
+            let id_handle = app.tray_handle().get_item(&id);
+            dbg!(&id);
+            match id.as_str() {
+                "local" => {
+                    let local_window = app.get_window("local").unwrap();
+                    let online_window = app.get_window("online").unwrap();
+                    if local_window.is_visible().unwrap() {
+                        local_window.hide().unwrap();
+                    } else {
+                        online_window.hide().unwrap();
+                        local_window.show().unwrap();
+                    };
+                    id_handle.set_title("local").unwrap();
+                },
+                "online" => {
+                    let local_window = app.get_window("local").unwrap();
+                    let online_window = app.get_window("online").unwrap();
+                    if online_window.is_visible().unwrap() {
+                        online_window.hide().unwrap();
+                    } else {
+                        local_window.hide().unwrap();
+                        online_window.show().unwrap();
+                    };
+                    id_handle.set_title("online").unwrap();
+                }
+                _ => {}
+            }
+        } 
+        _ => {}
+    }
 }
