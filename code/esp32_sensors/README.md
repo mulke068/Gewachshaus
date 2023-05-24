@@ -1,12 +1,9 @@
-
 # ESP32 - Sensor
-
 
 ## Libraries
 
 - [Wlan](lib/Wlan/README.md)
 - [Request](lib/Request/README.md)
-
 
 ## PINS - Layout - ESP32_Sensor
 
@@ -20,8 +17,8 @@
 |  05  | LedMatrix      | CS    |
 |  18  | LedMatrix      | CLK   |
 |  17  | Buzzer         | VCC   |
-2x lüfter
-pwm -> ?
+2x lüfter with pwm?
+1x rgbled
 
 
 ## Data Structure
@@ -38,7 +35,7 @@ pwm -> ?
 | statusLufter_1    | boolean   | Status der Lüfter 1 |
 | statusLufter_2    | boolean   | Status der Lüfter 2 |
 | statusLight       | boolean   | Status of Light     |
-| getRgbled         | string    | Status der RGB LED  |
+| getRgbLed         | string    | Status der RGB LED  |
 
 ## Settings
 
@@ -48,10 +45,9 @@ pwm -> ?
 | temperature_Max   | int       | Max - Value for map                                   |
 | soilMoisture_Min  | int       | Min - Value for map                                   |
 | soilMoisture_Max  | int       | Max - Value for map                                   |
-| ledMatrix         | string    | Text anzeige für led matrix                           |
 | setLufter_1       | boolean   | lufter 1 an oder aus                                  |
 | setLufter_2       | boolean   | lufter 2 an oder aus                                  |
 | setPumpe          | boolean   | pumpe an oder aus                                     |
 | setLight          | boolean   | set Light on or off                                   |
-| setRgbled         | string    | rgb led farbe                                         |
-
+| setRgbLed         | string    | rgb led farbe                                         |
+| setMatrixLed      | string    | Text anzeige für led matrix                           |
