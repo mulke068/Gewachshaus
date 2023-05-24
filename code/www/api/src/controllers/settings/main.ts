@@ -13,7 +13,7 @@ async function Get(req: Request, res: Response, next: NextFunction) {
 	get_settings_number++;
 	console.log("GET '/settings' Nr." + String(get_settings_number));
 	try {
-		const data: any = await Settings_Data.find()
+		const data: any = await Settings_Data.findOne()
 			.sort({
 				timestamp: -1
 			})
