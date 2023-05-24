@@ -17,4 +17,8 @@ function createForm() {
     console.warn('Form created');
     console.warn(fromData.value.name);
 }
+
+function update() {
+    const data = fetch
+}
 </script>
