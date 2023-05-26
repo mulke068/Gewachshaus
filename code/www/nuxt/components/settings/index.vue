@@ -2,65 +2,69 @@
 <div>
     <form @submit.prevent="createForm">
         <div class="grid grid-cols-1 md:grid-cols-2">
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Temperature Minimum</span>
-                    </label>
-                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.temperature_Min" />
+            <div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Temperature Minimum</span>
+                        </label>
+                        <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.temperature_Min" />
+                </div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Temperature Durchschnitt</span>
+                        </label>
+                        <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" :min="formData.temperature_Min" :max="formData.temperature_Max" v-model="formData.temperature_Avg" />
+                </div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Temperature Maximum</span>
+                        </label>
+                        <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.temperature_Max" />
+                </div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Bodenfeuchtigkeit Minimum</span>
+                        </label>
+                        <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.soilMoisture_Min" />
+                </div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Bodenfeuchtigkeit Maximum</span>
+                        </label>
+                        <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.soilMoisture_Max" />
+                </div>
             </div>
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Temperature Durchschnitt</span>
-                    </label>
-                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.temperature_Avg" />
+            <div>
+                <div class="form-control">
+                    <label for="setLufter_1" class="py-3">Lüfter 1 AN/AUS</label>
+                    <input type="checkbox" name="setLufter_1" class="toggle" v-model="formData.setLufter_1" />
+                </div>
+                <div class="form-control">
+                    <label for="setLufter_1" class="py-3">Lüfter 2 AN/AUS</label>
+                    <input type="checkbox" name="setLufter_2" class="toggle" v-model="formData.setLufter_2" />
+                </div>
+                <div class="form-control">
+                    <label for="setLufter_1" class="py-3">Pumpe AN/AUS</label>
+                    <input type="checkbox" name="setPumpe" class="toggle" v-model="formData.setPumpe" />
+                </div>
+                <div class="form-control">
+                    <label for="setLufter_1" class="py-3">Licht AN/AUS</label>
+                    <input type="checkbox" name="setLight" class="toggle" v-model="formData.setLight" />
+                </div>
+                <div class="form-control w-max ">
+                    <label for="setRgbLed" class="py-3">Licht Farbe auswählen</label>
+                    <input class="flex min-w-fit" type="color" name="setRgbLed" v-model="formData.setRgbLed" />
+                </div>
+                <div class="w-full max-w-xs form-control">
+                        <label class="label">
+                            <span class="label-text">Matrix Led Text einfügen</span>
+                        </label>
+                        <input type="text" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.setMatrixLed" />
+                </div>
             </div>
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Temperature Maximum</span>
-                    </label>
-                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.temperature_Max" />
-            </div>
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Bodenfeuchtigkeit Minimum</span>
-                    </label>
-                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.soilMoisture_Min" />
-            </div>
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Bodenfeuchtigkeit Maximum</span>
-                    </label>
-                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.soilMoisture_Max" />
-            </div>
-            <div class="form-control">
-                <label for="setLufter_1" class="py-3">Lüfter 1 AN/AUS</label>
-                <input type="checkbox" name="setLufter_1" class="toggle" v-model="formData.setLufter_1" />
-            </div>
-            <div class="form-control">
-                <label for="setLufter_1" class="py-3">Lüfter 2 AN/AUS</label>
-                <input type="checkbox" name="setLufter_2" class="toggle" v-model="formData.setLufter_2" />
-            </div>
-            <div class="form-control">
-                <label for="setLufter_1" class="py-3">Pumpe AN/AUS</label>
-                <input type="checkbox" name="setPumpe" class="toggle" v-model="formData.setPumpe" />
-            </div>
-            <div class="form-control">
-                <label for="setLufter_1" class="py-3">Licht AN/AUS</label>
-                <input type="checkbox" name="setLight" class="toggle" v-model="formData.setLight" />
-            </div>
-            <div class="form-control w-max ">
-                <label for="setRgbLed" class="py-3">Licht Farbe auswählen</label>
-                <input class="flex min-w-fit" type="color" name="setRgbLed" v-model="formData.setRgbLed" />
-            </div>
-            <div class="w-full max-w-xs form-control">
-                    <label class="label">
-                        <span class="label-text">Matrix Led Text einfügen</span>
-                    </label>
-                    <input type="text" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.setMatrixLed" />
-            </div>
-            <div class="flex items-center justify-center py-3">
-                <button type="submit" class="btn btn-outline">Submit</button>
-            </div>
+        </div>
+        <div class="flex items-center justify-center py-3 md:justify-end">
+            <button type="submit" class="btn btn-outline">Submit</button>
         </div>
     </form>
 </div>
@@ -115,25 +119,23 @@ let formData = ref({
 async function get() {
     const {data: settings_data, refresh} = await useFetch(`${runtimeConfig.api_host}/settings`);
     settings_values = settings_data.value;
-    // settings_values.setRgbLed = RGBToHex(settings_values.setRgbLed);
 }
 
 async function createForm() {
-    console.warn('Form created');
     formData.value.setRgbLed = hexToRGB(formData.value.setRgbLed);
     await update(formData.value);
     await get();
+    formData.value.setRgbLed = RGBToHex(settings_values.setRgbLed);
 }
 
 async function update(data: any) {
-    const res = await $fetch(`${runtimeConfig.api_host}/settings/9`, {
+    const res = await $fetch(`${runtimeConfig.api_host}/settings`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     });
-    console.warn(res);
 }
 
 </script>
