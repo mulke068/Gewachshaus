@@ -45,3 +45,13 @@ The config file is used to set the WLAN network credentials. The config file is 
     ```cpp
     object.disconnect();
     ```
+
+### reconnect
+
+- **Description:** This method is used to reconnect to a WLAN network.
+- **Parameters:** None
+- **Returns:** None
+- **Example:**
+    ```cpp
+    object.reconnect();
+    ```

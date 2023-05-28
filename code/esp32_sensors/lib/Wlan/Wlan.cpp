@@ -9,7 +9,6 @@ Wlan::~Wlan() {
 
 void Wlan::connect() {
     try {
-        disconnect();
         WiFi.mode(WIFI_STA);
         WiFi.setHostname(WIFI_HOSTNAME);
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
@@ -45,6 +44,15 @@ void Wlan::disconnect() {
     try {
         WiFi.disconnect();
         Serial.println("WiFi disconnected");
+    } catch (const std::exception& e) {
+        Serial.println(e.what());
+    }
+}
+
+void Wlan::reconnect() {
+    try {
+        disconnect();
+        connect();
     } catch (const std::exception& e) {
         Serial.println(e.what());
     }

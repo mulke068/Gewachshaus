@@ -10,6 +10,7 @@ class Wlan {
         ~Wlan();
         void connect();
         void disconnect();
+        void reconnect();
 };
 
 #endif
