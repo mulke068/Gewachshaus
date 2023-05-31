@@ -49,10 +49,10 @@ void loop(void) {
   }
 
   Serial.println("--------------------");
-  settings.get();
+  settings.start();
   settings.getTest();
   Serial.println("--------------------");
-  sensor.get();
+  sensor.start();
   sensor.getTest();
   Serial.println("--------------------");
 

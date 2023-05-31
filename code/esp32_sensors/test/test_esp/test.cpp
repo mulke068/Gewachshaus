@@ -9,23 +9,22 @@ Wlan wlan;
 Request settings("http://192.168.178.38:3030", apiSettings);
 Request sensor("http://192.168.178.38:3030", apiSensor);
 
-void setup() {
-  //Initialize serial and wait for port to open:
+void setup()
+{
   Serial.begin(115200);
+
   wlan.connect();
 }
 
-void loop() {
+void loop()
+{
   Serial.println("loop");
-  Serial.println("Request-Code: " + String(settings.get()));
+  Serial.println("Request-Code: " + String(settings.start()));
   settings.getTest();
+  // Serial.println("GET temperature_Min: " + String(settings.use.temperature_Min_GET()));
+  // Serial.println("SET temperature_Avg: " + String(settings.use.temperature_Min_SET(20)));
+  Serial.println(String(settings.get.temperature_Min()));
+  Serial.println(String(settings.set.temperature_1(30.2)));
   settings.end();
-  Serial.println("Request-Code: " + String(sensor.get()));
-  sensor.getTest();
-
-  
-
-
-  sensor.end();
   delay(5000);
 }

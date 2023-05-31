@@ -3,8 +3,12 @@ SettingsData KEYWORD1
 SensorData KEYWORD1
 get KEYWORD2
 post KEYWORD2
-use KEYWORD2
 set KEYWORD2
 end KEYWORD2
 setTest KEYWORD2
 getTest KEYWORD2
+use KEYWORD2
+temperature_Min KEYWORD3
+temperature_Avg KEYWORD3
+temperature_Max KEYWORD3
+
