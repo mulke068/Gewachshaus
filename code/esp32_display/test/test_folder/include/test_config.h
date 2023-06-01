@@ -45,7 +45,7 @@ char output[768];
 #define BOX_COLOR 0x9CD3
 
 // ----- API & W-Lan
-
+/*
 // Set your Static IP address
 IPAddress ipv4(192, 168, 178, 55);
 // Set your Gateway IP address
@@ -60,6 +60,7 @@ const String hostname = "Display-ESP32";
 const char* ssid = "FRITZ!Box 7490";
 const char* password = "05767844606687810343";
 const String api_url = "http://192.168.178.38:8080/display";
+*/
 
 /*
 PROGMEM const static char* root_ca = \

@@ -1,6 +1,6 @@
 const char* WIFI_SSID     = "FRITZ!Box 7490";     // your network SSID (name of wifi network)
 const char* WIFI_PASSWORD = "05767844606687810343"; // your network password
-// const char* WIFI_HOSTNAME = "ESP32_Sensor"; // your hostname (will be visible in router)
+const char* WIFI_HOSTNAME = "ESP32_Sensor"; // your hostname (will be visible in router)
 const IPAddress WIFI_IP(192,168,178,56);
 const IPAddress WIFI_GATEWAY(192,168,178,1);
 const IPAddress WIFI_SUBNET(255,255,255,0);

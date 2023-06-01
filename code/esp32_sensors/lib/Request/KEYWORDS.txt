@@ -1,13 +1,39 @@
 Request KEYWORD1
+SettingsData KEYWORD1
 SensorData KEYWORD1
+
 get KEYWORD2
-use KEYWORD2
-post KEYWORD2
 set KEYWORD2
-setTest KEYWORD2
+post KEYWORD2
+start KEYWORD2
 end KEYWORD2
-id KEYWORD2
-name KEYWORD2
-pin KEYWORD2
-value KEYWORD2
-description KEYWORD2
+
+setTest KEYWORD2
+getTest KEYWORD2
+
+temperature_Min KEYWORD3
+temperature_Avg KEYWORD3
+temperature_Max KEYWORD3
+soilMoisture_Min KEYWORD3
+soilMoisture_Max KEYWORD3
+setLufter_1 KEYWORD3
+setLufter_2 KEYWORD3
+setPumpe KEYWORD3
+setLight KEYWORD3
+setRgbLed KEYWORD3
+setMatrixLed KEYWORD3
+
+temperature_1 KEYWORD3
+humidity_1 KEYWORD3
+temperature_2 KEYWORD3
+humidity_2 KEYWORD3
+soilMoisture_1 KEYWORD3
+soilMoisture_2 KEYWORD3
+statusPumpe KEYWORD3
+statusLufter_1 KEYWORD3
+statusLufter_2 KEYWORD3
+statusLight KEYWORD3
+getRgbLed KEYWORD3
+
+
+

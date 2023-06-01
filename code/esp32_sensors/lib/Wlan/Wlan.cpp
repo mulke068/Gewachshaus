@@ -1,7 +1,6 @@
 #include <Wlan.h>
 
-Wlan::Wlan(string Hostname) {
-    _Hostname = Hostname;
+Wlan::Wlan() {
 }
 
 Wlan::~Wlan() {
@@ -10,9 +9,8 @@ Wlan::~Wlan() {
 
 void Wlan::connect() {
     try {
-        disconnect();
         WiFi.mode(WIFI_STA);
-        WiFi.setHostname(_Hostname);
+        WiFi.setHostname(WIFI_HOSTNAME);
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
         Serial.print("Connecting to WiFi ");
@@ -46,6 +44,15 @@ void Wlan::disconnect() {
     try {
         WiFi.disconnect();
         Serial.println("WiFi disconnected");
+    } catch (const std::exception& e) {
+        Serial.println(e.what());
+    }
+}
+
+void Wlan::reconnect() {
+    try {
+        disconnect();
+        connect();
     } catch (const std::exception& e) {
         Serial.println(e.what());
     }

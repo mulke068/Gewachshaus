@@ -1,12 +1,9 @@
-
 # ESP32 - Sensor
 
+# Libraries
 
-## Libraries
-
-- [Wlan](/lib/Wlan/README.md)
-- [Request](/lib/Request/README.md)
-
+- [Wlan](lib/Wlan/README.md)
+- [Request](lib/Request/README.md)
 
 ## PINS - Layout - ESP32_Sensor
 
@@ -20,34 +17,74 @@
 |  05  | LedMatrix      | CS    |
 |  18  | LedMatrix      | CLK   |
 |  17  | Buzzer         | VCC   |
-2x lüfter
-pwm -> ?
-
+2x lüfter with pwm?
+1x rgbled
 
 ## Data Structure
 
-| Sensors           | Values    | Description   |
-|-------------------|-----------|---------------|
-| temperature_1     | float     | DHT 1          |
-| humanity_1        | float     | Cell          |
-| temperature_2     | float     | Cell          |
-| humanity_2        | float     | Cell          |
-| soilMoisture_1    | float     | Bodenfeuchtigkeit         |
-| soilMoisture_2    | float     | Cell          |
-| pumpe_status      | boolean   | Status der Pumpe           |
-| lufter_status_1   | boolean   | Status der Lüfter 1         |
-| lufter_status_2   | boolean   | Status der Lüfter 2         |
-| rgbLed_status    | boolean   | Status der RGB LED          |
+| Sensors           | Values    | Description         |
+|-------------------|-----------|---------------------|
+| temperature_1     | float     | DHT 1               |
+| humanity_1        | float     | Cell                |
+| temperature_2     | float     | Cell                |
+| humanity_2        | float     | Cell                |
+| soilMoisture_1    | float     | Bodenfeuchtigkeit 1 |
+| soilMoisture_2    | float     | Bodenfeuchtigkeit 2 |
+| statusPumpe       | boolean   | Status der Pumpe    |
+| statusLufter_1    | boolean   | Status der Lüfter 1 |
+| statusLufter_2    | boolean   | Status der Lüfter 2 |
+| statusLight       | boolean   | Status of Light     |
+| getRgbLed         | string    | Status der RGB LED  |
 
 ## Settings
 
-| Name              | Values    | Description   |
-|-------------------|-----------|---------------|
-| soilMoisture_Min  | int       | Min - Value for map          |
-| soilMoisture_Max  | int       | Max - Value for map          |
-| bewasserung_Min   | int       | ab vie viel prozent bodenfeuctigkeit es muss haben   |
-| ledMatrix         | string    | Text anzeige für led matrix      |
-| lufterSet_1       | boolean   | lufter 1 an oder aus      |
-| lufterSet_2       | boolean   | lufter 2 an oder aus      |
-| pumpeSet          | boolean   | pumpe an oder aus      |
-| rgbLed            | string    | rgb led farbe      |
+| Name              | Values    | Description                                           |
+|-------------------|-----------|-------------------------------------------------------|
+| temperature_Min   | int       | Min - value for map                                   |
+| temperature_Max   | int       | Max - Value for map                                   |
+| soilMoisture_Min  | int       | Min - Value for map                                   |
+| soilMoisture_Max  | int       | Max - Value for map                                   |
+| setLufter_1       | boolean   | lufter 1 an oder aus                                  |
+| setLufter_2       | boolean   | lufter 2 an oder aus                                  |
+| setPumpe          | boolean   | pumpe an oder aus                                     |
+| setLight          | boolean   | set Light on or off                                   |
+| setRgbLed         | string    | rgb led farbe                                         |
+| setMatrixLed      | string    | Text anzeige für led matrix                           |
+
+# Dependencies
+
+- [PlatformIO Core](https://docs.platformio.org/en/latest/installation.html)
+- [PlatformIO IDE](https://platformio.org/install/ide?install=vscode) (optional)
+
+- [ArduinoJson](https://arduinojson.org/)
+- [DHT sensor library](https://github.com/adafruit/DHT-sensor-library)
+- [Adafruit Unified Sensor](https://github.com/adafruit/Adafruit_Sensor)
+
+# Usage
+
+## Run build
+
+```bash
+pio run
+```
+
+## Upload firmware
+
+```bash
+pio run --target upload
+```
+
+## Run tests
+
+```bash
+pio test -e native
+```
+
+## Run tests with coverage and HTML report
+
+```bash
+pio test -e native --coverage --coverage-html
+```
+
+# Use Github Actions
+<https://piolabs.com/blog/insights/unit-testing-part-3.html>

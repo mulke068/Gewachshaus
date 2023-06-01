@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://192.168.178.38:3030"), // default: http://localhost:8080
+      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:3030"), // default: http://localhost:8080
     }
   },
   // ...
@@ -54,6 +54,7 @@ export default defineNuxtConfig({
         { property: "og:type", content: "website"},
         { property: "og:url", content: "https://www.kevbchef.com"},
         { property: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
+        { property: "og:image:type", content: "image/png"},
         { property: 'og:image:width', content: '1024'},
         { property: 'og:image:height', content: '1024'},
         { property: "og:locale", content: "de_DE"},
@@ -80,6 +81,7 @@ export default defineNuxtConfig({
         { name: "twitter:domain", content: "kevbchef.com"},
         { name: "twitter:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
         { name: "twitter:image:src", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
+        { name: "twitter:image:type", content: "image/png"},
         { name: 'twitter:image:width', content: '1024'},
         { name: 'twitter:image:height', content: '1024'},
         { name: "twitter:image:alt", content: "Gewachshaus Logo"},

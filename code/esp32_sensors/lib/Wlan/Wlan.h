@@ -6,12 +6,11 @@
 
 class Wlan {
     public:
-        Wlan(string Hostname);
+        Wlan();
         ~Wlan();
         void connect();
         void disconnect();
-    private:
-        string _Hostname;
+        void reconnect();
 };
 
 #endif

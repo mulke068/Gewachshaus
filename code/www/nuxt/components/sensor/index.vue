@@ -34,7 +34,11 @@
 export default {
     data() {
         return {
-            data: [],
+            data: {
+                timestamp: 0,
+                id: 0,
+                _id: 0
+            },
             reload: () => this.refresh(),
             error: []
         }
@@ -44,9 +48,12 @@ export default {
     },
     mounted() {
         this.refresh()
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.refresh()
         }, 5000)
+    },
+    beforeUnmount() {
+        clearInterval(this.intervalId);
     },
     methods: {
         async refresh() {

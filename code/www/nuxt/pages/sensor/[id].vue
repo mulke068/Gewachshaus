@@ -13,27 +13,12 @@ import { NuxtLink } from '../../.nuxt/components';
             <div>Unique ID: {{ sensor_value._id }}</div>
             <div>version: {{ sensor_value.__v }}</div>
         </div>
-        <div v-for="sensor in sensor_data" :key="sensor._id" >
+        
+        <div v-for="[key,value] of Object.entries(sensor_value)" :key="value.id">
             <div class="grid items-center justify-center w-auto h-auto gap-4 rounded-lg grid-row-4 bg-minsk-900">
-                <div class="flex h-10 space-x-8">
-                    <div class="m-2 ">ID</div>
-                    <div class="m-2">{{ sensor.name }}</div>
-                </div>
-                <div class="flex h-10 space-x-8">
-                    <div class="m-2">Pin</div>
-                    <div class="m-2">{{ sensor.pin }}</div>
-                </div>
-                <div class="flex h-10 space-x-8">
-                    <div class="m-2">Value</div>
-                    <div class="m-2">{{ sensor.value }}</div>
-                </div>
                 <div class="flex h-min[10] h-max[auto] space-x-8">
-                    <div class="m-2">Description</div>
-                    <div class="m-2">{{ sensor.description }}</div>
-                </div>
-                <div class="flex h-10 space-x-8">
-                    <div class="m-2">ID</div>
-                    <div class="m-2">{{ sensor._id }}</div>
+                    <div class="m-2">{{ key }}</div>
+                    <div class="m-2">{{ value }}</div>
                 </div>
             </div>
         </div>
@@ -44,8 +29,7 @@ import { NuxtLink } from '../../.nuxt/components';
 const runtimeConfig = useRuntimeConfig() 
 const { id } = useRoute().params
 const { data, refresh } = await useFetch(`${runtimeConfig.api_host}/sensor/id/${id}`, { key: `${id}` })
-const sensor_data = data.value.sensor
-const sensor_value = data.value
+const sensor_value: any = data.value
 </script>
 
 <style scoped>

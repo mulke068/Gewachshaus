@@ -13,226 +13,63 @@
 #include <FS.h>
 #include <TFT_eSPI.h>
 
-// WiFi Extension
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
+#include <Wlan.h>
+#include <Request.h>
 
 #include "config.h"
 #include "json.h"
 #include "ui.h"
 #include "icons.h"
 
+#define _SETTINGS_ DEF_SETTINGS
+#define _SENSOR_ DEF_SENSOR
+String api_url = "http://192.168.178.38:3030";
+
+Wlan wlan;
+Request settings(api_url, _SETTINGS_);
+Request sensor(api_url, _SENSOR_);
 // ================================================= HTTP Start ================================================================
 
-void initWiFi(){
-  WiFi.disconnect();
-  WiFi.mode(WIFI_STA);
-  WiFi.config(ipv4, gateway, subnet, DNS1, DNS2);
-  WiFi.setHostname(hostname.c_str());
-  WiFi.begin(ssid, password)
-  int waitWifi = 0;
-  Serial.println("--------------------------------");
-  Serial.print("Connecting to WiFi ");
-  while ((WiFi.status() != WL_CONNECTED)){
-    if(waitWifi > 10) {
-      Serial.println(" ");
-      Serial.println("Error WiFi not connected");
-      Serial.println("--------------------------------");
-      return;
-    } else {
-      Serial.print(".");
-      waitWifi++;
-      sleep(min_delay);
-    }
-  }
-  Serial.println(" ");
-  Serial.print("Host IP : "); Serial.println(WiFi.localIP());
-  Serial.print("SSID    : "); Serial.println(WiFi.SSID());
-  Serial.print("Hostname: "); Serial.println(WiFi.getHostname());
-  Serial.print("Subnet  : "); Serial.println(WiFi.subnetMask());
-  Serial.print("Gateway : "); Serial.println(WiFi.gatewayIP());
-  Serial.print("DNS     : "); Serial.println(WiFi.dnsIP());
-  Serial.println("--------------------------------");
-}
-
-String httpGETRequest(const char* url,bool print){
-  HTTPClient http;
-  http.begin(url);
-  int http_response = http.GET();
-
-  String payload = "{}";
-
-  if(print){
-    Serial.println("----------------------------------------");
-    if(http_response > 0){
-      Serial.print("HTTP GET Response Code :");
-      Serial.println(http_response);
-      payload = http.getString();
-      Serial.println("Data :");
-      Serial.println(payload);
-    }else{
-      Serial.print("HTTP GET Error Code :");
-      Serial.println(http_response);
-    }
-    Serial.println("----------------------------------------");
-  }else{
-    if (http_response != 200){
-      Serial.println("Error Server not Online");
-      Serial.print("Error Code : ");
-      Serial.println(http_response);
-    }else{payload = http.getString();}
-    
-  }
-
-
-  http.end();
-  return payload;
-}
-
-void httpPUTRequest(const char* url,char* req,bool print){
-  HTTPClient http;
-  http.begin(url);
-  http.addHeader("Content-Type", "application/json");
-
-  String httpResponseData = req;
-  int http_response = http.PUT(httpResponseData);
-
-  if (print){
-    Serial.println("----------------------------------------");
-    if(http_response > 0 ){
-      Serial.print("HTTP PUT Response Code : ");
-      Serial.println(http_response);
-    }else{
-      Serial.print("HTTP PUT Error Code :");
-      Serial.println(http_response);
-    }
-    Serial.println("----------------------------------------");
-  }else{
-    if (http_response != 200){
-      Serial.println("Error Server not Online");
-      Serial.print("Error Code : ");
-      Serial.println(http_response);
-    }
-  }
-  
-
-  http.end();
+void initWiFi() {
+  wlan.connect();
+  sleep(min_delay);
 }
 
 void get_data(bool print=true){
-  if ((WiFi.status() == WL_CONNECTED)){
-    StaticJsonDocument<0> filter;
-    filter.set(true);
 
-    StaticJsonDocument<1024> res;
-    String json = httpGETRequest(api_url,print);
-    DeserializationError error = deserializeJson(res, json, DeserializationOption::Filter(filter));
+  settings.start();
+  sensor.start();
+  if (print) {sensor.getTest();settings.getTest();};
+  root_0_devices_esp32_1 = true;
+  root_0_devices_esp32_2 = true;
+  root_0_devices_raspberrypi = false;
+  root_1_tempHum_temperature_1 = sensor.get.temperature_1();
+  root_1_tempHum_humidity_1 = sensor.get.humidity_1();
+  root_1_tempHum_temperature_2 = sensor.get.temperature_2();
+  root_1_tempHum_humidity_2 = sensor.get.humidity_2();
+  root_1_waterSystem_sensor_1 = sensor.get.soilMoisture_1();
+  root_1_waterSystem_sensor_2 = sensor.get.soilMoisture_2();
+  root_1_waterSystem_pumpe = sensor.get.statusPumpe(); 
+  root_1_lufterLeds_getLufter_1 = sensor.get.statusLufter_1();
+  root_1_lufterLeds_setLufter_1 = settings.get.setLufter_1();
+  root_1_lufterLeds_getLufter_2 = sensor.get.statusLufter_2();
+  root_1_lufterLeds_setLufter_2 = settings.get.setLufter_2();
+  root_1_lufterLeds_getLed = sensor.get.statusLight();
+  root_1_lufterLeds_setLed = settings.get.setLight();
+  root_1_energieStatus_solar_1 = 10.5;
+  root_1_energieStatus_solar_2 = 10.5;
+  root_1_energieStatus_akku = 7.3;
+  root_1_energieStatus_strom = 11.3;
+  root_1_settings_brightness = 90;
+  root_1_settings_sound = 80;
 
-    if(error){
-      Serial.print("deserialization error :");
-      Serial.println(error.c_str());
-    }
+  sensor.end();
+  settings.end();
 
-    // ----------------------------------------------------------------
-    JsonArray root_main = res[0];
-
-    JsonObject root_0 = root_main[0];
-    root_0_id = root_0["id"];
-
-    JsonObject root_0_devices = root_0["devices"];
-    root_0_devices_esp32_1 = root_0_devices["esp32"]["connected"][0];
-    root_0_devices_esp32_2 = root_0_devices["esp32"]["connected"][1];
-    root_0_devices_raspberrypi = root_0_devices["raspberrypi"]["connected"];
-    
-    JsonObject root_1 = root_main[1];
-    root_1_id = root_1["id"];
-
-    JsonObject root_1_tempHum = root_1["tempHum"];
-    root_1_tempHum_temperature_1 = root_1_tempHum["temperature_1"];
-    root_1_tempHum_humidity_1 = root_1_tempHum["humidity_1"];
-    root_1_tempHum_temperature_2 = root_1_tempHum["temperature_2"];
-    root_1_tempHum_humidity_2 = root_1_tempHum["humidity_2"];
-
-    JsonObject root_1_waterSystem = root_1["waterSystem"];
-    root_1_waterSystem_sensor_1 = root_1_waterSystem["sensor_1"];
-    root_1_waterSystem_sensor_2 = root_1_waterSystem["sensor_2"];
-    root_1_waterSystem_pumpe = root_1_waterSystem["pumpe"];
-
-    JsonObject root_1_lufterLeds = root_1["lufterLeds"];
-    root_1_lufterLeds_getLufter_1 = root_1_lufterLeds["getLufter_1"];
-    root_1_lufterLeds_setLufter_1 = root_1_lufterLeds["setLufter_1"];
-    root_1_lufterLeds_getLufter_2 = root_1_lufterLeds["getLufter_2"];
-    root_1_lufterLeds_setLufter_2 = root_1_lufterLeds["setLufter_2"];
-    root_1_lufterLeds_getLed = root_1_lufterLeds["getLed"];
-    root_1_lufterLeds_setLed = root_1_lufterLeds["setLed"];
-
-    JsonObject root_1_energieStatus = root_1["energieStatus"];
-    root_1_energieStatus_solar_1 = root_1_energieStatus["solar_1"];
-    root_1_energieStatus_solar_2 = root_1_energieStatus["solar_2"];
-    root_1_energieStatus_akku = root_1_energieStatus["akku"];
-    root_1_energieStatus_strom = root_1_energieStatus["strom"];
-
-    JsonObject root_1_settings = root_1["settings"];
-    root_1_settings_brightness = root_1_settings["brightness"];
-    root_1_settings_sound = root_1_settings["sound"];
-
-    //sleep(min_delay);
-  }
-  //sleep(min_delay);
+  sleep(min_delay);
 }
 
 void put_data(bool print=true){
-  if((WiFi.status() == WL_CONNECTED)){
-    StaticJsonDocument<768> req;
-
-    JsonObject doc_0 = req.createNestedObject();
-    doc_0["id"] = 0;
-
-    JsonObject doc_0_devices = doc_0.createNestedObject("devices");
-
-    JsonArray doc_0_devices_esp32 = doc_0_devices.createNestedArray("esp32");
-    doc_0_devices_esp32[0]["connected"] = root_0_devices_esp32_1;
-    doc_0_devices_esp32[1]["connected"] = root_0_devices_esp32_2;
-    doc_0_devices["raspberrypi"]["connected"] = root_0_devices_raspberrypi;
-
-    JsonObject doc_1 = req.createNestedObject();
-    doc_1["id"] = 1;
-
-    JsonObject doc_1_tempHum = doc_1.createNestedObject("tempHum");
-    doc_1_tempHum["temperature_1"] = root_1_tempHum_temperature_1;
-    doc_1_tempHum["humidity_1"] = root_1_tempHum_humidity_1;
-    doc_1_tempHum["temperature_2"] = root_1_tempHum_temperature_2;
-    doc_1_tempHum["humidity_2"] = root_1_tempHum_humidity_2;
-
-    JsonObject doc_1_waterSystem = doc_1.createNestedObject("waterSystem");
-    doc_1_waterSystem["sensor_1"] = root_1_waterSystem_sensor_1;
-    doc_1_waterSystem["sensor_2"] = root_1_waterSystem_sensor_2;
-    doc_1_waterSystem["pumpe"] = root_1_waterSystem_pumpe;
-
-    JsonObject doc_1_lufterLeds = doc_1.createNestedObject("lufterLeds");
-    doc_1_lufterLeds["getLufter_1"] = root_1_lufterLeds_getLufter_1;
-    doc_1_lufterLeds["setLufter_1"] = root_1_lufterLeds_setLufter_1;
-    doc_1_lufterLeds["getLufter_2"] = root_1_lufterLeds_getLufter_2;
-    doc_1_lufterLeds["setLufter_2"] = root_1_lufterLeds_setLufter_2;
-    doc_1_lufterLeds["getLed"] = root_1_lufterLeds_getLed;
-    doc_1_lufterLeds["setLed"] = root_1_lufterLeds_setLed;
-
-    JsonObject doc_1_energieStatus = doc_1.createNestedObject("energieStatus");
-    doc_1_energieStatus["solar_1"] = root_1_energieStatus_solar_1;
-    doc_1_energieStatus["solar_2"] = root_1_energieStatus_solar_2;
-    doc_1_energieStatus["akku"] = root_1_energieStatus_akku;
-    doc_1_energieStatus["strom"] = root_1_energieStatus_strom;
-
-    JsonObject doc_1_settings = doc_1.createNestedObject("settings");
-    doc_1_settings["brightness"] = root_1_settings_brightness;
-    doc_1_settings["sound"] = root_1_settings_sound;
-
-    serializeJson(req, output);
-    httpPUTRequest(api_url, output,print);
-    
-    sleep(min_delay);
-  }
   sleep(min_delay);
 }
 
@@ -532,7 +369,7 @@ void UI_Home(void){
   header.fillScreen(BLACK);
   DTP("header",1,LOGO_COLOR,100,1,"Lycee Prive Emile Metz");
   DTP("header",3,WHITE,85,20,"Home");
-  header.drawBitmap(0,0,settings,iconSettingWidth,iconSettingHeight,WHITE);
+  header.drawBitmap(0,0,settings_logo,iconSettingWidth,iconSettingHeight,WHITE);
   header.drawLine(0,45,240,45,WHITE);
   // ----
   content.createSprite(240,230);
@@ -571,11 +408,14 @@ void fetch_data(){
 void menu(int16_t ui){
 
   Serial.println("Loading ... ");
+  //get_data();
+  /*
   if((WiFi.status() == WL_CONNECTED)){
     get_data();
   }else {
     fetch_data();
   }
+  */
 
   switch (ui)
   {
@@ -605,9 +445,6 @@ void setup(void){
   Serial.println("Terminal Started");
   Serial.println("Start   : WiFi    Configuration");
   initWiFi();
-  get_data(false);
-  //root_0_devices_esp32_1 = true;
-  //put_data(false);
   Serial.println("Ended   : WiFi    Configuration");
   Serial.println("Start   : Display Configuration");
   tft.init();
@@ -621,6 +458,8 @@ void setup(void){
   touch_calibrate();
   //tft.fillScreen(BLACK);
   Serial1.println("Ended  : Display Calibration");
+
+  get_data(false);
   // TEST PAGE
   //menuIndex = 5;
 }
