@@ -1,0 +1,13 @@
+{
+    "temperature_1": 10.5,
+    "humanity_1": 50.5,
+    "temperature_2": 20.5,
+    "humanity_2": 60.5,
+    "soilMoisture_1": 70.5,
+    "soilMoisture_2": 80.5,
+    "statusPumpe": true,
+    "statusLufter_1": true,
+    "statusLufter_2": true,
+    "statusLight": true,
+    "getRgbLed": "255,255,255"
+}

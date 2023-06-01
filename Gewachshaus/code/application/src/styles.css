@@ -1,0 +1,165 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  --color: #000000;
+  --background-color: #f6f6f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+*,html,body {
+  margin: 5px;
+  padding: 0px;
+  box-sizing: fit-content;
+  color: var(--color);
+  background-color: var(--background-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color: #f6f6f6;
+    --background-color: #161616;
+  }
+  .NotesNotes {
+    width: 90%;
+    margin: 100px;
+  }
+}
+
+// Content styles
+
+body {
+  background-color: #f5f5f5;
+  font-family: "Open Sans", sans-serif;
+}
+
+.MainContainer {
+  width: 400px;
+  height: 460px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 1s ease-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #444;
+  font-family: "Montserrat", sans-serif;
+  animation: fadeInDown 1s ease-out forwards;
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+p {
+  margin-top: 0;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #666;
+  animation: fadeInUp 1s ease-out forwards;
+  -webkit-animation: fadeInUp 1s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+img {
+  width: 200px;
+  height: 200px;
+}
+
+.Logo_Anim {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  animation: rotate 6s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.Notes {
+  width: 80%;
+  height: 2.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #f44336;
+  animation: slideInUp 1s ease-out forwards;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.NotesNotes {
+  margin: 0;
+  color: var(--color);
+  opacity: 1;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+}

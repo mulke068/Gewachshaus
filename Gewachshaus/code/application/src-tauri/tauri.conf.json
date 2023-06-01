@@ -1,0 +1,138 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "../src",
+    "distDir": "../src",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "Gewachshaus Application",
+    "version": "2.0.0"
+  },
+  "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "window": {
+        "all": true,
+        "center": false,
+        "close": false,
+        "create": false,
+        "hide": false,
+        "maximize": false,
+        "minimize": false,
+        "print": false,
+        "requestUserAttention": false,
+        "setAlwaysOnTop": false,
+        "setCursorGrab": false,
+        "setCursorIcon": false,
+        "setCursorPosition": false,
+        "setCursorVisible": false,
+        "setDecorations": false,
+        "setFocus": false,
+        "setFullscreen": false,
+        "setIcon": false,
+        "setIgnoreCursorEvents": false,
+        "setMaxSize": false,
+        "setMinSize": false,
+        "setPosition": false,
+        "setResizable": false,
+        "setSize": false,
+        "setSkipTaskbar": false,
+        "setTitle": false,
+        "show": false,
+        "startDragging": false,
+        "unmaximize": false,
+        "unminimize": false
+      }
+    },
+    "bundle": {
+      "active": true,
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.tauri.gewachshaus",
+      "targets": "all",
+      "windows": {
+        "allowDowngrades": true,
+        "certificateThumbprint": null,
+        "digestAlgorithm": null,
+        "timestampUrl": null,
+        "tsp": false,
+        "webviewFixedRuntimePath": null,
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "offlineInstaller"
+        },
+        "wix": null
+      },
+      "macOS": {
+        "minimumSystemVersion": "10.13"
+      },
+      "deb": {
+        "files": {
+          "/usr/share/gewachshaus-application/README.md": "../README.md"
+        }
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "title": "Gewachshaus Application",
+        "url": "https://www.kevbchef.com",
+        "fullscreen": false, 
+        "visible": false,
+        "decorations": true,
+        "resizable": true,
+        "transparent": false,
+        "center": true,
+        "minWidth": 410,
+        "minHeight": 560,
+        "width": 980,
+        "height": 580,
+        "maxWidth": 1920,
+        "maxHeight": 1080
+      },
+      {
+        "url": "index.html",
+        "label": "loadingscreen",
+        "decorations": false,
+        "center": true,
+        "resizable": false,
+        "width": 420,
+        "height": 480
+      },
+      {
+        "title": "Gewachshaus Localhost",
+        "url": "http://localhost:80",
+        "label": "local",
+        "visible": false,
+        "decorations": true
+      },
+      {
+        "title": "Gewachshaus Online",
+        "url": "https://www.kevbchef.com",
+        "label": "online",
+        "visible": false,
+        "decorations": true
+      }
+    ]
+  }
+}
