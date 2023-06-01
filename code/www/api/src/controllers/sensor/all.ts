@@ -12,7 +12,7 @@ async function Get_All(req: Request, res: Response, next: NextFunction) {
 		const data: unknown = await Sensor_Data.find()
 			.sort({ timestamp: -1 })
 			.limit(100);
-		return res.status(200).json(data) && console.log("Status 200");
+		return res.status(200).json(data);
 	} catch (err: any) {
 		res.status(500).json({
 			message: {

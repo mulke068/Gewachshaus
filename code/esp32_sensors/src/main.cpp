@@ -55,7 +55,6 @@ void loop(void) {
   sensor.start();
   sensor.getTest();
   Serial.println("--------------------");
-
   settings.end();
   sensor.end();
   delay(2000);

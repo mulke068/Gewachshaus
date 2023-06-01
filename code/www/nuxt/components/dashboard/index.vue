@@ -1,16 +1,16 @@
 <template>
-    <div v-if="dataLoaded">
+    <div v-if="!error">
         <div class="container md:flex">
             <div class="container py-2 md:w-40 bg-clementine-700">
                 <div>
                     <div class="flex justify-center text-3xl ">Devices</div>
                     <div class="p-4 text-lg ">
                         <div>Display</div>
-                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.esp32[0].connected" />
+                        <DashboardOnOff class="flex justify-center p-3" :value="false" />
                         <div>Sensors</div>
-                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.esp32[1].connected" />
+                        <DashboardOnOff class="flex justify-center p-3" :value="false" />
                         <div>Raspberry PI</div>
-                        <DashboardOnOff class="flex justify-center p-3" :value="data.devices.raspberrypi.connected" />
+                        <DashboardOnOff class="flex justify-center p-3" :value="false" />
                     </div>
                 </div>
             </div>
@@ -20,24 +20,24 @@
                     <div class="justify-center p-4 space-x-8 text-lg md:flex">
                         <div>Senors 1</div>
                         <div class="p-4 space-x-6 md:flex">
-                            <DashboardCirqualPorgress :value="data.tempHum.temperature_1" :max="80" :min="0" :unit="'°C'" />
-                            <DashboardCirqualPorgress :value="data.tempHum.humidity_1" :max="100" :min="0" :unit="'%'" />
+                            <DashboardCirqualPorgress :value="sensorData.temperature_1" :max="80" :min="0" :unit="'°C'" />
+                            <DashboardCirqualPorgress :value="sensorData.humidity_1" :max="100" :min="0" :unit="'%'" />
                         </div>
                         <div>Senors 2</div>
                         <div class="p-4 space-x-6 md:flex">
-                            <DashboardCirqualPorgress :value="data.tempHum.temperature_2" :max="80" :min="0" :unit="'°C'" />
-                            <DashboardCirqualPorgress :value="data.tempHum.humidity_2" :max="100" :min="0" :unit="'%'" />
+                            <DashboardCirqualPorgress :value="sensorData.temperature_2" :max="80" :min="0" :unit="'°C'" />
+                            <DashboardCirqualPorgress :value="sensorData.humidity_2" :max="100" :min="0" :unit="'%'" />
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="justify-start text-3xl ">WaterSystem</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
-                        <div class="radial-progress" :style="`--value: ${data.waterSystem.sensor_1}`">{{ data.waterSystem.sensor_1 }}</div>
-                        <div class="radial-progress" :style="`--value: ${data.waterSystem.sensor_2}`">{{ data.waterSystem.sensor_2 }}</div>
+                        <div class="radial-progress" :style="`--value: ${sensorData.soliMoisture_1}`">{{sensorData.soliMoisture_1}}</div>
+                        <div class="radial-progress" :style="`--value: ${sensorData.soliMoisture_2}`">{{sensorData.soliMoisture_2}}</div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="data.waterSystem.pumpe" />
-                            {{ data.waterSystem.pumpe ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusPumpe" />
+                            {{ sensorData.statusPumpe ? 'ON' : 'OFF' }}
                         </div>
                     </div>
                 </div>
@@ -45,45 +45,45 @@
                     <div class="justify-start text-3xl ">LufterLeds</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
                         <div>
-                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLufter_1" class="range" />
+                            <input type="range" min="0" max="100" :value="100" class="range" />
                         </div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLufter_1" />
-                            {{ data.lufterLeds.setLufter_1 ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_1" />
+                            {{ sensorData.statusLufter_1 ? 'ON' : 'OFF' }}
                         </div>
                         <div>
-                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLufter_2" class="range" />
+                            <input type="range" min="0" max="100" :value="100" class="range" />
                         </div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLufter_2" />
-                            {{ data.lufterLeds.setLufter_2 ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_2" />
+                            {{ sensorData.statusLufter_2 ? 'ON' : 'OFF' }}
                         </div>
                         <div>
-                            <input type="range" min="0" max="100" :value="data.lufterLeds.getLed" class="range" />
+                            <input type="range" min="0" max="100" :value="100" class="range" />
                         </div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="data.lufterLeds.setLed" />
-                            {{ data.lufterLeds.setLed ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusLight" />
+                            {{ sensorData.statusLight ? 'ON' : 'OFF' }}
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="justify-start text-3xl ">EnergieStatus</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
-                        <div>{{ data.energieStatus.solar_1 }}V</div>
-                        <div>{{ data.energieStatus.solar_2 }}V</div>
-                        <div>{{ data.energieStatus.akku }}%</div>
-                        <div>{{ data.energieStatus.strom }}V</div>
+                        <div>{{ 2.3 }}V</div> <!-- solar_1 -->
+                        <div>{{ 3.3 }}V</div> <!-- solar_2 -->
+                        <div>{{ 90 }}%</div> <!-- akku -->
+                        <div>{{ 11.3 }}V</div> <!-- strom -->
                     </div>
                 </div>
                 <div>
                     <div class="justify-start text-3xl ">Settings</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
                         <div>
-                            <input type="range" min="0" max="100" :value="data.settings.brightness" class="range" />
+                            <input type="range" min="0" max="100" :value="80" class="range" /> <!-- brightness -->
                         </div>
                         <div>
-                            <input type="range" min="0" max="100" :value="data.settings.sound" class="range" />
+                            <input type="range" min="0" max="100" :value="90" class="range" /> <!-- sound -->
                         </div>
                     </div>
                 </div>
@@ -103,28 +103,56 @@
 export default {
     data() {
         return {
-            data: [],
-            dataLoaded: false
+            sensorData: {
+                temperature_1: 0,
+                humidity_1: 0,
+                temperature_2: 0,
+                humidity_2: 0,
+                soliMoisture_1: 0,
+                soilMoisture_2: 0,
+                statusPumpe: false,
+                statusLufter_1: false,
+                statusLufter_2: false,
+                statusLight: false,
+                getRgbLed: 'rgb(0,0,0)',
+            },
+            settingsData: {
+                temperature_Min: 0,
+                temperature_Avg: 0,
+                temperature_Max: 0,
+                soilMoisture_Min: 0,
+                soilMoisture_Max: 0,
+                setLufter_1: false,
+                setLufter_2: false,
+                setPumpe: false,
+                setLight: false,
+                setRgbLed: 'rgb(0,0,0)',
+                setMatrixLed: 'Text',
+            },
+            error: null,
         }
+    },
+    beforeMount() {
+        this.fetchData()
     },
     mounted() {
         this.fetchData()
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.fetchData()
         }, 5000)
     },
+    unmounted() {
+        clearInterval(this.intervalId);
+    },
     methods: {
-        fetchData() {
-            const runtimeConfig = useRuntimeConfig()
-            fetch(`${runtimeConfig.api_host}/display`)
-                .then(response => response.json())
-                .then(data => {
-                    this.data = data[0]
-                    this.dataLoaded = true
-                }).catch(error => {
-                    console.log(error)
-                })
-            console.log("Get display Status 200");
+        async fetchData() {
+            const runtimeConfig = useRuntimeConfig();
+            const { data: sensorData , error: sensorError } = await useFetch(`${runtimeConfig.api_host}/sensor`);
+            const { data: settingsData, error: settingsError } = await useFetch(`${runtimeConfig.api_host}/settings`);
+            this.sensorData = sensorData.value;
+            this.error = sensorError;
+            this.settingsData = settingsData.value;
+            this.error = settingsError;
         }
     }
 }

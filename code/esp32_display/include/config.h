@@ -2,7 +2,7 @@
 
 // ---- DATA
 
-char output[768];
+//char output[768];
 #define min_delay 1
 
 // ---- PINS
@@ -48,7 +48,8 @@ char output[768];
 #define BOX_COLOR 0x9CD3
 
 // ----- API & W-Lan
-
+/*
 const char* ssid ;//= "FRITZ!Box 7490";
 const char* password ;//= "05767844606687810343";
 const char* api_url = "https://api.kevbchef.com/display";
+*/

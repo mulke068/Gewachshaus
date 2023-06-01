@@ -1,6 +1,5 @@
 # Docuementation for the Request class
 
-
 ## Request Class
 
 The Request class is used to handle the request from the client. It is used to get the request method, the request URI, the request body and the request headers.
@@ -9,41 +8,62 @@ The Request class is used to handle the request from the client. It is used to g
 
 - [Request](#request)
 - [get()](#get)
-- [use()](#use)
-- [post()](#post)
 - [set()](#set)
+- [post()](#post)
+- [start()](#start)
 - [end()](#end)
 
 ### Testing
-- [setTest()](#setTest)
-- [test()](#test)
+
+- [getTest()](#gettest)
+- [setTest()](#settest)
 
 ## SensorData
 
-- id[index]
-- name[index]
-- pin[index]
-- value[index]
-- description[index]
+| Name | Type |
+|------|------|
+|temperature_1 | float|
+|temperature_2 | float|
+|humidity_1 | float|
+|humidity_2 | float|
+|soilMoisture_1 | float|
+|soilMoisture_2 | float|
+|statusPumpe | bool |
+|statusLufter_1 | bool |
+|statusLufter_2 | bool |
+|statusLight  | bool |
+|getRgbLed | char |
 
+## SettingsData
+
+| Name | Type |
+|------|------|
+|temperature_Min | int |
+|temperature_Avg | int |
+|temperature_Max | int |
+|soilMoisture_Min | int |
+|soilMoisture_Max | int |
+|setLufter_1 | bool |
+|setLufter_2 | bool |
+|setPumpe | bool |
+|setLight | bool |
+|setRgbLed | char |
+|setMatrixLed | char |
 
 # Example
 
 ```cpp
 #include <Request.h>
+#define TYPE DEF_SENSOR
 
-Request Object("http://localhost:80");
+Request Object("http://localhost:80", TYPE);
 
-int index = 0;
+Object.start();
 
-Object.get();
+Object.get.temperature_1();
+Object.set.temperature_1(20.0);
 
-String id = Object.id[index];
-String name = Object.name[index];
-
-Object.set("name", "pin", "value", "description", false);
-Object.set("name", "pin", "value", "description", true);
-Object.post();
+Object.post(false);
 
 Object.end();
 
@@ -54,64 +74,50 @@ Object.end();
 ## Request
 
 - **Description:** This is the constructor for the Request class. It is used to create a new Request object.
-
 - **Parameters:**
   
   - url : String - The url of the request
+  - type : Define - The type of the request
+    - DEF_SETTINGS || DEF_SENSOR
 
+- **Returns:** None
 - **Example:**
+
     ```cpp
-    Request object("http://localhost:80");
+    Request object("http://localhost:80", DEF_SETTINGS);
     ```
 
-## get
+## start
 
-- **Description:** This method is used to get the data from the request body.
-
+- **Description:** This method is used to start the request.
 - **Parameters:** None
-
-- **Returns:** 
+- **Returns:**
 
   - status : int - The HTTP status code
 
 - **Example:**
-    ```cpp
-    object.get();
-    ```
 
+    ```cpp
+    object.start();
+    ```
 
 ## post
 
-- **Description:** This method is used to send the data from the request body.
- 
-- **Parameters:** None
+- **Description:** This method is used to send data to the server.
+- **Parameters:**
+
+  - response : bool - The response from the server
 
 - **Returns:**
-  
+
   - status : int - The HTTP status code
 
 - **Example:**
+
     ```cpp
-    object.post();
-    ```
-
-## set
-
-- **Description:** This method is used to set the data for the request body.
-
-- **Parameters:** 
-  
-  - name        : String    - The name of the data
-  - pin         : String    - The pin of the data
-  - value       : String    - The value of the data
-  - description : String    - The description of the data
-  - last        : bool      - If the data is the last data
-
-- **Returns:** None
-
-- **Example:**
-    ```cpp
-    object.set("name", "pin", "value", "description", false);
+    object.post(false);
+    // or
+    object.post(true); // used for testing the response from the server
     ```
 
 ## end
@@ -120,6 +126,114 @@ Object.end();
 - **Parameters:** None
 - **Returns:** None
 - **Example:**
+
     ```cpp
     object.end();
+    ```
+
+## get
+
+- **Description:** This method is used to get the data from the request body.
+- **Parameters:** None
+- **Returns:** None
+- **Example:**
+
+    ```cpp
+    object.get();
+    ```
+
+### SensorData
+
+- [SensorData](#sensordata)
+- **Description:** This method is used to get the data from the request body.
+- **Parameters:** None
+- **Returns:**
+
+  - value: int|bool|char|String - Variables from the SensorData struct
+
+- **Example:**
+
+    ```cpp
+    object.get.temperature_1();
+    ```
+
+### SettingsData
+
+- [SettingsData](#settingsdata)
+- **Description:** This method is used to get the data from the request body.
+- **Parameters:** None
+- **Returns:**
+
+  - value : int|bool|char|String - Variables from the SettingsData struct
+
+- **Example:**
+
+    ```cpp
+    object.get.temperature_Min();
+    ```
+
+## set
+
+- **Description:** This method is used to set the data for the request body.
+- **Parameters:** None
+- **Returns:** None
+- **Example:**
+
+    ```cpp
+    object.set();
+    ```
+
+### SensorData
+
+- [SensorData](#sensordata)
+- **Description:** This method is used to set the data for the request body.
+- **Parameters:**
+
+  - value : int|bool|char|String - Set the variables from the SensorData struct
+
+- **Returns:**
+
+  - value : int|bool|char|String - Get the variables from the SensorData struct
+
+- **Example:**
+
+    ```cpp
+    object.set.temperature_1(20.0);
+    ```
+
+### SettingsData
+
+- [SettingsData](#settingsdata)
+- **Description:** This method is used to set the data for the request body.
+- **Parameters:**
+
+  - value : int|bool|char|String - Set the variables from the SettingsData struct
+- **Returns:**
+  - value : int|bool|char|String - Get the variables from the SettingsData struct
+- **Example:**
+
+    ```cpp
+    object.set.temperature_Min(20);
+    ```
+
+## getTest
+
+- **Description:** This method is used to get the data from the request body.
+- **Parameters:** None
+- **Returns:** None
+- **Example:**
+
+    ```cpp
+    object.getTest();
+    ```
+
+## setTest
+
+- **Description:** This method is used to set the data for the request body.
+- **Parameters:** None
+- **Returns:** None
+- **Example:**
+
+    ```cpp
+    object.setTest();
     ```

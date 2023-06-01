@@ -19,7 +19,7 @@ async function Get(req: Request, res: Response, next: NextFunction) {
 				timestamp: -1
 			})
 			.limit(1);
-		return res.status(200).json(data) && console.log("Status 200");
+		return res.status(200).json(data);
 	} catch (err: any) {
 		return (
 			res.status(500).json({
@@ -42,7 +42,7 @@ async function Post(req: Request, res: Response, next: NextFunction) {
 			);
 		} else {
 			const data: any = await Settings_Data.create(req.body);
-			return res.status(201).json(data) && console.log("Status 201");
+			return res.status(201).json(data);
 		}
 	} catch (err: any) {
 		return (
@@ -70,13 +70,13 @@ async function Update(req: Request, res: Response, next: NextFunction) {
 					$set: req.body
 				}
 			);
-			return res.status(202).json(data) && console.log("Status 202");
+			return res.status(202).json(data);
 		} else {
-			return (
-				res.status(404).json({
-					info: "No settings data found"
-				}) && console.log("Status 404")
-			);
+			const data: any = await Settings_Data.create(req.body);
+			return res.status(201).json({
+				info: "No settings data found, created new one",
+				data: data
+			});
 		}
 	} catch (err: any) {
 		return (
@@ -116,7 +116,7 @@ async function Update_ID(
 				}) && console.log("Status 404")
 			);
 		} else {
-			return res.status(202).json(data) && console.log("Status 202");
+			return res.status(202).json(data);
 		}
 	} catch (err: any) {
 		return (

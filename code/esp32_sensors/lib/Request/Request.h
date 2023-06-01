@@ -17,14 +17,17 @@
 #include <HTTPClient.h>
 
 // TYPES DEIFNITION
-static const uint8_t DEF_SETTINGS{0};
-static const uint8_t DEF_SENSOR{1};
-// STRUCTS
+static const uint8_t DEF_SETTINGS{0}; // 0 = SETTINGS
+static const uint8_t DEF_SENSOR{1};  // 1 = SENSOR
+/**
+ * @brief Struct for storing sensor data 
+ * 
+ */
 struct SensorData {
     float temperature_1;
     float temperature_2;
-    float humanity_1;
-    float humanity_2;
+    float humidity_1;
+    float humidity_2;
     float soilMoisture_1;
     float soilMoisture_2;
     bool statusPumpe;
@@ -33,6 +36,10 @@ struct SensorData {
     bool statusLight;
     const char *getRgbLed;
 };
+/**
+ * @brief Struct for storing settings data 
+ * 
+ */
 struct SettingsData {
     int temperature_Min;
     int temperature_Avg;
@@ -52,16 +59,16 @@ public:
     Request(String url, uint8_t type);
     virtual ~Request();
     int start();
-    int post();
-    // void set();
+    int post(bool response);
     void end();
-    // TEST
     void setTest();
     void getTest();
 
     class GET {
     public:
         GET(Request& request);
+        // SETTINGS
+        
         int temperature_Min();
         int temperature_Avg();
         int temperature_Max();
@@ -73,18 +80,46 @@ public:
         bool setLight();
         const char* setRgbLed();
         const char* setMatrixLed();
+        // SENSOR
 
+        float temperature_1();
+        float humidity_1();
+        float temperature_2();
+        float humidity_2();
+        float soilMoisture_1();
+        float soilMoisture_2();
+        bool statusPumpe();
+        bool statusLufter_1();
+        bool statusLufter_2();
+        bool statusLight();
+        const char* getRgbLed();
     private:
         Request& _request;
         SettingsData& _settingsData;
+        SensorData& _sensorData;
     };
     class SET {
     public:
         SET(Request& request);
+        // SETTINGS
+
+        int temperature_Min(int value);
+        int temperature_Avg(int value);
+        int temperature_Max(int value);
+        int soilMoisture_Min(int value);
+        int soilMoisture_Max(int value);
+        bool setLufter_1(bool value);
+        bool setLufter_2(bool value);
+        bool setPumpe(bool value);
+        bool setLight(bool value);
+        const char* setRgbLed(const char *value);
+        const char* setMatrixLed(const char *value);
+        // SENSOR
+
         float temperature_1(float value);
-        float humanity_1(float value);
+        float humidity_1(float value);
         float temperature_2(float value);
-        float humanity_2(float value);
+        float humidity_2(float value);
         float soilMoisture_1(float value);
         float soilMoisture_2(float value);
         bool statusPumpe(bool value);
@@ -92,45 +127,27 @@ public:
         bool statusLufter_2(bool value);
         bool statusLight(bool value);
         const char* getRgbLed(const char *value);
-
     private:
         Request& _request;
+        SettingsData& _settingsData;
         SensorData& _sensorData;
     };
-
     GET get;
     SET set;
-
-    /*
-    class USE {
-    public:
-        // SETTINGS
-        int temperature_Min_GET();
-        int temperature_Min_SET(int temperature_Min);
-    private:
-        // REFERENCE TO REQUEST CLASS
-        Request& _request;
-        SensorData& _sensorData;
-        SettingsData& _settingsData;
-        // DONT ASK ME WHY BUT IT WORKS
-        USE(Request& request) : _request(request), _sensorData(request._sensorData), _settingsData(request._settingsData) {};
-        // SHARE PRIVATE MEMBERS
-        friend class Request;
-    };
-    // INITIALISE USE CLASS to Request use
-    USE use;
-    */
 protected:
     // DOCUMENTS
+
     StaticJsonDocument<700> _doc;
     SensorData _sensorData;
     SettingsData _settingsData;
 
 private:
     // DEFINED TYPES
+
     uint8_t _type;
     String _url, _req, _res;
     // STORED DATA
+
     void storeSettings();
     void storeSensor();
     void sendSettings();

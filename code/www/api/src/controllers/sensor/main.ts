@@ -19,7 +19,7 @@ async function Get_Main(req: Request, res: Response, next: NextFunction) {
 				timestamp: -1
 			})
 			.limit(1);
-		return res.status(200).json(data) && console.log("Status 200");
+		return res.status(200).json(data);
 	} catch (err: any) {
 		console.log(err);
 		return (
@@ -62,7 +62,7 @@ async function Get_Main_By_Id(
 					}) && console.log("Status 404")
 				);
 			} else {
-				return res.status(200).json(data) && console.log("Status 200");
+				return res.status(200).json(data);
 			}
 		}
 	} catch (err: any) {
@@ -89,8 +89,7 @@ async function Post_Main(req: Request, res: Response, next: NextFunction) {
 			);
 		} else {
 			const data: any = await Sensor_Data.create(req.body);
-			//console.log(data);
-			return res.status(201).json(data) && console.log("Status 201");
+			return res.status(201).json(data);
 		}
 	} catch (err: any) {
 		return (
