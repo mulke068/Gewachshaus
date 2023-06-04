@@ -14,7 +14,7 @@
 /// @param url
 /// @param type
 Request::Request(String url, uint8_t type) : get(*this), set(*this) {
-    _url = url;
+    _url  = url;
     _type = type;
 }
 
@@ -61,8 +61,8 @@ int Request::start() {
  * @return int 
  */
 int Request::post(bool response) {
-    int http_code = -1;
-    String req;
+    int     http_code = -1;
+    String  req;
     HTTPClient http;
     switch (_type) {
     case DEF_SETTINGS:
@@ -70,14 +70,14 @@ int Request::post(bool response) {
         http.begin(_url + "/settings");
         http.addHeader("Content-Type", "application/json");
         http_code = http.sendRequest("PATCH", _res);
-        req = http.getString();
+        req       = http.getString();
         break;
     case DEF_SENSOR:
         sendSensor();
         http.begin(_url + "/sensor");
         http.addHeader("Content-Type", "application/json");
         http_code = http.sendRequest("POST", _res);
-        req = http.getString();
+        req       = http.getString();
         break;
     };
     if (http_code <= 200 || http_code >= 300) {
@@ -108,17 +108,17 @@ void Request::storeSettings() {
         Serial.println(error.c_str());
         return;
     }
-    _settingsData.temperature_Min = _doc["temperature_Min"];
-    _settingsData.temperature_Avg = _doc["temperature_Avg"];
-    _settingsData.temperature_Max = _doc["temperature_Max"];
-    _settingsData.soilMoisture_Min = _doc["soilMoisture_Min"];
-    _settingsData.soilMoisture_Max = _doc["soilMoisture_Max"];
-    _settingsData.setLufter_1 = _doc["setLufter_1"];
-    _settingsData.setLufter_2 = _doc["setLufter_2"];
-    _settingsData.setPumpe = _doc["setPumpe"];
-    _settingsData.setLight = _doc["setLight"];
-    _settingsData.setRgbLed = _doc["setRgbLed"];
-    _settingsData.setMatrixLed = _doc["setMatrixLed"];
+    _settingsData.temperature_Min   = _doc["temperature_Min"];
+    _settingsData.temperature_Avg   = _doc["temperature_Avg"];
+    _settingsData.temperature_Max   = _doc["temperature_Max"];
+    _settingsData.soilMoisture_Min  = _doc["soilMoisture_Min"];
+    _settingsData.soilMoisture_Max  = _doc["soilMoisture_Max"];
+    _settingsData.setLufter_1       = _doc["setLufter_1"];
+    _settingsData.setLufter_2       = _doc["setLufter_2"];
+    _settingsData.setPumpe          = _doc["setPumpe"];
+    _settingsData.setLight          = _doc["setLight"];
+    _settingsData.setRgbLed         = _doc["setRgbLed"];
+    _settingsData.setMatrixLed      = _doc["setMatrixLed"];
 }
 
 void Request::storeSensor() {
@@ -131,17 +131,17 @@ void Request::storeSensor() {
         Serial.println(error.c_str());
         return;
     }
-    _sensorData.temperature_1 = _doc["temperature_1"];
-    _sensorData.humidity_1 = _doc["humidity_1"];
-    _sensorData.temperature_2 = _doc["temperature_2"];
-    _sensorData.humidity_2 = _doc["humidity_2"];
-    _sensorData.soilMoisture_1 = _doc["soilMoisture_1"];
-    _sensorData.soilMoisture_2 = _doc["soilMoisture_2"];
-    _sensorData.statusPumpe = _doc["statusPumpe"];
-    _sensorData.statusLufter_1 = _doc["statusLufter_1"];
-    _sensorData.statusLufter_2 = _doc["statusLufter_2"];
-    _sensorData.statusLight = _doc["statusLight"];
-    _sensorData.getRgbLed = _doc["getRgbLed"];
+    _sensorData.temperature_1   = _doc["temperature_1"];
+    _sensorData.humidity_1      = _doc["humidity_1"];
+    _sensorData.temperature_2   = _doc["temperature_2"];
+    _sensorData.humidity_2      = _doc["humidity_2"];
+    _sensorData.soilMoisture_1  = _doc["soilMoisture_1"];
+    _sensorData.soilMoisture_2  = _doc["soilMoisture_2"];
+    _sensorData.statusPumpe     = _doc["statusPumpe"];
+    _sensorData.statusLufter_1  = _doc["statusLufter_1"];
+    _sensorData.statusLufter_2  = _doc["statusLufter_2"];
+    _sensorData.statusLight     = _doc["statusLight"];
+    _sensorData.getRgbLed       = _doc["getRgbLed"];
 }
 
 /*
@@ -159,17 +159,17 @@ void Request::sendSensor() {
 void Request::sendSettings() {
     StaticJsonDocument<256> doc;
 
-    doc["temperature_Min"] = _settingsData.temperature_Min;
-    doc["temperature_Avg"] = _settingsData.temperature_Avg;
-    doc["temperature_Max"] = _settingsData.temperature_Max;
+    doc["temperature_Min"]  = _settingsData.temperature_Min;
+    doc["temperature_Avg"]  = _settingsData.temperature_Avg;
+    doc["temperature_Max"]  = _settingsData.temperature_Max;
     doc["soilMoisture_Min"] = _settingsData.soilMoisture_Min;
     doc["soilMoisture_Max"] = _settingsData.soilMoisture_Max;
-    doc["setLufter_1"] = _settingsData.setLufter_1;
-    doc["setLufter_2"] = _settingsData.setLufter_2;
-    doc["setPumpe"] = _settingsData.setPumpe;
-    doc["setLight"] = _settingsData.setLight;
-    doc["setRgbLed"] = _settingsData.setRgbLed;
-    doc["setMatrixLed"] = _settingsData.setMatrixLed;
+    doc["setLufter_1"]      = _settingsData.setLufter_1;
+    doc["setLufter_2"]      = _settingsData.setLufter_2;
+    doc["setPumpe"]         = _settingsData.setPumpe;
+    doc["setLight"]         = _settingsData.setLight;
+    doc["setRgbLed"]        = _settingsData.setRgbLed;
+    doc["setMatrixLed"]     = _settingsData.setMatrixLed;
 
     String payload;
     serializeJson(doc, payload); 
@@ -179,17 +179,17 @@ void Request::sendSettings() {
 void Request::sendSensor() {
     StaticJsonDocument<256> doc;
 
-    doc["temperature_1"] = _sensorData.temperature_1;
-    doc["humidity_1"] = _sensorData.humidity_1;
-    doc["temperature_2"] = _sensorData.temperature_2;
-    doc["humidity_2"] = _sensorData.humidity_2;
-    doc["soilMoisture_1"] = _sensorData.soilMoisture_1;
-    doc["soilMoisture_2"] = _sensorData.soilMoisture_2;
-    doc["statusPumpe"] = _sensorData.statusPumpe;
-    doc["statusLufter_1"] = _sensorData.statusLufter_1;
-    doc["statusLufter_2"] = _sensorData.statusLufter_2;
-    doc["statusLight"] = _sensorData.statusLight;
-    doc["getRgbLed"] = _sensorData.getRgbLed;
+    doc["temperature_1"]    = _sensorData.temperature_1;
+    doc["humidity_1"]       = _sensorData.humidity_1;
+    doc["temperature_2"]    = _sensorData.temperature_2;
+    doc["humidity_2"]       = _sensorData.humidity_2;
+    doc["soilMoisture_1"]   = _sensorData.soilMoisture_1;
+    doc["soilMoisture_2"]   = _sensorData.soilMoisture_2;
+    doc["statusPumpe"]      = _sensorData.statusPumpe;
+    doc["statusLufter_1"]   = _sensorData.statusLufter_1;
+    doc["statusLufter_2"]   = _sensorData.statusLufter_2;
+    doc["statusLight"]      = _sensorData.statusLight;
+    doc["getRgbLed"]        = _sensorData.getRgbLed;
 
     String payload;
     serializeJson(doc, payload); 
@@ -236,52 +236,52 @@ Request::GET::GET(Request& request)
 // -------- SETTINGS --------
 
 // @brief Get the temperature_Min object @return int 
-int Request::GET::temperature_Min() { return _settingsData.temperature_Min; };
+int     Request::GET::temperature_Min()     { return _settingsData.temperature_Min; };
 // @brief Get the temperature_Avg object @return int
-int Request::GET::temperature_Avg() { return _settingsData.temperature_Avg; };
+int     Request::GET::temperature_Avg()     { return _settingsData.temperature_Avg; };
 // @brief Get the temperature_Max object @return int
-int Request::GET::temperature_Max() { return _settingsData.temperature_Max; };
+int     Request::GET::temperature_Max()     { return _settingsData.temperature_Max; };
 // @brief Get the soilMoisture_Min object @return int
-int Request::GET::soilMoisture_Min() { return _settingsData.soilMoisture_Min; };
+int     Request::GET::soilMoisture_Min()    { return _settingsData.soilMoisture_Min; };
 // @brief Get the soilMoisture_Max object @return int
-int Request::GET::soilMoisture_Max() { return _settingsData.soilMoisture_Max; };
+int     Request::GET::soilMoisture_Max()    { return _settingsData.soilMoisture_Max; };
 // @brief Get the setLufter_1 object @return bool
-bool Request::GET::setLufter_1() { return _settingsData.setLufter_1; };
+bool    Request::GET::setLufter_1()         { return _settingsData.setLufter_1; };
 // @brief Get the setLufter_2 object @return bool
-bool Request::GET::setLufter_2() { return _settingsData.setLufter_2; };
+bool    Request::GET::setLufter_2()         { return _settingsData.setLufter_2; };
 // @brief Get the setPumpe object @return bool
-bool Request::GET::setPumpe() { return _settingsData.setPumpe; };
+bool    Request::GET::setPumpe()            { return _settingsData.setPumpe; };
 // @brief Get the setLight object @return bool
-bool Request::GET::setLight() { return _settingsData.setLight; };
+bool    Request::GET::setLight()            { return _settingsData.setLight; };
 // @brief Get the setRgbLed object @return char
-const char* Request::GET::setRgbLed() { return _settingsData.setRgbLed; };
+const char* Request::GET::setRgbLed()       { return _settingsData.setRgbLed; };
 // @brief Get the setMatrixLed object @return char
-const char* Request::GET::setMatrixLed() { return _settingsData.setMatrixLed; };
+const char* Request::GET::setMatrixLed()    { return _settingsData.setMatrixLed; };
 
 // --------- SENSOR ---------
 
 // @brief Get the temperature_1 object @return float
-float Request::GET::temperature_1() { return _sensorData.temperature_1; };
+float   Request::GET::temperature_1()   { return _sensorData.temperature_1; };
 // @brief Get the humanity_1 object @return float
-float Request::GET::humidity_1() { return _sensorData.humidity_1; };
+float   Request::GET::humidity_1()      { return _sensorData.humidity_1; };
 // @brief Get the temperature_2 object @return float
-float Request::GET::temperature_2() { return _sensorData.temperature_2; };
+float   Request::GET::temperature_2()   { return _sensorData.temperature_2; };
 // @brief Get the humanity_2 object @return float
-float Request::GET::humidity_2() { return _sensorData.humidity_2; };
+float   Request::GET::humidity_2()      { return _sensorData.humidity_2; };
 // @brief Get the soilMoisture_1 object @return float
-float Request::GET::soilMoisture_1() { return _sensorData.soilMoisture_1; };
+float   Request::GET::soilMoisture_1()  { return _sensorData.soilMoisture_1; };
 // @brief Get the soilMoisture_2 object @return float
-float Request::GET::soilMoisture_2() { return _sensorData.soilMoisture_2; };
+float   Request::GET::soilMoisture_2()  { return _sensorData.soilMoisture_2; };
 // @brief Get the statusPumpe object @return bool
-bool Request::GET::statusPumpe() { return _sensorData.statusPumpe; };
+bool    Request::GET::statusPumpe()     { return _sensorData.statusPumpe; };
 // @brief Get the statusLufter_1 object @return bool
-bool Request::GET::statusLufter_1() { return _sensorData.statusLufter_1; };
+bool    Request::GET::statusLufter_1()  { return _sensorData.statusLufter_1; };
 // @brief Get the statusLufter_2 object @return bool
-bool Request::GET::statusLufter_2() { return _sensorData.statusLufter_2; };
+bool    Request::GET::statusLufter_2()  { return _sensorData.statusLufter_2; };
 // @brief Get the statusLight object @return bool
-bool Request::GET::statusLight() { return _sensorData.statusLight; };
+bool    Request::GET::statusLight()     { return _sensorData.statusLight; };
 // @brief Get the getRgbLed object @return char
-const char* Request::GET::getRgbLed() { return _sensorData.getRgbLed; };
+const char* Request::GET::getRgbLed()   { return _sensorData.getRgbLed; };
 
 // SET
 /**
@@ -295,50 +295,50 @@ Request::SET::SET(Request& request)
 // -------- SETTINGS --------
 
 // @brief Set the temperature_Min object @param value @return int
-int Request::SET::temperature_Min(int value) { return _settingsData.temperature_Min = value; };
+int     Request::SET::temperature_Min(int value)            { return _settingsData.temperature_Min = value; };
 // @brief Set the temperature_Avg object @param value @return int
-int Request::SET::temperature_Avg(int value) { return _settingsData.temperature_Avg = value; };
+int     Request::SET::temperature_Avg(int value)            { return _settingsData.temperature_Avg = value; };
 // @brief Set the temperature_Max object @param value @return int
-int Request::SET::temperature_Max(int value) { return _settingsData.temperature_Max = value; };
+int     Request::SET::temperature_Max(int value)            { return _settingsData.temperature_Max = value; };
 // @brief Set the soilMoisture_Min object @param value @return int
-int Request::SET::soilMoisture_Min(int value) { return _settingsData.soilMoisture_Min = value; };
+int     Request::SET::soilMoisture_Min(int value)           { return _settingsData.soilMoisture_Min = value; };
 // @brief Set the soilMoisture_Max object @param value @return int
-int Request::SET::soilMoisture_Max(int value) { return _settingsData.soilMoisture_Max = value; };
+int     Request::SET::soilMoisture_Max(int value)           { return _settingsData.soilMoisture_Max = value; };
 // @brief Set the setLufter_1 object @param value @return bool
-bool Request::SET::setLufter_1(bool value) { return _settingsData.setLufter_1 = value; };
+bool    Request::SET::setLufter_1(bool value)               { return _settingsData.setLufter_1 = value; };
 // @brief Set the setLufter_2 object @param value @return bool
-bool Request::SET::setLufter_2(bool value) { return _settingsData.setLufter_2 = value; };
+bool    Request::SET::setLufter_2(bool value)               { return _settingsData.setLufter_2 = value; };
 // @brief Set the setPumpe object @param value @return bool
-bool Request::SET::setPumpe(bool value) { return _settingsData.setPumpe = value; };
+bool    Request::SET::setPumpe(bool value)                  { return _settingsData.setPumpe = value; };
 // @brief Set the setLight object @param value @return bool
-bool Request::SET::setLight(bool value) { return _settingsData.setLight = value; };
+bool    Request::SET::setLight(bool value)                  { return _settingsData.setLight = value; };
 // @brief Set the setRgbLed object @param value @return char
-const char* Request::SET::setRgbLed(const char* value) { return _settingsData.setRgbLed = value; };
+const char* Request::SET::setRgbLed(const char* value)      { return _settingsData.setRgbLed = value; };
 // @brief Set the setMatrixLed object @param value @return char
-const char* Request::SET::setMatrixLed(const char* value) { return _settingsData.setMatrixLed = value; };
+const char* Request::SET::setMatrixLed(const char* value)   { return _settingsData.setMatrixLed = value; };
 
 // ---------- SENSOR ----------
 
 // @brief Set the temperature_1 object @param value @return float
-float Request::SET::temperature_1(float value) { return _sensorData.temperature_1 = value; };
+float   Request::SET::temperature_1(float value)        { return _sensorData.temperature_1 = value; };
 // @brief Set the humanity_1 object @param value @return float
-float Request::SET::humidity_1(float value) { return _sensorData.humidity_1 = value; };
+float   Request::SET::humidity_1(float value)           { return _sensorData.humidity_1 = value; };
 // @brief Set the temperature_2 object @param value @return float
-float Request::SET::temperature_2(float value) { return _sensorData.temperature_2 = value; };
+float   Request::SET::temperature_2(float value)        { return _sensorData.temperature_2 = value; };
 // @brief Set the humanity_2 object @param value @return float
-float Request::SET::humidity_2(float value) { return _sensorData.humidity_2 = value; };
+float   Request::SET::humidity_2(float value)           { return _sensorData.humidity_2 = value; };
 // @brief Set the soilMoisture_1 object @param value @return float 
-float Request::SET::soilMoisture_1(float value) { return _sensorData.soilMoisture_1 = value; };
+float   Request::SET::soilMoisture_1(float value)       { return _sensorData.soilMoisture_1 = value; };
 // @brief Set the soilMoisture_2 object @param value @return float
-float Request::SET::soilMoisture_2(float value) { return _sensorData.soilMoisture_2 = value; };
+float   Request::SET::soilMoisture_2(float value)       { return _sensorData.soilMoisture_2 = value; };
 // @brief Set the statusPumpe object @param value @return bool
-bool Request::SET::statusPumpe(bool value) { return _sensorData.statusPumpe = value; };
+bool    Request::SET::statusPumpe(bool value)           { return _sensorData.statusPumpe = value; };
 // @brief Set the statusLufter_1 object @param value @return bool
-bool Request::SET::statusLufter_1(bool value) { return _sensorData.statusLufter_1 = value; };
+bool    Request::SET::statusLufter_1(bool value)        { return _sensorData.statusLufter_1 = value; };
 // @brief Set the statusLufter_2 object @param value @return bool
-bool Request::SET::statusLufter_2(bool value) { return _sensorData.statusLufter_2 = value; };
+bool    Request::SET::statusLufter_2(bool value)        { return _sensorData.statusLufter_2 = value; };
 // @brief Set the statusLight object @param value @return bool
-bool Request::SET::statusLight(bool value) { return _sensorData.statusLight = value; };
+bool    Request::SET::statusLight(bool value)           { return _sensorData.statusLight = value; };
 // @brief Set the getRgbLed object @param value @return char
-const char* Request::SET::getRgbLed(const char* value) { return _sensorData.getRgbLed = value; };
+const char* Request::SET::getRgbLed(const char* value)  { return _sensorData.getRgbLed = value; };
 // inline const char* Request::SET::getRgbLed(const char* value) { return _sensorData.getRgbLed = value; } 

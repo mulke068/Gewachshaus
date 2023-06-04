@@ -1,11 +1,11 @@
-#define logoWidth  180  // logo width
-#define logoHeight 150  // logo height
+#define logoWidth  			180 // logo width
+#define logoHeight 			150 // logo height
 
-#define iconsHomeWidth 70 // icons home width	
-#define iconsHomeHeight 70	// icons home height
+#define iconsHomeWidth 		70 	// icons home width	
+#define iconsHomeHeight 	70	// icons home height
 
-#define iconSettingWidth 40 // icon setting width
-#define iconSettingHeight 40 // icon setting height
+#define iconSettingWidth 	40 	// icon setting width
+#define iconSettingHeight 	40 	// icon setting height
 
 //----------------------------------------------------------------
 PROGMEM const unsigned char logo[]  = {

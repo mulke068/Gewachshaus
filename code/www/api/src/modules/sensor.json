@@ -9,5 +9,5 @@
     "statusLufter_1": true,
     "statusLufter_2": true,
     "statusLight": true,
-    "getRgbLed": "255,255,255"
+    "getRgbLed": "rgb(255,255,255)"
 }

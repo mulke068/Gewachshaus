@@ -25,7 +25,7 @@
 #define _SENSOR_ DEF_SENSOR
 String api_url = "http://192.168.178.38:3030";
 
-Wlan wlan;
+Wlan    wlan;
 Request settings(api_url, _SETTINGS_);
 Request sensor(api_url, _SENSOR_);
 // ================================================= HTTP Start ================================================================
