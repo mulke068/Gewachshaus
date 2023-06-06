@@ -51,6 +51,12 @@
                     <label for="setLufter_1" class="py-3">Licht AN/AUS</label>
                     <input type="checkbox" name="setLight" class="toggle" v-model="formData.setLight" />
                 </div>
+                <div class="w-full max-w-xs form-control">
+                    <label class="label">
+                        <span class="label-text">Helligkeit</span>
+                    </label>
+                    <input type="number" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.setBrightness" />
+                </div>
                 <div class="form-control w-max ">
                     <label for="setRgbLed" class="py-3">Licht Farbe auswählen</label>
                     <input class="flex min-w-fit" type="color" name="setRgbLed" v-model="formData.setRgbLed" />
@@ -112,6 +118,7 @@ let formData = ref({
     setLufter_2: settings_values.setLufter_2 || false,
     setPumpe: settings_values.setPumpe || false,
     setLight: settings_values.setLight || false,
+    setBrightness: settings_values.setBrightness || 100,
     setRgbLed: settings_values.setRgbLed = RGBToHex(settings_values.setRgbLed) || '#000000',
     setMatrixLed: settings_values.setMatrixLed || '',
 })

@@ -113,6 +113,7 @@ void Request::storeSettings() {
     _settingsData.temperature_Max   = _doc["temperature_Max"];
     _settingsData.soilMoisture_Min  = _doc["soilMoisture_Min"];
     _settingsData.soilMoisture_Max  = _doc["soilMoisture_Max"];
+    _settingsData.setBrightness     = _doc["setBrightness"];
     _settingsData.setLufter_1       = _doc["setLufter_1"];
     _settingsData.setLufter_2       = _doc["setLufter_2"];
     _settingsData.setPumpe          = _doc["setPumpe"];
@@ -164,6 +165,7 @@ void Request::sendSettings() {
     doc["temperature_Max"]  = _settingsData.temperature_Max;
     doc["soilMoisture_Min"] = _settingsData.soilMoisture_Min;
     doc["soilMoisture_Max"] = _settingsData.soilMoisture_Max;
+    doc["setBrightness"]    = _settingsData.setBrightness;
     doc["setLufter_1"]      = _settingsData.setLufter_1;
     doc["setLufter_2"]      = _settingsData.setLufter_2;
     doc["setPumpe"]         = _settingsData.setPumpe;
@@ -245,6 +247,8 @@ int     Request::GET::temperature_Max()     { return _settingsData.temperature_M
 int     Request::GET::soilMoisture_Min()    { return _settingsData.soilMoisture_Min; };
 // @brief Get the soilMoisture_Max object @return int
 int     Request::GET::soilMoisture_Max()    { return _settingsData.soilMoisture_Max; };
+// @brief Get the setBrightness object @return int
+int     Request::GET::setBrightness()       { return _settingsData.setBrightness;   };
 // @brief Get the setLufter_1 object @return bool
 bool    Request::GET::setLufter_1()         { return _settingsData.setLufter_1; };
 // @brief Get the setLufter_2 object @return bool
@@ -304,6 +308,8 @@ int     Request::SET::temperature_Max(int value)            { return _settingsDa
 int     Request::SET::soilMoisture_Min(int value)           { return _settingsData.soilMoisture_Min = value; };
 // @brief Set the soilMoisture_Max object @param value @return int
 int     Request::SET::soilMoisture_Max(int value)           { return _settingsData.soilMoisture_Max = value; };
+// @brief Set the setBrightness object @param value  @return int
+int     Request::SET::setBrightness(int value)              { return _settingsData.setBrightness = value;   };
 // @brief Set the setLufter_1 object @param value @return bool
 bool    Request::SET::setLufter_1(bool value)               { return _settingsData.setLufter_1 = value; };
 // @brief Set the setLufter_2 object @param value @return bool

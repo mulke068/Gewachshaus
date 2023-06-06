@@ -46,7 +46,7 @@ const int soilMoisturePin_2 = 26;
 // DOUT   -> NONE
 #define NeoPixel_NUM 16
 #define NeoPixel_PIN 15
-Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_RGB + NEO_KHZ800);
+Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 
 void setup(void) {
   Serial.begin(115200);
@@ -100,6 +100,9 @@ void LightSettings() {
       neoPixel.setPixelColor(i, rgbValues[0],rgbValues[1],rgbValues[2]);
       neoPixel.show();
     }
+  } else {
+    neoPixel.clear();
+    neoPixel.show();
   };
 }
 

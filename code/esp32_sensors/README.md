@@ -17,8 +17,8 @@
 |  05  | LedMatrix      | CS    |
 |  18  | LedMatrix      | CLK   |
 |  17  | Buzzer         | VCC   |
+|  15  | RGBLed         | DIN   |
 2x lüfter with pwm?
-1x rgbled
 
 ## Data Structure
 
@@ -48,6 +48,7 @@
 | setLufter_2       | boolean   | lufter 2 an oder aus                                  |
 | setPumpe          | boolean   | pumpe an oder aus                                     |
 | setLight          | boolean   | set Light on or off                                   |
+| setBrightness     | int       | set brightness of led matrix(0-100)                   |
 | setRgbLed         | string    | rgb led farbe                                         |
 | setMatrixLed      | string    | Text anzeige für led matrix                           |
 

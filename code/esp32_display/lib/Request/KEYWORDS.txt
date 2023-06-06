@@ -16,6 +16,7 @@ temperature_Avg     KEYWORD3
 temperature_Max     KEYWORD3
 soilMoisture_Min    KEYWORD3
 soilMoisture_Max    KEYWORD3
+setBrightness       KEYWORD3
 setLufter_1         KEYWORD3
 setLufter_2         KEYWORD3
 setPumpe            KEYWORD3

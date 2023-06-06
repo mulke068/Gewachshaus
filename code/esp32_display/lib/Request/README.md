@@ -43,6 +43,7 @@ The Request class is used to handle the request from the client. It is used to g
 |temperature_Max | int |
 |soilMoisture_Min | int |
 |soilMoisture_Max | int |
+|setBrightness | int |
 |setLufter_1 | bool |
 |setLufter_2 | bool |
 |setPumpe | bool |

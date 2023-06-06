@@ -46,6 +46,7 @@ struct SettingsData {
     int     temperature_Max;
     int     soilMoisture_Min;
     int     soilMoisture_Max;
+    int     setBrightness;
     bool    setLufter_1;
     bool    setLufter_2;
     bool    setPumpe;
@@ -74,6 +75,7 @@ public:
         int     temperature_Max();
         int     soilMoisture_Min();
         int     soilMoisture_Max();
+        int     setBrightness();
         bool    setLufter_1();
         bool    setLufter_2();
         bool    setPumpe();
@@ -108,6 +110,7 @@ public:
         int     temperature_Max(int value);
         int     soilMoisture_Min(int value);
         int     soilMoisture_Max(int value);
+        int     setBrightness(int value);
         bool    setLufter_1(bool value);
         bool    setLufter_2(bool value);
         bool    setPumpe(bool value);
