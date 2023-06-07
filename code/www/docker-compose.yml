@@ -2,7 +2,7 @@ version: "3.9"
 services:
   mongodb:
     image: mongo:6.0.5
-    #image:mongo:4.4.9 # raspberrypi
+    #image: mongo:4.4.9 # raspberrypi
     #image: mongo:5.0.0 # backup image
     container_name: mongo_db
     restart: unless-stopped # always
