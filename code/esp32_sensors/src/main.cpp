@@ -17,6 +17,9 @@ Wlan    wlan;
 Request settings(uri, apiSettings);
 Request sensor(uri, apiSensor);
 
+// STANDARD SETTINGS
+#define MINDelay 1000
+
 // DHT help
 // https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
 // VCC  -> 3.3V or 5V
@@ -37,6 +40,10 @@ DHT dht_2(DHTPIN_2, DHTTYPE);
 // 4095.0 = 0%
 const int soilMoisturePin_1 = 25;
 const int soilMoisturePin_2 = 26;
+const int soilMoisture_Map_Min = 2006;
+const int soilMoisture_Map_Max = 4095;
+const int soilMoisture_Map_From = 0;
+const int soilMoisture_Map_To = 100;
 
 // Adafruit Neo Pixel Ring help
 // https://www.adafruit.com/product/1463
@@ -56,6 +63,38 @@ void setup(void) {
   dht_2.begin();
   neoPixel.begin();
   neoPixel.clear();
+}
+
+int POST_Sensor() {
+  sensor.set.temperature_1(temperature_1);
+  sensor.set.temperature_2(temperature_2);
+  sensor.set.humidity_1(humidity_1);
+  sensor.set.humidity_2(humidity_2);
+  sensor.set.soilMoisture_1(soilMoisture_1);
+  sensor.set.soilMoisture_2(soilMoisture_2);
+  sensor.set.statusPumpe(statusPumpe);
+  sensor.set.statusLufter_1(statusLufter_1);
+  sensor.set.statusLufter_2(statusLufter_2);
+  sensor.set.statusLight(statusLight);
+  int http_code = sensor.post(true);
+  if(http_code <= 200 || http_code >= 300) {
+    Serial.println("UpdateValues -> Error Code: " + String(http_code));
+  };
+  return http_code;
+};
+
+void GET_Settings() {
+    temperature_Min = settings.get.temperature_Min();
+    temperature_Avg = settings.get.temperature_Avg();
+    temperature_Max = settings.get.temperature_Max();
+    soilMoisture_Min = settings.get.soilMoisture_Min();
+    soilMoisture_Max = settings.get.soilMoisture_Max();
+    setLufter_1 = settings.get.setLufter_1();
+    setLufter_2 = settings.get.setLufter_2();
+    setLight = settings.get.setLight();
+    setPumpe = settings.get.setPumpe();
+    setRgbLed = settings.get.setRgbLed();
+    setMatrixLed = settings.get.setMatrixLed();
 }
 
 int *rgb_String_To_Int(String rgb) {
@@ -80,21 +119,33 @@ int *rgb_String_To_Int(String rgb) {
 }
 
 void TemperatureSettings() {
-  if(settings.get.setLufter_1()) {
-    if(temperature_1 <= settings.get.temperature_Min()) {} // lüfter on 100 %
-    if(temperature_1 <= settings.get.temperature_Avg()) {} // lüfter on 50 %
-    if(temperature_1 >= settings.get.temperature_Max()) {} // läfter off 0 %
+  humidity_1      = dht_1.readHumidity();
+  humidity_2      = dht_2.readHumidity();
+  temperature_1   = dht_1.readTemperature();
+  temperature_2   = dht_2.readTemperature();
+  if (isnan(humidity_1) || isnan(temperature_1)) {
+    Serial.println("Failed to read from DHT 1 sensor!");
+    return;
+  }
+  if (isnan(humidity_2) || isnan(temperature_2)) {
+    Serial.println("Failed to read from DHT 2 sensor!");
+    return;
+  }
+  if(setLufter_1) {
+    if(temperature_1 <= temperature_Min) {} // läfter off 0 %
+    if(temperature_1 <= temperature_Avg) {} // lüfter on 50 %
+    if(temperature_1 >= temperature_Max) {} // lüfter on 100 %
   };
-  if(settings.get.setLufter_2()) {
-    if(temperature_2 <= settings.get.temperature_Min()) {} // lüfter on 100 %
-    if(temperature_2 <= settings.get.temperature_Avg()) {} // lüfter on 50 %
-    if(temperature_2 >= settings.get.temperature_Max()) {} // läfter off 0 %
+  if(setLufter_2) {
+    if(temperature_2 <= temperature_Min) {} // läfter off 0 %
+    if(temperature_2 <= temperature_Avg) {} // lüfter on 50 %
+    if(temperature_2 >= temperature_Max) {} // lüfter on 100 %
   };
 }
 
 void LightSettings() {
-  int *rgbValues = rgb_String_To_Int(settings.get.setRgbLed());
-  if(settings.get.setLight()) {
+  int *rgbValues = rgb_String_To_Int(setRgbLed);
+  if(setLight) {
     neoPixel.setBrightness(100);
     for(int i=0;i<NeoPixel_NUM;i++) {
       neoPixel.setPixelColor(i, rgbValues[0],rgbValues[1],rgbValues[2]);
@@ -107,58 +158,47 @@ void LightSettings() {
 }
 
 void SoilMoistureSettings() {
-  if(settings.get.setPumpe()) {
-    if((soilMoisture_1 || soilMoisture_2) <= settings.get.soilMoisture_Min()) {} // Pumepe ON
-    if((soilMoisture_1 && soilMoisture_2) >= settings.get.soilMoisture_Max()) {} // Pumpe OFF
+  if(setPumpe) {
+    int soilMoisture_1_value  = analogRead(soilMoisturePin_1);
+    int soilMoisture_2_value  = analogRead(soilMoisturePin_2);
+    soilMoisture_1 = map(soilMoisture_1_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
+    soilMoisture_2 = map(soilMoisture_2_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
+    if((soilMoisture_1 || soilMoisture_2) <= soilMoisture_Min) {} // Pumepe ON
+    if((soilMoisture_1 && soilMoisture_2) >= soilMoisture_Max) {} // Pumpe OFF
   };
 }
 
 void MatrixLedSettings() {
-  String text_displayed = settings.get.setMatrixLed();
+  String text_displayed = setMatrixLed;
 }
 
-int UpdateValues() {
-  sensor.set.temperature_1(temperature_1);
-  sensor.set.temperature_2(temperature_2);
-  sensor.set.humidity_1(humidity_1);
-  sensor.set.humidity_2(humidity_2);
-  sensor.set.soilMoisture_1(soilMoisture_1);
-  sensor.set.soilMoisture_2(soilMoisture_2);
-  sensor.set.statusPumpe(statusPumpe);
-  sensor.set.statusLufter_1(statusLufter_1);
-  sensor.set.statusLufter_2(statusLufter_2);
-  sensor.set.statusLight(statusLight);
-  int http_code = sensor.post(true);
-  if(http_code <= 200 || http_code >= 300) {
-    Serial.println("UpdateValues -> Error Code: " + String(http_code));
-  };
-  return http_code;
-};
 
 void loop(void) {
-
-  humidity_1      = dht_1.readHumidity();
-  humidity_2      = dht_2.readHumidity();
-  temperature_1   = dht_1.readTemperature();
-  temperature_2   = dht_2.readTemperature();
-  soilMoisture_1  = analogRead(soilMoisturePin_1);
-  soilMoisture_2  = analogRead(soilMoisturePin_2);
-
-  if (isnan(humidity_1) || isnan(temperature_1)) {
-    Serial.println("Failed to read from DHT 1 sensor!");
-    return;
-  }
-  if (isnan(humidity_2) || isnan(temperature_2)) {
-    Serial.println("Failed to read from DHT 2 sensor!");
-    return;
-  }
-
-  Serial.println("--------------------");
-  settings.start();
-  Serial.println("--------------------");
-  sensor.start();
-  Serial.println("--------------------");
+  Serial.println("----GET SETTINGS----");
+  int settings_http_code = settings.start();
+  Serial.println("HTTP Code: " + settings_http_code);
+  if(settings_http_code <= 200 || settings_http_code >= 300) {
+    Serial.println("GET_Settings -> Error Code: " + String(settings_http_code));
+  } else {
+    GET_Settings();
+  };
   settings.end();
+  Serial.println("--------------------");
+
+  TemperatureSettings();
+  SoilMoistureSettings();
+  LightSettings();
+  MatrixLedSettings();
+  
+  Serial.println("-----POST SENSOR----");
+  int sensor_http_code = sensor.start();
+  Serial.println("HTTP Code: " + sensor_http_code);
+  if(sensor_http_code <= 200 || sensor_http_code >= 300) {
+    Serial.println("POST_Sensor -> Error Code: " + String(sensor_http_code));
+  } else {
+    Serial.println("POST Code: " + POST_Sensor());
+  };
   sensor.end();
-  delay(2000);
+  Serial.println("--------------------");
+  delay(MINDelay);
 }

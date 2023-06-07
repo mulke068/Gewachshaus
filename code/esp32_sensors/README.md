@@ -7,18 +7,19 @@
 
 ## PINS - Layout - ESP32_Sensor
 
-|  Pin | Module         | Name  |
-|------|----------------|-------|
-|  32  | DHT1           | DATA  |
-|  33  | DHT2           | DATA  |
-|  25  | SoilMoisture1  | DATA  |
-|  26  | SoilMoisture2  | DATA  |
-|  23  | LedMatrix      | DIN   |
-|  05  | LedMatrix      | CS    |
-|  18  | LedMatrix      | CLK   |
-|  17  | Buzzer         | VCC   |
-|  15  | RGBLed         | DIN   |
-2x lüfter with pwm?
+|  Pin | Module                 | Name  |
+|------|------------------------|-------|
+|  32  | DHT1                   | DATA  |
+|  33  | DHT2                   | DATA  |
+|  25  | SoilMoisture1          | DATA  |
+|  26  | SoilMoisture2          | DATA  |
+|  23  | LedMatrix              | DIN   |
+|  05  | LedMatrix              | CS    |
+|  18  | LedMatrix              | CLK   |
+|  17  | Buzzer                 | VCC   |
+|  15  | RGBLed                 | DIN   |
+|  12  | Lüfter Relais (5V)     | IN    |
+|  14  | Lüfter Relais (12V)    | IN    |
 
 ## Data Structure
 

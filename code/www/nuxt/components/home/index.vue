@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { objectExpression } from '@babel/types';
-import { AmbientLight, GridHelper, PerspectiveCamera, PointLight, Scene, TextureLoader, Vector3, WebGLRenderer } from 'three';
+import THREE, { AmbientLight, GridHelper, PerspectiveCamera, PointLight, Scene, TextureLoader, Vector3, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Ref } from 'vue';
 
 let renderer: WebGLRenderer;
@@ -30,18 +28,24 @@ gridHelper.position.set(0, 0, 0);
 scene.add(gridHelper);
 
 //const spaceTexture = new TextureLoader().load('_nuxt/assets/img/space.webp');
-const spaceTexture = new TextureLoader().load('../../assets/img/space.webp');
+const spaceTexture = new TextureLoader().load('@assets/img/space.webp');
 scene.background = spaceTexture;
+
+
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 const objMateial = new MTLLoader();
 const objLoader = new OBJLoader();
-objMateial.load('/3dObjects/OBJ_PCB_Gewachshaus.mtl',
+
+objMateial.load('/3dObjects/test.mtl',
     (materials) => {
         materials.preload();
         objLoader.setMaterials(materials);
-        objLoader.load('/3dObjects/OBJ_PCB_Gewachshaus.obj',
+        objLoader.load('/3dObjects/test.obj',
             (object) => {
-                object.position.set(-43,39,0);
+                //object.position.set(-43,39,0);
+                object.position.set(0,0,0);
                 object.scale.set(0.01, 0.01, 0.01);
                 scene.add(object);
                 // Setup renderer
@@ -59,6 +63,66 @@ objMateial.load('/3dObjects/OBJ_PCB_Gewachshaus.mtl',
     }
 );
 
+/*
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+
+const fbxLoader = new FBXLoader();
+
+fbxLoader.load('/3dObjects/test.fbx',
+    (object) => {
+        object.position.set(0,0,0);
+        object.scale.set(0.01, 0.01, 0.01);
+        scene.add(object);
+        // Setup renderer
+        setRenderer();
+        setSize();
+    },
+    (xhr) => {
+        let count = Math.round(xhr.loaded / xhr.total * 100);
+        console.log(String(count)+ '% 3dObject ');
+    },
+    (error) => {
+        console.warn('An error happened loading 3DObject \n'+ error);
+    }
+)
+*/
+/*
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
+
+// Note that since Three release 148, you will find the Draco libraries in the `.\node_modules\three\examples\jsm\libs\draco\` folder.
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('../.node_modules/three/examples/jsm/libs/draco/');
+
+const loader = new GLTFLoader()
+loader.setDRACOLoader(dracoLoader)
+loader.load(
+    '3dObjects/test.glb',
+    function (gltf) {
+        gltf.scene.traverse(function (child) {
+            if ((child as THREE.Mesh).isMesh) {
+                const m = child as THREE.Mesh
+                m.receiveShadow = true
+                m.castShadow = true
+            }
+            if ((child as THREE.Light).isLight) {
+                const l = child as THREE.Light
+                l.castShadow = true
+                l.shadow.bias = -0.003
+                l.shadow.mapSize.width = 2048
+                l.shadow.mapSize.height = 2048
+            }
+        })
+        scene.add(gltf.scene)
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+    },
+    (error) => {
+        console.log(error)
+    }
+)
+*/
 function animate() {
     requestAnimationFrame(animate);
     controls.update();

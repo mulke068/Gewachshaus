@@ -1,0 +1,53 @@
+# Blender MTL File: '3dmodel_Gewachshaus.blend'
+# Material Count: 5
+
+newmtl Desk_wood
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.060000 0.060000 0.060000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 0.750000 D:\\Blender\\Materials\\Desk wood\\desk-wood-normal.png
+map_Kd D:\\Blender\\Materials\\Desk wood\\desk-wood-diffuse.png
+map_Ns D:\\Blender\\Materials\\Desk wood\\desk-wood-roughness.png
+
+newmtl Material.062
+Ns 353.416224
+Ka 1.000000 1.000000 1.000000
+Kd 0.246192 0.246192 0.246192
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl None
+Ns 500
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+
+newmtl Procedural_Fillament
+Ns 370.991754
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 0.363518 0.004065
+Ks 0.213636 0.213636 0.213636
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Simple_Crystal
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.513384 0.864741 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
