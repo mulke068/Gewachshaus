@@ -57,3 +57,7 @@ void Wlan::reconnect() {
         Serial.println(e.what());
     }
 }
+
+wl_status_t Wlan::status() {
+    return WiFi.status();
+}

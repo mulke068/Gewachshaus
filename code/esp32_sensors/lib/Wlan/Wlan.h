@@ -11,6 +11,7 @@ class Wlan {
         void connect();
         void disconnect();
         void reconnect();
+        static wl_status_t status();
 };
 
 #endif

@@ -60,7 +60,7 @@ void get_data(bool print=true){
   root_1_energieStatus_solar_2 = 10.5;
   root_1_energieStatus_akku = 7.3;
   root_1_energieStatus_strom = 11.3;
-  root_1_settings_brightness = 90;
+  root_1_settings_brightness = settings.get.setBrightness();
   root_1_settings_sound = 80;
 
   sensor.end();
@@ -409,6 +409,7 @@ void menu(int16_t ui){
 
   Serial.println("Loading ... ");
   //get_data();
+  fetch_data();
   /*
   if((WiFi.status() == WL_CONNECTED)){
     get_data();

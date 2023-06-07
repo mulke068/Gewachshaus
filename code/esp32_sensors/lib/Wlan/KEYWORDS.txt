@@ -1,4 +1,6 @@
 Wlan        KEYWORD1
+####################
 connect     KEYWORD2
 disconnect  KEYWORD2
 reconnect   KEYWORD2
+status      KEYWORD2
