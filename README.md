@@ -22,6 +22,10 @@
         <ul><a href="code/www/nuxt/README.md">Website</a></ul>
         <ul><a href="code/www/api/README.md">API</a></ul>
         <a href="code/application/README.md">application</a>
+        <br/>
+        <a href="code/esp32_display/README.md">ESP Display</a>
+        <br/>
+        <a href="code/esp32_sensor/README.md">ESP SENSOR</a>
         <h1>Stellungsannahme</h1>
         <h2>Plexiglas</h2>
             <ul>max grösse 600x400 m^2</ul>
