@@ -11,14 +11,14 @@
 
 #define apiSettings DEF_SETTINGS
 #define apiSensor   DEF_SENSOR
-const char* uri = "http://192.168.178.38:3030";
+const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
 
 Wlan    wlan;
 Request settings(uri, apiSettings);
 Request sensor(uri, apiSensor);
 
 // STANDARD SETTINGS
-#define MINDelay 1000
+#define MINDelay 3000
 
 // DHT help
 // https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
@@ -38,8 +38,8 @@ DHT dht_2(DHTPIN_2, DHTTYPE);
 // DATA   -> Pin 23 
 // 2006.0 = 100%
 // 4095.0 = 0%
-const int soilMoisturePin_1 = 25;
-const int soilMoisturePin_2 = 26;
+const int soilMoisturePin_1 = 12; // 25
+const int soilMoisturePin_2 = 13; // 26
 const int soilMoisture_Map_Min = 2006;
 const int soilMoisture_Map_Max = 4095;
 const int soilMoisture_Map_From = 0;
@@ -59,6 +59,7 @@ void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
   wlan.connect();
+  Serial.println(wlan.status());
   dht_1.begin();
   dht_2.begin();
   neoPixel.begin();
@@ -76,25 +77,25 @@ int POST_Sensor() {
   sensor.set.statusLufter_1(statusLufter_1);
   sensor.set.statusLufter_2(statusLufter_2);
   sensor.set.statusLight(statusLight);
-  int http_code = sensor.post(true);
-  if(http_code <= 200 || http_code >= 300) {
+  int http_code = sensor.post(false);
+  if(http_code < 200 || http_code >= 300) {
     Serial.println("UpdateValues -> Error Code: " + String(http_code));
   };
   return http_code;
 };
 
 void GET_Settings() {
-    temperature_Min = settings.get.temperature_Min();
-    temperature_Avg = settings.get.temperature_Avg();
-    temperature_Max = settings.get.temperature_Max();
-    soilMoisture_Min = settings.get.soilMoisture_Min();
-    soilMoisture_Max = settings.get.soilMoisture_Max();
-    setLufter_1 = settings.get.setLufter_1();
-    setLufter_2 = settings.get.setLufter_2();
-    setLight = settings.get.setLight();
-    setPumpe = settings.get.setPumpe();
-    setRgbLed = settings.get.setRgbLed();
-    setMatrixLed = settings.get.setMatrixLed();
+    temperature_Min   = settings.get.temperature_Min();
+    temperature_Avg   = settings.get.temperature_Avg();
+    temperature_Max   = settings.get.temperature_Max();
+    soilMoisture_Min  = settings.get.soilMoisture_Min();
+    soilMoisture_Max  = settings.get.soilMoisture_Max();
+    setLufter_1       = settings.get.setLufter_1();
+    setLufter_2       = settings.get.setLufter_2();
+    setLight          = settings.get.setLight();
+    setPumpe          = settings.get.setPumpe();
+    setRgbLed         = settings.get.setRgbLed();
+    setMatrixLed      = settings.get.setMatrixLed();
 }
 
 int *rgb_String_To_Int(String rgb) {
@@ -174,31 +175,34 @@ void MatrixLedSettings() {
 
 
 void loop(void) {
-  Serial.println("----GET SETTINGS----");
+  Serial.println("----SETTINGS----");
   int settings_http_code = settings.start();
-  Serial.println("HTTP Code: " + settings_http_code);
-  if(settings_http_code <= 200 || settings_http_code >= 300) {
+  Serial.print("HTTP Code: ");
+  Serial.println(settings_http_code);
+  if(settings_http_code < 200 || settings_http_code >= 300) {
     Serial.println("GET_Settings -> Error Code: " + String(settings_http_code));
   } else {
     GET_Settings();
   };
   settings.end();
-  Serial.println("--------------------");
+  Serial.println("----------------");
 
-  TemperatureSettings();
-  SoilMoistureSettings();
-  LightSettings();
-  MatrixLedSettings();
+  // TemperatureSettings();
+  // SoilMoistureSettings();
+  // LightSettings();
+  // MatrixLedSettings();
   
-  Serial.println("-----POST SENSOR----");
+  Serial.println("-----SENSOR----");
   int sensor_http_code = sensor.start();
-  Serial.println("HTTP Code: " + sensor_http_code);
-  if(sensor_http_code <= 200 || sensor_http_code >= 300) {
+  Serial.print("HTTP Code: ");
+  Serial.println(sensor_http_code);
+  if(sensor_http_code < 200 || sensor_http_code >= 300) {
     Serial.println("POST_Sensor -> Error Code: " + String(sensor_http_code));
   } else {
-    Serial.println("POST Code: " + POST_Sensor());
+    Serial.print("POST Code: ");
+    Serial.println(POST_Sensor());
   };
   sensor.end();
-  Serial.println("--------------------");
+  Serial.println("----------------");
   delay(MINDelay);
 }

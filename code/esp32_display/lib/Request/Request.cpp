@@ -80,7 +80,7 @@ int Request::post(bool response) {
         req       = http.getString();
         break;
     };
-    if (http_code <= 200 || http_code >= 300) {
+    if (http_code < 200 || http_code >= 300) {
         Serial.println("UPLOAD ERROR");
     };
     http.end();
