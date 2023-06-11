@@ -58,6 +58,6 @@ void Wlan::reconnect() {
     }
 }
 
-wl_status_t Wlan::status() {
-    return WiFi.status();
+wlan_status Wlan::status() {
+    return static_cast<wlan_status>(WiFi.status());
 }

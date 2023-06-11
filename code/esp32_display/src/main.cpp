@@ -50,10 +50,10 @@ void get_data(bool print=true){
   root_1_waterSystem_sensor_1 = sensor.get.soilMoisture_1();
   root_1_waterSystem_sensor_2 = sensor.get.soilMoisture_2();
   root_1_waterSystem_pumpe = sensor.get.statusPumpe(); 
-  root_1_lufterLeds_getLufter_1 = sensor.get.statusLufter_1();
-  root_1_lufterLeds_setLufter_1 = settings.get.setLufter_1();
-  root_1_lufterLeds_getLufter_2 = sensor.get.statusLufter_2();
-  root_1_lufterLeds_setLufter_2 = settings.get.setLufter_2();
+  root_1_lufterLeds_getLufter_1 = sensor.get.statusLufter_Low();
+  root_1_lufterLeds_setLufter_1 = settings.get.setLufter_Low();
+  root_1_lufterLeds_getLufter_2 = sensor.get.statusLufter_High();
+  root_1_lufterLeds_setLufter_2 = settings.get.setLufter_High();
   root_1_lufterLeds_getLed = sensor.get.statusLight();
   root_1_lufterLeds_setLed = settings.get.setLight();
   root_1_energieStatus_solar_1 = 10.5;
@@ -408,15 +408,6 @@ void fetch_data(){
 void menu(int16_t ui){
 
   Serial.println("Loading ... ");
-  //get_data();
-  fetch_data();
-  /*
-  if((WiFi.status() == WL_CONNECTED)){
-    get_data();
-  }else {
-    fetch_data();
-  }
-  */
 
   switch (ui)
   {
@@ -467,6 +458,15 @@ void setup(void){
 
 void loop(void){
   //fetch_data();
+  runCall ++;
+  if(runCall % runCallRefrech){
+  	if((Wlan.status() == CONNECTED)){
+    		get_data();
+  	} else {
+		Serial.println("Not Connected")
+	};
+  };
+  // Refrech Menu
   menu(menuIndex);
 
   uint16_t touch_x=0,touch_y=0;

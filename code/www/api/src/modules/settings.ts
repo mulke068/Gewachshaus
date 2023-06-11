@@ -14,8 +14,8 @@ export interface ISettings_Data extends mongoose.Document {
 	soilMoisture_Min: number;
 	soilMoisture_Max: number;
 	setBrightness: number;
-	setLufter_1: boolean;
-	setLufter_2: boolean;
+	setLufter_Low: boolean;
+	setLufter_High: boolean;
 	setPumpe: boolean;
 	setLight: boolean;
 	setRgbled: string;
@@ -32,8 +32,8 @@ const SettingsSchema = new mongoose.Schema({
 	soilMoisture_Min: { type: Number /*, default: 0 */ },
 	soilMoisture_Max: { type: Number /*, default: 100 */ },
 	setBrightness: { type: Number /*, default: 0 */ },
-	setLufter_1: { type: Boolean /*, default: false */ },
-	setLufter_2: { type: Boolean /*, default: false */ },
+	setLufter_Low: { type: Boolean /*, default: false */ },
+	setLufter_High: { type: Boolean /*, default: false */ },
 	setPumpe: { type: Boolean /*, default: false */ },
 	setLight: { type: Boolean /*, default: false */ },
 	setRgbLed: { type: String /*, default: "0,0,0" */ },

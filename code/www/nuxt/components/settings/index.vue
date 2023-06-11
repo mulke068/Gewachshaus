@@ -36,19 +36,19 @@
             </div>
             <div>
                 <div class="form-control">
-                    <label for="setLufter_1" class="py-3">Lüfter 1 AN/AUS</label>
-                    <input type="checkbox" name="setLufter_1" class="toggle" v-model="formData.setLufter_1" />
+                    <label for="setLufter_Low" class="py-3">Lüfter Eco</label>
+                    <input type="checkbox" name="setLufter_Low" class="toggle" v-model="formData.setLufter_Low" />
                 </div>
                 <div class="form-control">
-                    <label for="setLufter_1" class="py-3">Lüfter 2 AN/AUS</label>
-                    <input type="checkbox" name="setLufter_2" class="toggle" v-model="formData.setLufter_2" />
+                    <label for="setLufter_Low" class="py-3">Lüfter Performance</label>
+                    <input type="checkbox" name="setLufter_High" class="toggle" v-model="formData.setLufter_High" />
                 </div>
                 <div class="form-control">
-                    <label for="setLufter_1" class="py-3">Pumpe AN/AUS</label>
+                    <label for="setLufter_Low" class="py-3">Pumpe AN/AUS</label>
                     <input type="checkbox" name="setPumpe" class="toggle" v-model="formData.setPumpe" />
                 </div>
                 <div class="form-control">
-                    <label for="setLufter_1" class="py-3">Licht AN/AUS</label>
+                    <label for="setLufter_Low" class="py-3">Licht AN/AUS</label>
                     <input type="checkbox" name="setLight" class="toggle" v-model="formData.setLight" />
                 </div>
                 <div class="w-full max-w-xs form-control">
@@ -114,8 +114,8 @@ let formData = ref({
     temperature_Max: settings_values.temperature_Max || 100,
     soilMoisture_Min: settings_values.soilMoisture_Min || 0,
     soilMoisture_Max: settings_values.soilMoisture_Max || 100,
-    setLufter_1: settings_values.setLufter_1 || false,
-    setLufter_2: settings_values.setLufter_2 || false,
+    setLufter_Low: settings_values.setLufter_Low || false,
+    setLufter_High: settings_values.setLufter_High || false,
     setPumpe: settings_values.setPumpe || false,
     setLight: settings_values.setLight || false,
     setBrightness: settings_values.setBrightness || 100,

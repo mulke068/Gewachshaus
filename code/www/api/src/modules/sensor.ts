@@ -8,14 +8,17 @@ export interface ISensor_Data extends mongoose.Document {
 	id: number;
 	timestamp: Date;
 	created_at: Date;
-	sensor: [
-		{
-			name: string;
-			pin: string;
-			value: string;
-			description: string;
-		}
-	];
+	temperature_1: number;
+	humidity_1: number;
+	temperature_2: number;
+	humidity_2: number;
+	soilMoisture_1: number;
+	soilMoisture_2: number;
+	statusPumpe: boolean;
+	statusLufter_Low: boolean;
+	statusLufter_High: boolean;
+	statusLight: boolean;
+	getRgbLed: string;
 }
 
 const SensorSchema = new mongoose.Schema({
@@ -26,11 +29,11 @@ const SensorSchema = new mongoose.Schema({
 	humidity_1: { type: Number },
 	temperature_2: { type: Number },
 	humidity_2: { type: Number },
-	soliMoisture_1: { type: Number },
-	soliMoisture_2: { type: Number },
+	soilMoisture_1: { type: Number },
+	soilMoisture_2: { type: Number },
 	statusPumpe: { type: Boolean },
-	statusLufter_1: { type: Boolean },
-	statusLufter_2: { type: Boolean },
+	statusLufter_Low: { type: Boolean },
+	statusLufter_High: { type: Boolean },
 	statusLight: { type: Boolean },
 	getRgbLed: { type: String }
 });

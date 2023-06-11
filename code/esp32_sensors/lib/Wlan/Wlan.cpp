@@ -59,5 +59,5 @@ void Wlan::reconnect() {
 }
 
 wlan_status Wlan::status() {
-    return WiFi.status();
+    return static_cast<wlan_status>(WiFi.status());
 }

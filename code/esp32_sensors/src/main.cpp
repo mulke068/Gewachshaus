@@ -38,8 +38,8 @@ DHT dht_2(DHTPIN_2, DHTTYPE);
 // DATA   -> Pin 23 
 // 2006.0 = 100%
 // 4095.0 = 0%
-const int soilMoisturePin_1 = 12; // 25
-const int soilMoisturePin_2 = 13; // 26
+const int soilMoisturePin_1 = 25;//12 // 25
+const int soilMoisturePin_2 = 26;//13 // 26
 const int soilMoisture_Map_Min = 2006;
 const int soilMoisture_Map_Max = 4095;
 const int soilMoisture_Map_From = 0;
@@ -59,7 +59,6 @@ void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
   wlan.connect();
-  Serial.println(wlan.status());
   dht_1.begin();
   dht_2.begin();
   neoPixel.begin();
@@ -74,7 +73,7 @@ int POST_Sensor() {
   sensor.set.soilMoisture_1(soilMoisture_1);
   sensor.set.soilMoisture_2(soilMoisture_2);
   sensor.set.statusPumpe(statusPumpe);
-  sensor.set.statusLufter_1(statusLufter_1);
+  sensor.set.statusLufter_Low(statusLufter_Low);
   sensor.set.statusLufter_2(statusLufter_2);
   sensor.set.statusLight(statusLight);
   int http_code = sensor.post(false);
@@ -175,6 +174,9 @@ void MatrixLedSettings() {
 
 
 void loop(void) {
+  if (Wlan.status() == DISCONNECTED ) {
+    Wlan.reconnect();
+  }
   Serial.println("----SETTINGS----");
   int settings_http_code = settings.start();
   Serial.print("HTTP Code: ");

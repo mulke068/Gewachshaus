@@ -31,8 +31,8 @@ struct SensorData {
     float   soilMoisture_1;
     float   soilMoisture_2;
     bool    statusPumpe;
-    bool    statusLufter_1;
-    bool    statusLufter_2;
+    bool    statusLufter_Low;
+    bool    statusLufter_High;
     bool    statusLight;
     const char *getRgbLed;
 };
@@ -47,8 +47,8 @@ struct SettingsData {
     int     soilMoisture_Min;
     int     soilMoisture_Max;
     int     setBrightness;
-    bool    setLufter_1;
-    bool    setLufter_2;
+    bool    setLufter_Low;
+    bool    setLufter_High;
     bool    setPumpe;
     bool    setLight;
     const char *setRgbLed;
@@ -76,8 +76,8 @@ public:
         int     soilMoisture_Min();
         int     soilMoisture_Max();
         int     setBrightness();
-        bool    setLufter_1();
-        bool    setLufter_2();
+        bool    setLufter_Low();
+        bool    setLufter_High();
         bool    setPumpe();
         bool    setLight();
         const char* setRgbLed();
@@ -91,8 +91,8 @@ public:
         float   soilMoisture_1();
         float   soilMoisture_2();
         bool    statusPumpe();
-        bool    statusLufter_1();
-        bool    statusLufter_2();
+        bool    statusLufter_Low();
+        bool    statusLufter_High();
         bool    statusLight();
         const char* getRgbLed();
     private:
@@ -111,8 +111,8 @@ public:
         int     soilMoisture_Min(int value);
         int     soilMoisture_Max(int value);
         int     setBrightness(int value);
-        bool    setLufter_1(bool value);
-        bool    setLufter_2(bool value);
+        bool    setLufter_Low(bool value);
+        bool    setLufter_High(bool value);
         bool    setPumpe(bool value);
         bool    setLight(bool value);
         const char* setRgbLed(const char *value);
@@ -126,8 +126,8 @@ public:
         float   soilMoisture_1(float value);
         float   soilMoisture_2(float value);
         bool    statusPumpe(bool value);
-        bool    statusLufter_1(bool value);
-        bool    statusLufter_2(bool value);
+        bool    statusLufter_Low(bool value);
+        bool    statusLufter_High(bool value);
         bool    statusLight(bool value);
         const char* getRgbLed(const char *value);
     private:

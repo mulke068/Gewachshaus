@@ -29,8 +29,8 @@ The Request class is used to handle the request from the client. It is used to g
 |soilMoisture_1 | float|
 |soilMoisture_2 | float|
 |statusPumpe | bool |
-|statusLufter_1 | bool |
-|statusLufter_2 | bool |
+|statusLufter_Low | bool |
+|statusLufter_High | bool |
 |statusLight  | bool |
 |getRgbLed | char |
 
@@ -44,8 +44,8 @@ The Request class is used to handle the request from the client. It is used to g
 |soilMoisture_Min | int |
 |soilMoisture_Max | int |
 |setBrightness | int |
-|setLufter_1 | bool |
-|setLufter_2 | bool |
+|setLufter_Low| bool |
+|setLufter_High | bool |
 |setPumpe | bool |
 |setLight | bool |
 |setRgbLed | char |

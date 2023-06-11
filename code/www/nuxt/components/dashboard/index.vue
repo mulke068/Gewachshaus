@@ -33,8 +33,8 @@
                 <div>
                     <div class="justify-start text-3xl ">WaterSystem</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
-                        <div class="radial-progress" :style="`--value: ${sensorData.soliMoisture_1}`">{{sensorData.soliMoisture_1}}</div>
-                        <div class="radial-progress" :style="`--value: ${sensorData.soliMoisture_2}`">{{sensorData.soliMoisture_2}}</div>
+                        <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_1}`">{{sensorData.soilMoisture_1}}</div>
+                        <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_2}`">{{sensorData.soilMoisture_2}}</div>
                         <div>
                             <input type="checkbox" class="toggle" v-model="sensorData.statusPumpe" />
                             {{ sensorData.statusPumpe ? 'ON' : 'OFF' }}
@@ -48,15 +48,15 @@
                             <input type="range" min="0" max="100" :value="100" class="range" />
                         </div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_1" />
-                            {{ sensorData.statusLufter_1 ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_Low" />
+                            {{ sensorData.statusLufter_Low ? 'ON' : 'OFF' }}
                         </div>
                         <div>
                             <input type="range" min="0" max="100" :value="100" class="range" />
                         </div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_2" />
-                            {{ sensorData.statusLufter_2 ? 'ON' : 'OFF' }}
+                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_High" />
+                            {{ sensorData.statusLufter_High ? 'ON' : 'OFF' }}
                         </div>
                         <div>
                             <input type="range" min="0" max="100" :value="100" class="range" />
@@ -108,11 +108,11 @@ export default {
                 humidity_1: 0,
                 temperature_2: 0,
                 humidity_2: 0,
-                soliMoisture_1: 0,
+                soilMoisture_1: 0,
                 soilMoisture_2: 0,
                 statusPumpe: false,
-                statusLufter_1: false,
-                statusLufter_2: false,
+                statusLufter_Low: false,
+                statusLufter_High: false,
                 statusLight: false,
                 getRgbLed: 'rgb(0,0,0)',
             },
@@ -122,8 +122,8 @@ export default {
                 temperature_Max: 0,
                 soilMoisture_Min: 0,
                 soilMoisture_Max: 0,
-                setLufter_1: false,
-                setLufter_2: false,
+                setLufter_Low: false,
+                setLufter_High: false,
                 setPumpe: false,
                 setLight: false,
                 setRgbLed: 'rgb(0,0,0)',
@@ -211,9 +211,9 @@ export default {
             <div class="flex justify-start text-3xl">LufterLeds</div>
             <div class="flex justify-center p-4 space-x-4 text-lg">
                 <div>{{ lufterLeds.getLufter_1 }}</div>
-                <div>{{ lufterLeds.setLufter_1 }}</div>
+                <div>{{ lufterLeds.setLufter_Low }}</div>
                 <div>{{ lufterLeds.getLufter_2 }}</div>
-                <div>{{ lufterLeds.setLufter_2 }}</div>
+                <div>{{ lufterLeds.setLufter_High }}</div>
                 <div>{{ lufterLeds.getLed }}</div>
                 <div>{{ lufterLeds.setLed }}</div>
             </div>    

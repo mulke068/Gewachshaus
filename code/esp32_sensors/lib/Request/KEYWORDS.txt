@@ -17,8 +17,8 @@ temperature_Max     KEYWORD3
 soilMoisture_Min    KEYWORD3
 soilMoisture_Max    KEYWORD3
 setBrightness       KEYWORD3
-setLufter_1         KEYWORD3
-setLufter_2         KEYWORD3
+setLufter_Low       KEYWORD3
+setLufter_High	    KEYWORD3
 setPumpe            KEYWORD3
 setLight            KEYWORD3
 setRgbLed           KEYWORD3
@@ -31,8 +31,8 @@ humidity_2          KEYWORD3
 soilMoisture_1      KEYWORD3
 soilMoisture_2      KEYWORD3
 statusPumpe         KEYWORD3
-statusLufter_1      KEYWORD3
-statusLufter_2      KEYWORD3
+statusLufter_Low    KEYWORD3
+statusLufter_High   KEYWORD3
 statusLight         KEYWORD3
 getRgbLed           KEYWORD3
 
