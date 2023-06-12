@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wlan.h>
 #include <Request.h>
-#include <config.h>
+// #include <config.h>
 #include <variables.h>
 
 #include <SPI.h>
@@ -74,7 +74,7 @@ int POST_Sensor() {
   sensor.set.soilMoisture_2(soilMoisture_2);
   sensor.set.statusPumpe(statusPumpe);
   sensor.set.statusLufter_Low(statusLufter_Low);
-  sensor.set.statusLufter_2(statusLufter_2);
+  sensor.set.statusLufter_High(statusLufter_High);
   sensor.set.statusLight(statusLight);
   int http_code = sensor.post(false);
   if(http_code < 200 || http_code >= 300) {
@@ -89,8 +89,8 @@ void GET_Settings() {
     temperature_Max   = settings.get.temperature_Max();
     soilMoisture_Min  = settings.get.soilMoisture_Min();
     soilMoisture_Max  = settings.get.soilMoisture_Max();
-    setLufter_1       = settings.get.setLufter_1();
-    setLufter_2       = settings.get.setLufter_2();
+    setLufter_Low       = settings.get.setLufter_Low();
+    setLufter_High       = settings.get.setLufter_High();
     setLight          = settings.get.setLight();
     setPumpe          = settings.get.setPumpe();
     setRgbLed         = settings.get.setRgbLed();
@@ -131,15 +131,16 @@ void TemperatureSettings() {
     Serial.println("Failed to read from DHT 2 sensor!");
     return;
   }
-  if(setLufter_1) {
-    if(temperature_1 <= temperature_Min) {} // läfter off 0 %
-    if(temperature_1 <= temperature_Avg) {} // lüfter on 50 %
-    if(temperature_1 >= temperature_Max) {} // lüfter on 100 %
-  };
-  if(setLufter_2) {
-    if(temperature_2 <= temperature_Min) {} // läfter off 0 %
-    if(temperature_2 <= temperature_Avg) {} // lüfter on 50 %
-    if(temperature_2 >= temperature_Max) {} // lüfter on 100 %
+  if(setLufter_Low) {
+  	if(setLufter_High) {
+    		if(temperature_2 <= temperature_Min) {} // läfter off 0 %
+    		if(temperature_2 <= temperature_Avg) {} // lüfter on 50 %
+	    	if(temperature_2 >= temperature_Max) {} // lüfter on 100 %
+  	} else {
+    		if(temperature_1 <= temperature_Min) {} // läfter off 0 %
+    		if(temperature_1 <= temperature_Avg) {} // lüfter on 50 %
+    		if(temperature_1 >= temperature_Max) {} // lüfter on 100 %
+	};
   };
 }
 
@@ -174,8 +175,8 @@ void MatrixLedSettings() {
 
 
 void loop(void) {
-  if (Wlan.status() == DISCONNECTED ) {
-    Wlan.reconnect();
+  if (wlan.status() == DISCONNECTED ) {
+    wlan.reconnect();
   }
   Serial.println("----SETTINGS----");
   int settings_http_code = settings.start();

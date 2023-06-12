@@ -48,11 +48,10 @@
 #define BOX_COLOR   0x9CD3
 
 // ----- API & W-Lan
-/*
-const char* ssid ;    //= "FRITZ!Box 7490";
-const char* password ;//= "05767844606687810343";
-const char* api_url     = "https://api.kevbchef.com/display";
-*/
+// const char* ssid         = "FRITZ!Box 7490";
+// const char* password     = "05767844606687810343";
+// const char* api_url  	= "https://api.kevbchef.com/display";
+
 // ----- Run Call
-int runCall = 0;
-int runCallRefresh = 5;
+int loopRunCall         = 0;
+int loopRunCallRefresh  = 5;

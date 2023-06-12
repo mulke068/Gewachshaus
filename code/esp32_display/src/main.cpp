@@ -16,24 +16,19 @@
 #include <Wlan.h>
 #include <Request.h>
 
-#include "config.h"
+#include "settings.h"
 #include "json.h"
 #include "ui.h"
 #include "icons.h"
 
-#define _SETTINGS_ DEF_SETTINGS
-#define _SENSOR_ DEF_SENSOR
-String api_url = "http://192.168.178.38:3030";
+#define settings_ DEF_SETTINGS
+#define sensor_ DEF_SENSOR
+const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
 
 Wlan    wlan;
-Request settings(api_url, _SETTINGS_);
-Request sensor(api_url, _SENSOR_);
+Request settings(uri, settings_);
+Request sensor(uri, sensor_);
 // ================================================= HTTP Start ================================================================
-
-void initWiFi() {
-  wlan.connect();
-  sleep(min_delay);
-}
 
 void get_data(bool print=true){
 
@@ -436,7 +431,7 @@ void setup(void){
   Serial.begin(115200);
   Serial.println("Terminal Started");
   Serial.println("Start   : WiFi    Configuration");
-  initWiFi();
+  wlan.connect();
   Serial.println("Ended   : WiFi    Configuration");
   Serial.println("Start   : Display Configuration");
   tft.init();
@@ -458,12 +453,12 @@ void setup(void){
 
 void loop(void){
   //fetch_data();
-  runCall ++;
-  if(runCall % runCallRefrech){
-  	if((Wlan.status() == CONNECTED)){
+  loopRunCall++;
+  if((loopRunCall % loopRunCallRefresh) == 0){
+  	if((wlan.status() == CONNECTED)){
     		get_data();
   	} else {
-		Serial.println("Not Connected")
+		Serial.println("Not Connected");
 	};
   };
   // Refrech Menu
