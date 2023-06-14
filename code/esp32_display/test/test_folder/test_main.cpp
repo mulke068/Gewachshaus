@@ -413,7 +413,9 @@ void setup(void){
   Serial.println("Terminal Started");
   Serial.println("Start   : Display Configuration");
   tft.init();
-  tft.setRotation(2);
+  tft.setRotation(0); // 2
+  tft.fillScreen(WHITE);
+  delay(2000);
   tft.fillScreen(BLACK);
 
   //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };
@@ -424,7 +426,7 @@ void setup(void){
   //tft.fillScreen(BLACK);
   Serial1.println("Ended  : Display Calibration");
 
-  get_data(false);
+  // get_data(false);
   // TEST PAGE
   //menuIndex = 5;
 }

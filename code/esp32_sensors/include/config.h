@@ -34,3 +34,8 @@ const int soilMoisture_Map_To = 100;
 // DOUT   -> NONE
 #define NeoPixel_NUM 16
 #define NeoPixel_PIN 15
+
+
+// Lüfter Relais 
+// 5V
+

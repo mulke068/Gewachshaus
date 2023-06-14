@@ -25,7 +25,7 @@ Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
-  wlan.connect();
+  // wlan.connect();
   dht_1.begin();
   dht_2.begin();
   neoPixel.begin();
@@ -34,19 +34,17 @@ void setup(void) {
 
 void TEST_GET_Settings() {
 	int randint   = random(1,100);
-	int randfloat = random(0.99,99.99);
-	int randbool  = (randint % 2 == 0) ? true: false;
-    temperature_Min   = randint;
-    temperature_Avg   = randint; 
-    temperature_Max   = randint; 
-    soilMoisture_Min  = randint;
-    soilMoisture_Max  = randint; 
-    setLufter_Low     = randbool;
-    setLufter_High    = randbool;
-    setLight          = randbool;
-    setPumpe          = randbool;
-    setRgbLed         = "rgb(255,255,255)"; 
-    setMatrixLed      = "Test Text";
+  temperature_Min   = randint;
+  temperature_Avg   = randint; 
+  temperature_Max   = randint; 
+  soilMoisture_Min  = randint;
+  soilMoisture_Max  = randint; 
+  setLufter_Low     = false;
+  setLufter_High    = true;
+  setLight          = true;
+  setPumpe          = false;
+  setRgbLed         = "rgb(255,255,255)"; 
+  setMatrixLed      = "Test Text";
 }
 
 
@@ -132,7 +130,7 @@ void loop(void) {
  	TEST_GET_Settings();
   Serial.println("----------------");
 
-  TemperatureSettings();
+  //TemperatureSettings();
   SoilMoistureSettings();
   LightSettings();
   // MatrixLedSettings();
