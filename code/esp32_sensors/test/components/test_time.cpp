@@ -24,15 +24,7 @@ void loop()
   String RGB_String = "rgb(" + String(r) + "," + String(g) + "," + String(b) + ")";
   const char* RGB = RGB_String.c_str();
   float float_rand = random(0.99, 99.99);
-  bool bool_rand;
-  if (int_rand % 2 == 0)
-  {
-    bool_rand = true;
-  }
-  else
-  {
-    bool_rand = false;
-  };
+  bool bool_rand = (int_rand % 2 ==0) ? true: false;
   String TEXT_String = "Final";
   const char* TEXT = TEXT_String.c_str();
   Serial.println("--------------------");
