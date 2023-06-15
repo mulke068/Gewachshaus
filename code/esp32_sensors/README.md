@@ -20,7 +20,7 @@
 |  14  | RGBLed (NeoPixel)      | DIN   |
 |  17  | Lüfter Relais (5V)     | IN    |
 |  16  | Lüfter Relais (12V)    | IN    |
-|  04  | Pumpe  Relais (12V)    | IN    |
+|  22  | Pumpe  Relais (12V)    | IN    |
 
 ## Data Structure
 

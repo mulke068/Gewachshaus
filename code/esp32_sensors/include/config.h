@@ -28,9 +28,9 @@ const int soilMoisture_Map_To = 100;
 
 // Adafruit Neo Pixel Ring help
 // https://www.adafruit.com/product/1463
-// VCC    -> 5V
-// GND    -> GND
-// DIN    -> 16 
+// VCC    -> 5V  // WHITE 
+// GND    -> GND // BROWN
+// DIN    -> 14  // BLUE
 // DOUT   -> NONE
 #define NeoPixel_NUM 16
 #define NeoPixel_PIN 14
@@ -52,13 +52,13 @@ const int soilMoisture_Map_To = 100;
 // Lüfter Relais 
 // VCC -> 3.3V
 // GND -> GND
-const int Lufter_Low_Pin 	= 17; // 5V 
-const int Lufter_High_Pin 	= 16; // 12V
+const int Lufter_Low_Pin 	= 17; // 5V  GREEN
+const int Lufter_High_Pin 	= 16; // 12V VIOLET
 
 // Pumpe Relais
 // VCC -> 3.3V
 // GND -> GND
-const int Pumpe_Pin = 4; // 12V
+const int Pumpe_Pin = 4; // 12V GRAY
 
 // Buzzer VCC
 // VCC -> 27

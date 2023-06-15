@@ -25,6 +25,8 @@ Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 
 MD_MAX72XX matrix = MD_MAX72XX(MATRIX_HARDWARE_TYPE,MATRIX_DIN_PIN,MATRIX_CLK_PIN,MATRIX_CS_PIN,MATRIX_MAX_DEVICES);
 
+bool setBuzzer = false;
+
 void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
@@ -48,7 +50,7 @@ void TEST_GET_Settings() {
   temperature_Max   = randint; 
   soilMoisture_Min  = randint;
   soilMoisture_Max  = randint; 
-  setBrightness     = 10;
+  setBrightness     = 100;
   setLufter_Low     = false;
   setLufter_High    = true;
   setLight          = true;
@@ -101,16 +103,21 @@ void scrollText(const char *p)
   }
 }
 
-void TemperatureSettings() {
-  if(setLufter_Low) {
-  	if(setLufter_High) {
-		digitalWrite(Lufter_Low_Pin, LOW);
-		digitalWrite(Lufter_High_Pin, HIGH);
-  	} else {
-		digitalWrite(Lufter_High_Pin, LOW);
-		digitalWrite(Lufter_Low_Pin, HIGH);
+void LufterSetOn(int lufter, bool state) {
+	if(lufter == 0) {
+		state ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
 	};
-  };
+	if(lufter == 1) {
+		state ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
+	};
+};
+	
+
+void TemperatureSettings() {
+	setLufter_High ? setLufter_Low = false : setLufter_High = false;
+	setLufter_Low ? setLufter_High = false : setLufter_Low = false;
+	setLufter_High ? LufterSetOn(1,true) : LufterSetOn(1,false);
+	setLufter_Low ? LufterSetOn(0,true) : LufterSetOn(0,false);
 }
 
 void LightSettings() {
@@ -128,29 +135,37 @@ void LightSettings() {
 }
 
 void SoilMoistureSettings() {
-  if(setPumpe) {
-	digitalWrite(Pumpe_Pin, HIGH);
-	
-  } else {
-	digitalWrite(Pumpe_Pin, LOW);
+	if(setPumpe) {
+		digitalWrite(Pumpe_Pin, 0);
+  	} else {
+		digitalWrite(Pumpe_Pin, 1);
 	};
 }
+
+void BuzzerON(int time) {
+	if(setBuzzer) {
+		digitalWrite(Buzzer_Pin, 1);
+		delay(time);
+		digitalWrite(Buzzer_Pin, 0);
+	};
+};
 
 void MatrixLedSettings() {
   scrollText(setMatrixLed);
 }
 
 void loop(void) {
-  Serial.println("----SETTINGS----");
+	Serial.println("----SETTINGS----");
  	TEST_GET_Settings();
-  Serial.println("----------------");
+  	Serial.println("----------------");
 
-  TemperatureSettings();
-  SoilMoistureSettings();
-  LightSettings();
-  MatrixLedSettings();
+  	TemperatureSettings();
+	SoilMoistureSettings();
+  	LightSettings();
+  	MatrixLedSettings();
+	BuzzerON(2000);
   
-  Serial.println("-----SENSOR----");
-  Serial.println("----------------");
-  delay(MINDelay);
+  	Serial.println("-----SENSOR----");
+  	Serial.println("----------------");
+  	delay(MINDelay);
 }
