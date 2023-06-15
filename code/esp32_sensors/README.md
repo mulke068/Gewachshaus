@@ -9,17 +9,18 @@
 
 |  Pin | Module                 | Name  |
 |------|------------------------|-------|
-|  32  | DHT1                   | DATA  |
-|  33  | DHT2                   | DATA  |
-|  25  | SoilMoisture1          | DATA  |
-|  26  | SoilMoisture2          | DATA  |
-|  23  | LedMatrix              | DIN   |
-|  05  | LedMatrix              | CS    |
-|  18  | LedMatrix              | CLK   |
-|  17  | Buzzer                 | VCC   |
-|  15  | RGBLed                 | DIN   |
-|  12  | Lüfter Relais (5V)     | IN    |
-|  14  | Lüfter Relais (12V)    | IN    |
+|  32  | DHT22-1                | DATA  |
+|  33  | DHT11-2                | DATA  |
+|  25  | SoilMoisture-1         | DATA  |
+|  26  | SoilMoisture-2         | DATA  |
+|  23  | LedMatrix-1            | DIN   |
+|  05  | LedMatrix-1            | CS    |
+|  18  | LedMatrix-1            | CLK   |
+|  27  | Buzzer                 | VCC   |
+|  14  | RGBLed (NeoPixel)      | DIN   |
+|  17  | Lüfter Relais (5V)     | IN    |
+|  16  | Lüfter Relais (12V)    | IN    |
+|  04  | Pumpe  Relais (12V)    | IN    |
 
 ## Data Structure
 

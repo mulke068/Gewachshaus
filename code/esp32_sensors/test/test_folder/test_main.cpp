@@ -8,6 +8,7 @@
 
 #include "DHT.h"
 #include "Adafruit_NeoPixel.h"
+#include "MD_MAX72XX.h"
 
 #define apiSettings DEF_SETTINGS
 #define apiSensor   DEF_SENSOR
@@ -22,6 +23,8 @@ DHT dht_2(DHTPIN_2, DHTTYPE11);
 
 Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 
+MD_MAX72XX matrix = MD_MAX72XX(MATRIX_HARDWARE_TYPE,MATRIX_DIN_PIN,MATRIX_CLK_PIN,MATRIX_CS_PIN,MATRIX_MAX_DEVICES);
+
 void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
@@ -30,6 +33,12 @@ void setup(void) {
   dht_2.begin();
   neoPixel.begin();
   neoPixel.clear();
+  matrix.begin();
+  matrix.control(MD_MAX72XX::INTENSITY, 2);
+  pinMode(Lufter_Low_Pin ,OUTPUT);
+  pinMode(Lufter_High_Pin ,OUTPUT);	
+  pinMode(Pumpe_Pin ,OUTPUT); 
+  pinMode(Buzzer_Pin ,OUTPUT); 
 }
 
 void TEST_GET_Settings() {
@@ -39,6 +48,7 @@ void TEST_GET_Settings() {
   temperature_Max   = randint; 
   soilMoisture_Min  = randint;
   soilMoisture_Max  = randint; 
+  setBrightness     = 10;
   setLufter_Low     = false;
   setLufter_High    = true;
   setLight          = true;
@@ -69,28 +79,36 @@ int *rgb_String_To_Int(String rgb) {
   return rgbArray;
 }
 
+void scrollText(const char *p)
+{
+  uint8_t charWidth;
+  uint8_t cBuf[8];  
+ 
+  Serial.println("\nScrolling text");
+  matrix.clear();
+ 
+  while (*p != '\0')
+  {
+    charWidth = matrix.getChar(*p++, sizeof(cBuf) / sizeof(cBuf[0]), cBuf);
+ 
+    for (uint8_t i=0; i<=charWidth; i++)  // allow space between characters
+    {
+      matrix.transform(MD_MAX72XX::TSL);
+      if (i < charWidth)
+        matrix.setColumn(0, cBuf[i]);
+      delay(50);
+    }
+  }
+}
+
 void TemperatureSettings() {
-  humidity_1      = dht_1.readHumidity();
-  humidity_2      = dht_2.readHumidity();
-  temperature_1   = dht_1.readTemperature();
-  temperature_2   = dht_2.readTemperature();
-  if (isnan(humidity_1) || isnan(temperature_1)) {
-    Serial.println("Failed to read from DHT 1 sensor!");
-    return;
-  }
-  if (isnan(humidity_2) || isnan(temperature_2)) {
-    Serial.println("Failed to read from DHT 2 sensor!");
-    return;
-  }
   if(setLufter_Low) {
   	if(setLufter_High) {
-    		if(temperature_2 <= temperature_Min) {} // läfter off 0 %
-    		if(temperature_2 <= temperature_Avg) {} // lüfter on 50 %
-	    	if(temperature_2 >= temperature_Max) {} // lüfter on 100 %
+		digitalWrite(Lufter_Low_Pin, LOW);
+		digitalWrite(Lufter_High_Pin, HIGH);
   	} else {
-    		if(temperature_1 <= temperature_Min) {} // läfter off 0 %
-    		if(temperature_1 <= temperature_Avg) {} // lüfter on 50 %
-    		if(temperature_1 >= temperature_Max) {} // lüfter on 100 %
+		digitalWrite(Lufter_High_Pin, LOW);
+		digitalWrite(Lufter_Low_Pin, HIGH);
 	};
   };
 }
@@ -98,7 +116,7 @@ void TemperatureSettings() {
 void LightSettings() {
   int *rgbValues = rgb_String_To_Int(setRgbLed);
   if(setLight) {
-    neoPixel.setBrightness(100);
+    neoPixel.setBrightness(setBrightness);
     for(int i=0;i<NeoPixel_NUM;i++) {
       neoPixel.setPixelColor(i, rgbValues[0],rgbValues[1],rgbValues[2]);
       neoPixel.show();
@@ -111,29 +129,26 @@ void LightSettings() {
 
 void SoilMoistureSettings() {
   if(setPumpe) {
-    int soilMoisture_1_value  = analogRead(soilMoisturePin_1);
-    int soilMoisture_2_value  = analogRead(soilMoisturePin_2);
-    soilMoisture_1 = map(soilMoisture_1_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
-    soilMoisture_2 = map(soilMoisture_2_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
-    if((soilMoisture_1 || soilMoisture_2) <= soilMoisture_Min) {} // Pumepe ON
-    if((soilMoisture_1 && soilMoisture_2) >= soilMoisture_Max) {} // Pumpe OFF
-  };
+	digitalWrite(Pumpe_Pin, HIGH);
+	
+  } else {
+	digitalWrite(Pumpe_Pin, LOW);
+	};
 }
 
 void MatrixLedSettings() {
-  String text_displayed = setMatrixLed;
+  scrollText(setMatrixLed);
 }
-
 
 void loop(void) {
   Serial.println("----SETTINGS----");
  	TEST_GET_Settings();
   Serial.println("----------------");
 
-  //TemperatureSettings();
+  TemperatureSettings();
   SoilMoistureSettings();
   LightSettings();
-  // MatrixLedSettings();
+  MatrixLedSettings();
   
   Serial.println("-----SENSOR----");
   Serial.println("----------------");

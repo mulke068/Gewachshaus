@@ -19,6 +19,7 @@ int temperature_Avg = 25;
 int temperature_Max = 30;
 int soilMoisture_Min = 40;
 int soilMoisture_Max = 80;
+int setBrightness = 100;
 bool setLufter_Low = true;
 bool setLufter_High = true;
 bool setPumpe = true;
