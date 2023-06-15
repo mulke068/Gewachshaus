@@ -50,13 +50,19 @@ const int soilMoisture_Map_To = 100;
 
 
 // Lüfter Relais 
+// VCC -> 3.3V
+// GND -> GND
 const int Lufter_Low_Pin 	= 17; // 5V 
 const int Lufter_High_Pin 	= 16; // 12V
 
 // Pumpe Relais
+// VCC -> 3.3V
+// GND -> GND
 const int Pumpe_Pin = 4; // 12V
 
 // Buzzer VCC
+// VCC -> 27
+// GND -> GND
 const int Buzzer_Pin = 27;
 
 // SYSTEM USE
