@@ -7,10 +7,10 @@ const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
 // VCC  -> 3.3V or 5V
 // GND  -> GND
 // DATA -> PIN (27 / 14) WITH 10K RESISTOR
-#define DHTPIN_1  	32    // Digital pin connected to the DHT sensor
-#define DHTPIN_2  	33    // Digital pin connected to the DHT sensor
-#define DHTTYPE22   	DHT22 // DHT 22  (AM2302), AM2321
-#define DHTTYPE11	DHT11
+#define DHTPIN_1  	21 // 32    // Digital pin connected to the DHT sensor
+#define DHTPIN_2  	22 // 33    // Digital pin connected to the DHT sensor
+#define DHTTYPE_1	DHT22 // DHT 22  (AM2302), AM2321
+#define DHTTYPE_2	DHT11
 
 // Capacitive Soil Moisture Sensor help
 // https://media.digikey.com/pdf/data%20sheets/dfrobot%20pdfs/sen0193_web.pdf

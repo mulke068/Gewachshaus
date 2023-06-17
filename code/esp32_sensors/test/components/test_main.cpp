@@ -18,8 +18,8 @@ Request settings(uri, apiSettings);
 Request sensor(uri, apiSensor);
 
 
-DHT dht_1(DHTPIN_1, DHTTYPE22);
-DHT dht_2(DHTPIN_2, DHTTYPE11);
+DHT dht_1(DHTPIN_1, DHTTYPE_1);
+DHT dht_2(DHTPIN_2, DHTTYPE_2);
 
 Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 
@@ -41,15 +41,11 @@ void setup(void) {
   pinMode(Lufter_High_Pin ,OUTPUT);	
   pinMode(Pumpe_Pin ,OUTPUT); 
   pinMode(Buzzer_Pin ,OUTPUT); 
+  pinMode(soilMoisturePin_1, INPUT);
+  pinMode(soilMoisturePin_2, INPUT);
 }
 
 void TEST_GET_Settings() {
-	int randint   = random(1,100);
-  temperature_Min   = randint;
-  temperature_Avg   = randint; 
-  temperature_Max   = randint; 
-  soilMoisture_Min  = randint;
-  soilMoisture_Max  = randint; 
   setBrightness     = 100;
   setLufter_Low     = false;
   setLufter_High    = true;
@@ -158,12 +154,30 @@ void loop(void) {
 	Serial.println("----SETTINGS----");
  	TEST_GET_Settings();
   	Serial.println("----------------");
+	// temperature_1 = dht_1.readTemperature();
+	// humidity_1 = dht_1.readHumidity();
+	if (isnan(temperature_1) || isnan(humidity_1)) {
+		Serial.println("No DHT22 sensor connected");
+	 };
+	temperature_2 = dht_2.readTemperature();
+	humidity_2 = dht_2.readHumidity();
+	if (isnan(temperature_2) || isnan(humidity_2)) {
+		Serial.println("No DHT11 sensor connected");
+	 };
+	soilMoisture_1 = analogRead(soilMoisturePin_1);
+	soilMoisture_2 = analogRead(soilMoisturePin_2);
+	// soilMoisture_1 = map(analogRead(soilMoisturePin_1), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
+	// soilMoisture_2 = map(analogRead(soilMoisturePin_2), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
+	Serial.print("1 | temperature : ");Serial.print(temperature_1);Serial.print(" humidity : ");Serial.println(humidity_1);
+	Serial.print("2 | temperature : ");Serial.print(temperature_2);Serial.print(" humidity : ");Serial.println(humidity_2);
+	Serial.print("1 | soil Moisture : ");Serial.println(soilMoisture_1);
+	Serial.print("2 | soil Moisture : ");Serial.println(soilMoisture_2);
 
   	TemperatureSettings();
 	SoilMoistureSettings();
   	LightSettings();
   	MatrixLedSettings();
-	BuzzerON(2000);
+	// BuzzerON(2000);
   
   	Serial.println("-----SENSOR----");
   	Serial.println("----------------");
