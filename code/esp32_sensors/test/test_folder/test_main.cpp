@@ -36,7 +36,6 @@ void setup(void) {
   neoPixel.begin();
   neoPixel.clear();
   matrix.begin();
-  matrix.control(MD_MAX72XX::INTENSITY, 2);
   pinMode(Lufter_Low_Pin ,OUTPUT);
   pinMode(Lufter_High_Pin ,OUTPUT);	
   pinMode(Pumpe_Pin ,OUTPUT); 
@@ -99,17 +98,36 @@ void scrollText(const char *p)
   }
 }
 
+void BuzzerON(int time) {
+	if(setBuzzer) {
+		digitalWrite(Buzzer_Pin, 1);
+		delay(time);
+		digitalWrite(Buzzer_Pin, 0);
+	};
+};
+
 void LufterSetOn(int lufter, bool state) {
 	if(lufter == 0) {
 		state ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
+		BuzzerON(1000);
 	};
 	if(lufter == 1) {
 		state ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
+		BuzzerON(1000);
 	};
 };
-	
 
 void TemperatureSettings() {
+	temperature_1 = dht_1.readTemperature();
+	humidity_1 = dht_1.readHumidity();
+	if (isnan(temperature_1) || isnan(humidity_1)) {
+		Serial.println("No DHT22 sensor connected");
+	 };
+	temperature_2 = dht_2.readTemperature();
+	humidity_2 = dht_2.readHumidity();
+	if (isnan(temperature_2) || isnan(humidity_2)) {
+		Serial.println("No DHT11 sensor connected");
+	 };
 	setLufter_High ? setLufter_Low = false : setLufter_High = false;
 	setLufter_Low ? setLufter_High = false : setLufter_Low = false;
 	setLufter_High ? LufterSetOn(1,true) : LufterSetOn(1,false);
@@ -131,6 +149,8 @@ void LightSettings() {
 }
 
 void SoilMoistureSettings() {
+	soilMoisture_1 = map(analogRead(soilMoisturePin_1), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
+	soilMoisture_2 = map(analogRead(soilMoisturePin_2), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
 	if(setPumpe) {
 		digitalWrite(Pumpe_Pin, 0);
   	} else {
@@ -138,15 +158,9 @@ void SoilMoistureSettings() {
 	};
 }
 
-void BuzzerON(int time) {
-	if(setBuzzer) {
-		digitalWrite(Buzzer_Pin, 1);
-		delay(time);
-		digitalWrite(Buzzer_Pin, 0);
-	};
-};
 
 void MatrixLedSettings() {
+  matrix.control(MD_MAX72XX::INTENSITY, setBrightness);
   scrollText(setMatrixLed);
 }
 
@@ -154,20 +168,6 @@ void loop(void) {
 	Serial.println("----SETTINGS----");
  	TEST_GET_Settings();
   	Serial.println("----------------");
-	// temperature_1 = dht_1.readTemperature();
-	// humidity_1 = dht_1.readHumidity();
-	if (isnan(temperature_1) || isnan(humidity_1)) {
-		Serial.println("No DHT22 sensor connected");
-	 };
-	temperature_2 = dht_2.readTemperature();
-	humidity_2 = dht_2.readHumidity();
-	if (isnan(temperature_2) || isnan(humidity_2)) {
-		Serial.println("No DHT11 sensor connected");
-	 };
-	soilMoisture_1 = analogRead(soilMoisturePin_1);
-	soilMoisture_2 = analogRead(soilMoisturePin_2);
-	// soilMoisture_1 = map(analogRead(soilMoisturePin_1), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
-	// soilMoisture_2 = map(analogRead(soilMoisturePin_2), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
 	Serial.print("1 | temperature : ");Serial.print(temperature_1);Serial.print(" humidity : ");Serial.println(humidity_1);
 	Serial.print("2 | temperature : ");Serial.print(temperature_2);Serial.print(" humidity : ");Serial.println(humidity_2);
 	Serial.print("1 | soil Moisture : ");Serial.println(soilMoisture_1);
@@ -177,7 +177,6 @@ void loop(void) {
 	SoilMoistureSettings();
   	LightSettings();
   	MatrixLedSettings();
-	// BuzzerON(2000);
   
   	Serial.println("-----SENSOR----");
   	Serial.println("----------------");

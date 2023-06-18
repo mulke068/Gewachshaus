@@ -3,11 +3,12 @@
 
 #include "DHT.h"
 
-#define DHTPIN 22     // what pin we're connected to
+#define DHTPIN 22     	// DHT11 // what pin we're connected to
+#define DHTPIN 21 	// DHT22
 
 // Uncomment whatever type you're using!
-#define DHTTYPE DHT11   // DHT 11 
-//#define DHTTYPE DHT22   // DHT 22  (AM2302)
+//#define DHTTYPE DHT11   // DHT 11 
+#define DHTTYPE DHT22   // DHT 22  (AM2302)
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Initialize DHT sensor for normal 16mhz Arduino

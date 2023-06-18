@@ -1,14 +1,14 @@
-const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
+const char* uri = "http:192.168.178.41:8080";// "http://192.0.0.23:8080";
 // STANDARD SETTINGS
 #define MINDelay 3000
 
 // DHT help
 // https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
-// VCC  -> 3.3V or 5V
+// VCC  -> 3.3V 
 // GND  -> GND
-// DATA -> PIN (27 / 14) WITH 10K RESISTOR
-#define DHTPIN_1  	21 // 32    // Digital pin connected to the DHT sensor
-#define DHTPIN_2  	22 // 33    // Digital pin connected to the DHT sensor
+// DATA -> PIN (21 / 22) 
+#define DHTPIN_1  	21 // Digital pin connected to the DHT sensor
+#define DHTPIN_2  	22 // Digital pin connected to the DHT sensor
 #define DHTTYPE_1	DHT22 // DHT 22  (AM2302), AM2321
 #define DHTTYPE_2	DHT11
 
@@ -28,20 +28,20 @@ const int soilMoisture_Map_To = 100;
 
 // Adafruit Neo Pixel Ring help
 // https://www.adafruit.com/product/1463
-// VCC    -> 5V  // WHITE 
-// GND    -> GND // BROWN
-// DIN    -> 14  // BLUE
+// VCC    -> 3.3V  	- WHITE 
+// GND    -> GND 	- BROWN
+// DIN    -> 14		- BLUE
 // DOUT   -> NONE
 #define NeoPixel_NUM 16
 #define NeoPixel_PIN 14
 
 // LED Matrix help
 // https://lastminuteengineers.com/max7219-dot-matrix-arduino-tutorial/
-// VCC -> 5V
-// GND -> GND
-// DIN -> 19
-// CS  -> 5
-// CLK -> 18
+// VCC -> 3.3V 	- RED
+// GND -> GND	- BLUE
+// DIN -> 19	- YELLOW
+// CS  -> 5	- GRAY
+// CLK -> 18	- VIOLET
 #define MATRIX_HARDWARE_TYPE 	MD_MAX72XX::FC16_HW
 #define MATRIX_MAX_DEVICES 	4
 #define MATRIX_DIN_PIN 		19
@@ -63,7 +63,7 @@ const int Pumpe_Pin = 4; // 12V GRAY
 // Buzzer VCC
 // VCC -> 27
 // GND -> GND
-const int Buzzer_Pin = 27;
+const int Buzzer_Pin = 27; // YELLOW
 
 // SYSTEM USE
 const int SIDO 		= 5;  //SDIO

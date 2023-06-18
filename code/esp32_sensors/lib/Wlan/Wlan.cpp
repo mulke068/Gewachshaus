@@ -17,6 +17,7 @@ void Wlan::connect() {
         while(WiFi.status() != WL_CONNECTED) {
             delay(250);
             Serial.print(".");
+            return;
         }
         Serial.println("");
         Serial.println("WiFi connected");

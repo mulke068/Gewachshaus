@@ -14,12 +14,13 @@ const char* getRgbLed;
 
 // SETTINGS
 
-int temperature_Min = 20;
-int temperature_Avg = 25;
-int temperature_Max = 30;
+int temperature_Min = 15;
+int temperature_Avg = 20;
+int temperature_Max = 25;
 int soilMoisture_Min = 40;
 int soilMoisture_Max = 80;
 int setBrightness = 100;
+bool setBuzzer = true;
 bool setLufter_Low = true;
 bool setLufter_High = true;
 bool setPumpe = true;

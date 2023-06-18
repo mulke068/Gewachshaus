@@ -1,60 +1,28 @@
 #include <Arduino.h>
 #include <Wlan.h>
 #include <Request.h>
-// #include <config.h>
+#include <config.h>
 #include <variables.h>
 
 #include <SPI.h>
 
 #include "DHT.h"
 #include "Adafruit_NeoPixel.h"
+#include "MD_MAX72XX.h"
 
 #define apiSettings DEF_SETTINGS
 #define apiSensor   DEF_SENSOR
-const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
 
 Wlan    wlan;
 Request settings(uri, apiSettings);
 Request sensor(uri, apiSensor);
 
-// STANDARD SETTINGS
-#define MINDelay 3000
+DHT dht_1(DHTPIN_1, DHTTYPE_1);
+DHT dht_2(DHTPIN_2, DHTTYPE_2);
 
-// DHT help
-// https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
-// VCC  -> 3.3V or 5V
-// GND  -> GND
-// DATA -> PIN (27 / 14) WITH 10K RESISTOR
-#define DHTPIN_1  	27    // Digital pin connected to the DHT sensor
-#define DHTPIN_2  	14    // Digital pin connected to the DHT sensor
-#define DHTTYPE22   	DHT22 // DHT 22  (AM2302), AM2321
-#define DHTTYPE11	DHT11
-DHT dht_1(DHTPIN_1, DHTTYPE22);
-DHT dht_2(DHTPIN_2, DHTTYPE11);
-
-// Capacitive Soil Moisture Sensor help
-// https://media.digikey.com/pdf/data%20sheets/dfrobot%20pdfs/sen0193_web.pdf
-// VCC    -> 5V
-// GND    -> GND
-// DATA   -> Pin 23 
-// 2006.0 = 100%
-// 4095.0 = 0%
-const int soilMoisturePin_1 = 25;//12 // 25
-const int soilMoisturePin_2 = 26;//13 // 26
-const int soilMoisture_Map_Min = 2006;
-const int soilMoisture_Map_Max = 4095;
-const int soilMoisture_Map_From = 0;
-const int soilMoisture_Map_To = 100;
-
-// Adafruit Neo Pixel Ring help
-// https://www.adafruit.com/product/1463
-// VCC    -> 5V
-// GND    -> GND
-// DIN    -> 15
-// DOUT   -> NONE
-#define NeoPixel_NUM 16
-#define NeoPixel_PIN 15
 Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
+
+MD_MAX72XX matrix = MD_MAX72XX(MATRIX_HARDWARE_TYPE,MATRIX_DIN_PIN,MATRIX_CLK_PIN,MATRIX_CS_PIN,MATRIX_MAX_DEVICES);
 
 void setup(void) {
   Serial.begin(115200);
@@ -64,7 +32,18 @@ void setup(void) {
   dht_2.begin();
   neoPixel.begin();
   neoPixel.clear();
-}
+  matrix.begin();
+  pinMode(Lufter_Low_Pin ,OUTPUT);
+  pinMode(Lufter_High_Pin ,OUTPUT);	
+  pinMode(Pumpe_Pin ,OUTPUT); 
+  pinMode(Buzzer_Pin ,OUTPUT); 
+  pinMode(soilMoisturePin_1, INPUT);
+  pinMode(soilMoisturePin_2, INPUT);
+  digitalWrite(Lufter_Low_Pin, 1);
+  digitalWrite(Lufter_High_Pin, 1);
+  digitalWrite(Pumpe_Pin, 1);
+  digitalWrite(Buzzer_Pin, 0);
+};
 
 int POST_Sensor() {
   sensor.set.temperature_1(temperature_1);
@@ -90,8 +69,8 @@ void GET_Settings() {
     temperature_Max   = settings.get.temperature_Max();
     soilMoisture_Min  = settings.get.soilMoisture_Min();
     soilMoisture_Max  = settings.get.soilMoisture_Max();
-    setLufter_Low       = settings.get.setLufter_Low();
-    setLufter_High       = settings.get.setLufter_High();
+    setLufter_Low     = settings.get.setLufter_Low();
+    setLufter_High    = settings.get.setLufter_High();
     setLight          = settings.get.setLight();
     setPumpe          = settings.get.setPumpe();
     setRgbLed         = settings.get.setRgbLed();
@@ -119,61 +98,112 @@ int *rgb_String_To_Int(String rgb) {
   return rgbArray;
 }
 
-void TemperatureSettings() {
-  humidity_1      = dht_1.readHumidity();
-  humidity_2      = dht_2.readHumidity();
-  temperature_1   = dht_1.readTemperature();
-  temperature_2   = dht_2.readTemperature();
-  if (isnan(humidity_1) || isnan(temperature_1)) {
-    Serial.println("Failed to read from DHT 1 sensor!");
-    return;
-  }
-  if (isnan(humidity_2) || isnan(temperature_2)) {
-    Serial.println("Failed to read from DHT 2 sensor!");
-    return;
-  }
-  if(setLufter_Low) {
-  	if(setLufter_High) {
-    		if(temperature_2 <= temperature_Min) {} // läfter off 0 %
-    		if(temperature_2 <= temperature_Avg) {} // lüfter on 50 %
-	    	if(temperature_2 >= temperature_Max) {} // lüfter on 100 %
-  	} else {
-    		if(temperature_1 <= temperature_Min) {} // läfter off 0 %
-    		if(temperature_1 <= temperature_Avg) {} // lüfter on 50 %
-    		if(temperature_1 >= temperature_Max) {} // lüfter on 100 %
+void scrollText(const char *p) {
+  uint8_t charWidth;
+  uint8_t cBuf[8];  
+ 
+  Serial.println("\nScrolling text");
+  matrix.clear();
+ 
+  while (*p != '\0') {
+    charWidth = matrix.getChar(*p++, sizeof(cBuf) / sizeof(cBuf[0]), cBuf);
+ 
+    for (uint8_t i=0; i<=charWidth; i++) { // allow space between characters
+      	matrix.transform(MD_MAX72XX::TSL);
+      	if (i < charWidth) { 
+        	matrix.setColumn(0, cBuf[i]);
+        	delay(50);
 	};
+    };
   };
-}
+};
 
+void BuzzerON(int time) {
+	if(setBuzzer) {
+		digitalWrite(Buzzer_Pin, 1);
+		delay(time);
+		digitalWrite(Buzzer_Pin, 0);
+	};
+};
+
+void LufterSet(int lufter, bool state) {
+	if(lufter == 0) {
+		if (setLufter_Low) {
+			state ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
+			BuzzerON(200);
+		} else {
+			digitalWrite(Lufter_Low_Pin, 1);
+		};
+	};
+	if(lufter == 1) {
+		if (setLufter_High) {
+			state ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
+			BuzzerON(200);
+		} else {
+			digitalWrite(Lufter_High_Pin, 1);
+		};
+	};
+};
+
+void TemperatureSettings() {
+	temperature_1 = dht_1.readTemperature();
+	humidity_1 = dht_1.readHumidity();
+	if (isnan(temperature_1) || isnan(humidity_1)) {
+		Serial.println("No DHT22 sensor connected");
+	 };
+	temperature_2 = dht_2.readTemperature();
+	humidity_2 = dht_2.readHumidity();
+	if (isnan(temperature_2) || isnan(humidity_2)) {
+		Serial.println("No DHT11 sensor connected");
+	 };
+    	if((temperature_1 || temperature_2) <= temperature_Min) {	// läfter off 0 %
+		LufterSet(0,false);
+		LufterSet(1,false);
+	}; 
+    	if((temperature_1 || temperature_2) <= temperature_Avg) {	// lüfter on 50 %
+		LufterSet(1,false);
+		delay(250);
+		LufterSet(0,true);
+	}; 
+	if((temperature_1 || temperature_2) >= temperature_Max) {	// lüfter on 100 %
+		LufterSet(0,false);
+		delay(250);
+		LufterSet(1,true);
+	}; 
+};
 void LightSettings() {
   int *rgbValues = rgb_String_To_Int(setRgbLed);
   if(setLight) {
-    neoPixel.setBrightness(100);
+    neoPixel.setBrightness(setBrightness);
     for(int i=0;i<NeoPixel_NUM;i++) {
       neoPixel.setPixelColor(i, rgbValues[0],rgbValues[1],rgbValues[2]);
       neoPixel.show();
-    }
+    };
   } else {
     neoPixel.clear();
     neoPixel.show();
   };
-}
+};
+
+void PumpeSet(bool value) {
+	value ? digitalWrite(Pumpe_Pin,0) : digitalWrite(Pumpe_Pin,1);
+};
 
 void SoilMoistureSettings() {
-  if(setPumpe) {
-    int soilMoisture_1_value  = analogRead(soilMoisturePin_1);
-    int soilMoisture_2_value  = analogRead(soilMoisturePin_2);
-    soilMoisture_1 = map(soilMoisture_1_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
-    soilMoisture_2 = map(soilMoisture_2_value, soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_From, soilMoisture_Map_To);
-    if((soilMoisture_1 || soilMoisture_2) <= soilMoisture_Min) {} // Pumepe ON
-    if((soilMoisture_1 && soilMoisture_2) >= soilMoisture_Max) {} // Pumpe OFF
-  };
-}
+	soilMoisture_1 = map(analogRead(soilMoisturePin_1), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
+	soilMoisture_2 = map(analogRead(soilMoisturePin_2), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
+	if(setPumpe) {
+		if((soilMoisture_1 || soilMoisture_2) <= soilMoisture_Min) {PumpeSet(true);}; // Pumepe ON
+    		if((soilMoisture_1 && soilMoisture_2) >= soilMoisture_Max) {PumpeSet(false);}; // Pumpe OFF
+  	} else {
+		PumpeSet(false);
+	};
+};
 
 void MatrixLedSettings() {
-  String text_displayed = setMatrixLed;
-}
-
+  matrix.control(MD_MAX72XX::INTENSITY, setBrightness);
+  scrollText(setMatrixLed);
+};
 
 void loop(void) {
   if (wlan.status() == DISCONNECTED ) {
@@ -194,7 +224,7 @@ void loop(void) {
   TemperatureSettings();
   SoilMoistureSettings();
   LightSettings();
-  // MatrixLedSettings();
+  MatrixLedSettings();
   
   Serial.println("-----SENSOR----");
   int sensor_http_code = sensor.start();
