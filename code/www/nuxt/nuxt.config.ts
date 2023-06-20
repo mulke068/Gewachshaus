@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:3030"), // default: http://localhost:8080
+      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080"), // default: http://localhost:8080
     }
   },
   // ...

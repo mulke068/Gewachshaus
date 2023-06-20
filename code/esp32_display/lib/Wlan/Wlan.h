@@ -29,7 +29,7 @@ public:
         void reconnect();
         static wlan_status status();
 private:
-	const char* WIFI_SSID     = "FRITZ!Box 4020 YD"; // FRITZ!Box 7490  // your network SSID (name of wifi network)
+	const char* WIFI_SSID     = "Gewachshaus"; // FRITZ!Box 7490  // your network SSID (name of wifi network)
 	const char* WIFI_PASSWORD = ""; // 05767844606687810343 // your network password
 	const char* WIFI_HOSTNAME = "ESP32_Display"; // your hostname (will be visible in router)
 };

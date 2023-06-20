@@ -23,7 +23,7 @@
 
 #define settings_ DEF_SETTINGS
 #define sensor_ DEF_SENSOR
-const char* uri = "http://192.0.0.23:8080"; // http://192.168.178.38:3030
+const char* uri = "http://192.0.0.21:8080"; // http://192.168.178.38:3030
 
 Wlan    wlan;
 Request settings(uri, settings_);
@@ -58,10 +58,9 @@ void get_data(bool print=true){
   root_1_settings_brightness = settings.get.setBrightness();
   root_1_settings_sound = 80;
 
-  sensor.end();
   settings.end();
+  sensor.end();
 
-  sleep(min_delay);
 }
 
 void put_data(bool print=true){
@@ -435,7 +434,7 @@ void setup(void){
   Serial.println("Ended   : WiFi    Configuration");
   Serial.println("Start   : Display Configuration");
   tft.init();
-  tft.setRotation(2);
+  tft.setRotation(0); // 2
   tft.fillScreen(BLACK);
 
   //uint16_t calData[5] = { 438, 3390, 368, 3317, 7 };

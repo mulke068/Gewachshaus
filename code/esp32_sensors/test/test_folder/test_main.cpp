@@ -17,7 +17,6 @@ Wlan    wlan;
 Request settings(uri, apiSettings);
 Request sensor(uri, apiSensor);
 
-
 DHT dht_1(DHTPIN_1, DHTTYPE_1);
 DHT dht_2(DHTPIN_2, DHTTYPE_2);
 
@@ -25,12 +24,10 @@ Adafruit_NeoPixel neoPixel(NeoPixel_NUM,NeoPixel_PIN,NEO_GBR + NEO_KHZ800);
 
 MD_MAX72XX matrix = MD_MAX72XX(MATRIX_HARDWARE_TYPE,MATRIX_DIN_PIN,MATRIX_CLK_PIN,MATRIX_CS_PIN,MATRIX_MAX_DEVICES);
 
-bool setBuzzer = false;
-
 void setup(void) {
   Serial.begin(115200);
   Serial.println("Starting up ...");
-  // wlan.connect();
+//  wlan.connect();
   dht_1.begin();
   dht_2.begin();
   neoPixel.begin();
@@ -42,18 +39,43 @@ void setup(void) {
   pinMode(Buzzer_Pin ,OUTPUT); 
   pinMode(soilMoisturePin_1, INPUT);
   pinMode(soilMoisturePin_2, INPUT);
-}
+  digitalWrite(Lufter_Low_Pin, 1);
+  digitalWrite(Lufter_High_Pin, 1);
+  digitalWrite(Pumpe_Pin, 1);
+  digitalWrite(Buzzer_Pin, 0);
+};
 
-void TEST_GET_Settings() {
-  setBrightness     = 100;
-  setLufter_Low     = false;
-  setLufter_High    = true;
-  setLight          = true;
-  setPumpe          = false;
-  setRgbLed         = "rgb(255,255,255)"; 
-  setMatrixLed      = "Test Text";
-}
+int POST_Sensor() {
+  sensor.set.temperature_1(temperature_1);
+  sensor.set.temperature_2(temperature_2);
+  sensor.set.humidity_1(humidity_1);
+  sensor.set.humidity_2(humidity_2);
+  sensor.set.soilMoisture_1(soilMoisture_1);
+  sensor.set.soilMoisture_2(soilMoisture_2);
+  sensor.set.statusPumpe(statusPumpe);
+  sensor.set.statusLufter_Low(statusLufter_Low);
+  sensor.set.statusLufter_High(statusLufter_High);
+  sensor.set.statusLight(statusLight);
+  int http_code = sensor.post(false);
+  if(http_code < 200 || http_code >= 300) {
+    Serial.println("UpdateValues -> Error Code: " + String(http_code));
+  };
+  return http_code;
+};
 
+void GET_Settings() {
+    temperature_Min   = settings.get.temperature_Min();
+    temperature_Avg   = settings.get.temperature_Avg();
+    temperature_Max   = settings.get.temperature_Max();
+    soilMoisture_Min  = settings.get.soilMoisture_Min();
+    soilMoisture_Max  = settings.get.soilMoisture_Max();
+    setLufter_Low     = settings.get.setLufter_Low();
+    setLufter_High    = settings.get.setLufter_High();
+    setLight          = settings.get.setLight();
+    setPumpe          = settings.get.setPumpe();
+    setRgbLed         = settings.get.setRgbLed();
+    setMatrixLed      = settings.get.setMatrixLed();
+}
 
 int *rgb_String_To_Int(String rgb) {
   int startPos  = rgb.indexOf("(");
@@ -76,27 +98,25 @@ int *rgb_String_To_Int(String rgb) {
   return rgbArray;
 }
 
-void scrollText(const char *p)
-{
+void scrollText(const char *p) {
   uint8_t charWidth;
   uint8_t cBuf[8];  
  
   Serial.println("\nScrolling text");
   matrix.clear();
  
-  while (*p != '\0')
-  {
+  while (*p != '\0') {
     charWidth = matrix.getChar(*p++, sizeof(cBuf) / sizeof(cBuf[0]), cBuf);
  
-    for (uint8_t i=0; i<=charWidth; i++)  // allow space between characters
-    {
-      matrix.transform(MD_MAX72XX::TSL);
-      if (i < charWidth)
-        matrix.setColumn(0, cBuf[i]);
-      delay(50);
-    }
-  }
-}
+    for (uint8_t i=0; i<=charWidth; i++) { // allow space between characters
+      	matrix.transform(MD_MAX72XX::TSL);
+      	if (i < charWidth) { 
+        	matrix.setColumn(0, cBuf[i]);
+        	delay(50);
+	};
+    };
+  };
+};
 
 void BuzzerON(int time) {
 	if(setBuzzer) {
@@ -106,14 +126,22 @@ void BuzzerON(int time) {
 	};
 };
 
-void LufterSetOn(int lufter, bool state) {
+void LufterSet(int lufter, bool state) {
 	if(lufter == 0) {
-		state ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
-		BuzzerON(1000);
+		if (setLufter_Low) {
+			state ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
+			BuzzerON(200);
+		} else {
+			digitalWrite(Lufter_Low_Pin, 1);
+		};
 	};
 	if(lufter == 1) {
-		state ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
-		BuzzerON(1000);
+		if (setLufter_High) {
+			state ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
+			BuzzerON(200);
+		} else {
+			digitalWrite(Lufter_High_Pin, 1);
+		};
 	};
 };
 
@@ -128,11 +156,41 @@ void TemperatureSettings() {
 	if (isnan(temperature_2) || isnan(humidity_2)) {
 		Serial.println("No DHT11 sensor connected");
 	 };
-	setLufter_High ? setLufter_Low = false : setLufter_High = false;
-	setLufter_Low ? setLufter_High = false : setLufter_Low = false;
-	setLufter_High ? LufterSetOn(1,true) : LufterSetOn(1,false);
-	setLufter_Low ? LufterSetOn(0,true) : LufterSetOn(0,false);
-}
+	Serial.println(" | Temperature | Humidity ");
+	Serial.println("1| " + String(temperature_1) + "°C | " + String(humidity_1) + "%");
+	Serial.println("2| " + String(temperature_2) + "°C | " + String(humidity_2) + "%");
+	Serial.println("-------------------------");
+	Serial.println(" | Name 	   | Var ");
+	temperature_Min = 26;
+	temperature_Avg = 26;
+	temperature_Max = 27;
+	Serial.println(" | temperature_Min |" + String(temperature_Min)); 
+	Serial.println(" | temperature_Avg |" + String(temperature_Avg)); 
+	Serial.println(" | temperature_Max |" + String(temperature_Max)); 
+	Serial.println("-------------------------");
+	if(temperature_1 >= temperature_Max || temperature_2 >= temperature_Max) {	// lüfter on 100 %
+		Serial.println("Set Lufter 100%");
+		LufterSet(0,false);
+		delay(250);
+		LufterSet(1,true);
+	}
+	else if (temperature_1 >= temperature_Avg || temperature_2 >= temperature_Avg) {	// lüfter on 50 %
+		Serial.println("Set Lufter 50%");
+		LufterSet(1,false);
+		delay(250);
+		LufterSet(0,true);
+	}
+	else if(temperature_1 <= temperature_Min || temperature_2 <= temperature_Min) {	// läfter off 0 %
+		Serial.println("Set Lufter 0%");
+		LufterSet(0,false);
+		LufterSet(1,false);
+	}
+	else {
+		Serial.println("TemperaturSettings | ERROR");
+		LufterSet(0,false);
+		LufterSet(1,false);
+	};
+};
 
 void LightSettings() {
   int *rgbValues = rgb_String_To_Int(setRgbLed);
@@ -141,44 +199,73 @@ void LightSettings() {
     for(int i=0;i<NeoPixel_NUM;i++) {
       neoPixel.setPixelColor(i, rgbValues[0],rgbValues[1],rgbValues[2]);
       neoPixel.show();
-    }
+    };
   } else {
     neoPixel.clear();
     neoPixel.show();
   };
-}
+};
+
+void PumpeSet(bool value) {
+	value ? digitalWrite(Pumpe_Pin,0) : digitalWrite(Pumpe_Pin,1);
+};
 
 void SoilMoistureSettings() {
 	soilMoisture_1 = map(analogRead(soilMoisturePin_1), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
 	soilMoisture_2 = map(analogRead(soilMoisturePin_2), soilMoisture_Map_Min, soilMoisture_Map_Max, soilMoisture_Map_To, soilMoisture_Map_From);
 	if(setPumpe) {
-		digitalWrite(Pumpe_Pin, 0);
+		if((soilMoisture_1 || soilMoisture_2) <= soilMoisture_Min) {PumpeSet(true);}; // Pumepe ON
+    		if((soilMoisture_1 && soilMoisture_2) >= soilMoisture_Max) {PumpeSet(false);}; // Pumpe OFF
   	} else {
-		digitalWrite(Pumpe_Pin, 1);
+		PumpeSet(false);
 	};
-}
-
+};
 
 void MatrixLedSettings() {
   matrix.control(MD_MAX72XX::INTENSITY, setBrightness);
   scrollText(setMatrixLed);
-}
+};
 
 void loop(void) {
-	Serial.println("----SETTINGS----");
- 	TEST_GET_Settings();
-  	Serial.println("----------------");
-	Serial.print("1 | temperature : ");Serial.print(temperature_1);Serial.print(" humidity : ");Serial.println(humidity_1);
-	Serial.print("2 | temperature : ");Serial.print(temperature_2);Serial.print(" humidity : ");Serial.println(humidity_2);
-	Serial.print("1 | soil Moisture : ");Serial.println(soilMoisture_1);
-	Serial.print("2 | soil Moisture : ");Serial.println(soilMoisture_2);
+ // if (wlan.status() == DISCONNECTED ) {
+ //   wlan.reconnect();
+ // }
+  Serial.println("----SETTINGS----");
+ // int settings_http_code = settings.start();
+  Serial.println("HTTP Code: ");
+  // Serial.println(settings_http_code);
+  // if(settings_http_code < 200 || settings_http_code >= 300) {
+    //Serial.println("GET_Settings -> Error Code: " + String(settings_http_code));
+  // } else {
+    //GET_Settings();
+  //};
+  //settings.end();
+  Serial.println("----------------");
 
-  	TemperatureSettings();
-	SoilMoistureSettings();
-  	LightSettings();
-  	MatrixLedSettings();
+  Serial.println("TemperatureSettings | Start");
+  TemperatureSettings();
+  Serial.println("----------------");
+  Serial.println("SoilMoistueSettings | Start");
+  SoilMoistureSettings();
+  Serial.println("----------------");
+  Serial.println("LightSettings | Start");
+  LightSettings();
+  Serial.println("----------------");
+  Serial.println("MatrixSettings | Start");
+  MatrixLedSettings();
+  Serial.println("----------------");
   
-  	Serial.println("-----SENSOR----");
-  	Serial.println("----------------");
-  	delay(MINDelay);
+  Serial.println("-----SENSOR----");
+  // int sensor_http_code = sensor.start();
+  Serial.println("HTTP Code: ");
+  // Serial.println(sensor_http_code);
+  // if(sensor_http_code < 200 || sensor_http_code >= 300) {
+    // Serial.println("POST_Sensor -> Error Code: " + String(sensor_http_code));
+  // } else {
+    Serial.println("POST Code: ");
+   // Serial.println(POST_Sensor());
+  //};
+  //sensor.end();
+  Serial.println("----------------");
+  delay(MINDelay);
 }

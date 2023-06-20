@@ -7,7 +7,7 @@ import { NuxtPage, NuxtLink, Settings } from '../../.nuxt/components';
             <div class="flex justify-between ">
                 <h1 class="p-5 text-3xl ">Dashboard</h1>
                 <NuxtLink :to="`dashboard/settings`" >
-                    <button class="btn btn-info">Settings</button>
+                    <button class="btn btn-info text-white-50">Settings</button>
                 </NuxtLink>
             </div>
             <NuxtErrorBoundary>

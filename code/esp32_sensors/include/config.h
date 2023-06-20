@@ -1,4 +1,4 @@
-const char* uri = "http:192.168.178.41:8080";// "http://192.0.0.23:8080";
+const char* uri = "http://192.0.0.21:8080";// "http://192.0.0.23:8080";
 // STANDARD SETTINGS
 #define MINDelay 3000
 
@@ -19,8 +19,8 @@ const char* uri = "http:192.168.178.41:8080";// "http://192.0.0.23:8080";
 // DATA   -> Pin (25 / 26) 
 // 2006.0 = 100%
 // 4095.0 = 0%
-const int soilMoisturePin_1 = 25;// 25
-const int soilMoisturePin_2 = 26;// 26
+const int soilMoisturePin_1 = 32;// 25
+const int soilMoisturePin_2 = 33;// 26
 const int soilMoisture_Map_Min = 2006;
 const int soilMoisture_Map_Max = 4095;
 const int soilMoisture_Map_From = 0;

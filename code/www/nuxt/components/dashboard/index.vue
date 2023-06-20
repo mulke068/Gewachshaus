@@ -1,6 +1,6 @@
 <template>
     <div v-if="!error">
-        <div class="container md:flex">
+        <div class="container md:flex text-white-50 dark:text-white-300">
             <div class="container py-2 md:w-40 bg-clementine-700">
                 <div>
                     <div class="flex justify-center text-3xl ">Devices</div>
@@ -99,7 +99,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -145,11 +145,26 @@ export default {
         clearInterval(this.intervalId);
     },
     methods: {
+        roundToTwoDecimal(value: number) {
+            return Math.round(value * 100) / 100;
+        },
         async fetchData() {
             const runtimeConfig = useRuntimeConfig();
             const { data: sensorData , error: sensorError } = await useFetch(`${runtimeConfig.api_host}/sensor`);
             const { data: settingsData, error: settingsError } = await useFetch(`${runtimeConfig.api_host}/settings`);
-            this.sensorData = sensorData.value;
+            this.sensorData = {
+                temperature_1: this.roundToTwoDecimal(sensorData.value.temperature_1),
+                humidity_1: this.roundToTwoDecimal(sensorData.value.humidity_1),
+                temperature_2: this.roundToTwoDecimal(sensorData.value.temperature_2),
+                humidity_2: this.roundToTwoDecimal(sensorData.value.humidity_2),
+                soilMoisture_1: sensorData.value.soilMoisture_1,
+                soilMoisture_2: sensorData.value.soilMoisture_2,
+                statusPumpe: sensorData.value.statusPumpe,
+                statusLufter_Low: sensorData.value.statusLufter_Low,
+                statusLufter_High: sensorData.value.statusLufter_High,
+                statusLight: sensorData.value.statusLight,
+                getRgbLed: sensorData.value.getRgbLed,
+            };
             this.error = sensorError;
             this.settingsData = settingsData.value;
             this.error = settingsError;
