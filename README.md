@@ -1,5 +1,4 @@
-<div>
-    <div class="heder">
+<div class="heder">
         <div align="center">
             <img src="https://github.com/mulke068/Gewachshaus/blob/c2ff0bcefa5d99ff24013ec02ff239405733d12e/img/logo_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
         </div>
@@ -45,7 +44,7 @@
             <ul>Beleuchtung</ul>
             <ul>Belüftung</ul>
         <h2>Zusatz function</h2>
-        <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen<p>
+        <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen</p>
         <h1>Dossiert</h1>
         <h2>1. Funktionsbeschriebung</h2>
             <ul>Text</ul>
@@ -88,3 +87,5 @@
                     <ul>
                         <li><a href="https://javl.github.io/image2cpp/" target="_blank">Converter BMP into C</a></li>
                     </ul>
+        </div>
+    </div>
