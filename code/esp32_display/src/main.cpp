@@ -23,7 +23,7 @@
 
 #define settings_ DEF_SETTINGS
 #define sensor_ DEF_SENSOR
-const char* uri = "http://192.0.0.21:8080"; // http://192.168.178.38:3030
+const char* uri = "http://192.0.0.20:8080";//"http://192.0.0.21:8080";
 
 Wlan    wlan;
 Request settings(uri, settings_);

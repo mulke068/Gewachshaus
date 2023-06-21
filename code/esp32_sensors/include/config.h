@@ -1,4 +1,4 @@
-const char* uri = "http://192.0.0.21:8080";// "http://192.0.0.23:8080";
+const char* uri = "http://192.0.0.20:8080";//"http://192.0.0.21:8080";
 // STANDARD SETTINGS
 #define MINDelay 3000
 

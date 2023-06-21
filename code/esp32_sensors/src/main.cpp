@@ -143,10 +143,12 @@ void LufterSet(int lufter, bool set) {
 	if(lufter == 0) {
 		set ? digitalWrite(Lufter_Low_Pin, 0)/* ON */ : digitalWrite(Lufter_Low_Pin, 1); /* OFF */
 		statusLufter_Low = set;
+    BuzzerSet(100);
 	};
 	if(lufter == 1) {
 		set ? digitalWrite(Lufter_High_Pin, 0)/* ON */ : digitalWrite(Lufter_High_Pin, 1); /* OFF */
 		statusLufter_High = set;
+    BuzzerSet(100);
   	};
 };
 
@@ -220,6 +222,7 @@ void LightSettings() {
 void PumpeSet(bool set) {
   set ? digitalWrite(Pumpe_Pin,0) : digitalWrite(Pumpe_Pin,1);
   statusPumpe = set;
+  BuzzerSet(100);
 };
 
 void SoilMoistureSettings() {
