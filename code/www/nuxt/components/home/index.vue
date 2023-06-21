@@ -1,12 +1,12 @@
 <template>
     <div class="heder">
         <div align="center">
-            <img src="img/GewächshausLogo_LPEM_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
+            <img src="../../assets/img/logo/GewächshausLogo_LPEM_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
 
         </div>
         <table align="center">
             <tr>
-                <td><img src="img/GewächshausLogo_LPEM_2_1024x1024.png" width="70" height="70"/></td>
+                <td><img src="../../assets/img/logo/GewächshausLogo_LPEM_2_1024x1024.png" width="70" height="70"/></td>
                 <td><h2 >©2023</h2></td>
                 <div align="center">
                     <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/mulke068/Gewachshaus?color=blue&logo=Gewachshaus&logoColor=red">
