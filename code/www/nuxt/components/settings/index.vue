@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="flex items-center justify-center py-3 md:justify-end">
-            <button type="submit" class="btn btn-outline">Submit</button>
+            <button type="submit" class="btn btn-outline">Save</button>
         </div>
     </form>
 </div>

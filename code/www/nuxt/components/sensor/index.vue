@@ -1,3 +1,4 @@
+import type { CustomAppConfig from 'nuxt/schema'};
 <template>
         <button @click="reload" class="my-4 btn btn-info text-white-50">Refresh</button>
         <div v-if="error" class="animate-pulse">

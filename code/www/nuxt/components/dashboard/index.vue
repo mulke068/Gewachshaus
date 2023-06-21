@@ -16,7 +16,7 @@
             </div>
             <div class="container p-2 px-3 bg-minsk-900">
                 <div>
-                    <div class="flex text-3xl">TempHum</div>
+                    <div class="flex text-3xl">Temperatur System</div>
                     <div class="justify-center p-4 space-x-8 text-lg md:flex">
                         <div>Senors 1</div>
                         <div class="p-4 space-x-6 md:flex">
@@ -31,39 +31,65 @@
                     </div>
                 </div>
                 <div>
-                    <div class="justify-start text-3xl ">WaterSystem</div>
+                    <div class="justify-start text-3xl ">Wasser System</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
-                        <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_1}`">{{sensorData.soilMoisture_1}}</div>
-                        <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_2}`">{{sensorData.soilMoisture_2}}</div>
                         <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusPumpe" />
-                            {{ sensorData.statusPumpe ? 'ON' : 'OFF' }}
+                            <div>Bodenfeuchtikeit Sensor 1</div>
+                            <div class="p-4 space-x-6 md:flex">
+                                <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_1}`">{{sensorData.soilMoisture_1}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Bodenfeuchtikeit Sensor 2</div>
+                            <div class="p-4 space-x-6 md:flex">
+                                <div class="radial-progress" :style="`--value: ${sensorData.soilMoisture_2}`">{{sensorData.soilMoisture_2}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Status Pumpe</div>
+                            <div class="p-4 space-x-6 md:flex">
+                                <input type="checkbox" class="toggle" v-model="sensorData.statusPumpe" />
+                                {{ sensorData.statusPumpe ? 'ON' : 'OFF' }}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="justify-start text-3xl ">LufterLeds</div>
+                    <div class="justify-start text-3xl ">Lufter System</div>
                     <div class="justify-center p-4 space-x-4 text-lg md:flex">
-                        <div>
-                            <input type="range" min="0" max="100" :value="100" class="range" />
+                        <div class="p-4 space-x-6 md:flex">
+                            Lufter Status
                         </div>
-                        <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_Low" />
+                        <label class="" for="statusLufter_Low">ECO</label>
+                        <div class="p-4 space-x-6 md:flex">
+                            <input name="statusLufter_Low" type="checkbox" class="toggle" v-model="sensorData.statusLufter_Low" />
                             {{ sensorData.statusLufter_Low ? 'ON' : 'OFF' }}
                         </div>
-                        <div>
-                            <input type="range" min="0" max="100" :value="100" class="range" />
-                        </div>
-                        <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusLufter_High" />
+                        <label for="statusLufter_Medium">Performance</label>
+                        <div class="p-4 space-x-6 md:flex">
+                            <input name="statusLufter_High" type="checkbox" class="toggle" v-model="sensorData.statusLufter_High" />
                             {{ sensorData.statusLufter_High ? 'ON' : 'OFF' }}
                         </div>
-                        <div>
-                            <input type="range" min="0" max="100" :value="100" class="range" />
+                    </div>
+                </div>
+                <div>
+                    <div class="justify-start text-3xl ">Lichter System</div>
+                    <div class="justify-center p-4 space-x-4 text-lg md:flex">
+                        <div class="p-4 space-x-6 md:flex">
+                            LED Status
                         </div>
-                        <div>
-                            <input type="checkbox" class="toggle" v-model="sensorData.statusLight" />
+                        <label for="brightness_Led">Led Helligkeit</label>
+                        <div class="p-4 space-x-6 md:flex">
+                            <input name="brightness_Led" type="range" min="0" max="100" v-model="settingsData.setBrightness" class="range" />
+                        </div>
+                        <label for="statusLight">Led Status</label>
+                        <div class="p-4 space-x-6 md:flex">
+                            <input name="statusLight" type="checkbox" class="toggle" v-model="sensorData.statusLight" />
                             {{ sensorData.statusLight ? 'ON' : 'OFF' }}
+                        </div>
+                        <div class="p-4 space-x-6 md:flex">
+                            <label for="getRgbLed">Color Status</label>
+                            <input name="getRgbLed" type="color" v-model="sensorData.getRgbLed" class="range" />
                         </div>
                     </div>
                 </div>
@@ -75,6 +101,7 @@
                         <div>{{ 90 }}%</div> <!-- akku -->
                         <div>{{ 11.3 }}V</div> <!-- strom -->
                     </div>
+
                 </div>
                 <div>
                     <div class="justify-start text-3xl ">Settings</div>
@@ -122,6 +149,7 @@ export default {
                 temperature_Max: 0,
                 soilMoisture_Min: 0,
                 soilMoisture_Max: 0,
+                setBrightness: 0,
                 setLufter_Low: false,
                 setLufter_High: false,
                 setPumpe: false,

@@ -1,191 +1,94 @@
-<script lang="ts" setup>
-import { objectExpression } from '@babel/types';
-import THREE, { AmbientLight, GridHelper, PerspectiveCamera, PointLight, Scene, TextureLoader, Vector3, WebGLRenderer } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Ref } from 'vue';
-
-let renderer: WebGLRenderer;
-const container: Ref<HTMLCanvasElement | null> = ref(null);
-let controls: OrbitControls;
-
-const aspectRatio = computed(() => window.innerWidth / window.innerHeight);
-
-const scene = new Scene();
-
-const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 0, 15);
-scene.add(camera);
-
-const ambientLight = new AmbientLight( 0xcccccc, 0.4 );
-scene.add( ambientLight );
-
-const pointLight = new PointLight( 0xffffff, 0.8 );
-camera.add( pointLight );
-scene.add( camera );
-
-const gridHelper = new GridHelper(50, 50);
-gridHelper.position.set(0, 0, 0);
-scene.add(gridHelper);
-
-//const spaceTexture = new TextureLoader().load('_nuxt/assets/img/space.webp');
-const spaceTexture = new TextureLoader().load('@assets/img/space.webp');
-scene.background = spaceTexture;
-
-
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-
-const objMateial = new MTLLoader();
-const objLoader = new OBJLoader();
-
-objMateial.load('/3dObjects/test.mtl',
-    (materials) => {
-        materials.preload();
-        objLoader.setMaterials(materials);
-        objLoader.load('/3dObjects/test.obj',
-            (object) => {
-                //object.position.set(-43,39,0);
-                object.position.set(0,0,0);
-                object.scale.set(0.01, 0.01, 0.01);
-                scene.add(object);
-                // Setup renderer
-                setRenderer();
-                setSize();
-            },
-            (xhr) => {
-                let count = Math.round(xhr.loaded / xhr.total * 100);
-                console.log(String(count)+ '% 3dObject ');
-            },
-            (error) => {
-                console.warn('An error happened loading 3DObject \n'+ error);
-            }
-        )
-    }
-);
-
-/*
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
-
-const fbxLoader = new FBXLoader();
-
-fbxLoader.load('/3dObjects/test.fbx',
-    (object) => {
-        object.position.set(0,0,0);
-        object.scale.set(0.01, 0.01, 0.01);
-        scene.add(object);
-        // Setup renderer
-        setRenderer();
-        setSize();
-    },
-    (xhr) => {
-        let count = Math.round(xhr.loaded / xhr.total * 100);
-        console.log(String(count)+ '% 3dObject ');
-    },
-    (error) => {
-        console.warn('An error happened loading 3DObject \n'+ error);
-    }
-)
-*/
-/*
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
-
-// Note that since Three release 148, you will find the Draco libraries in the `.\node_modules\three\examples\jsm\libs\draco\` folder.
-const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('../.node_modules/three/examples/jsm/libs/draco/');
-
-const loader = new GLTFLoader()
-loader.setDRACOLoader(dracoLoader)
-loader.load(
-    '3dObjects/test.glb',
-    function (gltf) {
-        gltf.scene.traverse(function (child) {
-            if ((child as THREE.Mesh).isMesh) {
-                const m = child as THREE.Mesh
-                m.receiveShadow = true
-                m.castShadow = true
-            }
-            if ((child as THREE.Light).isLight) {
-                const l = child as THREE.Light
-                l.castShadow = true
-                l.shadow.bias = -0.003
-                l.shadow.mapSize.width = 2048
-                l.shadow.mapSize.height = 2048
-            }
-        })
-        scene.add(gltf.scene)
-    },
-    (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-    },
-    (error) => {
-        console.log(error)
-    }
-)
-*/
-function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-}
-
-window.onresize = () => {
-    setSize();
-} 
-
-function setSize() {
-    camera.aspect = aspectRatio.value;
-    camera.updateProjectionMatrix();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function setRenderer() {
-    if (container.value) {
-        renderer = new WebGLRenderer({
-            canvas: container.value,
-        });
-        controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        animate();
-    }
-}
-</script>
-
 <template>
-    <div>
-        <div class="model">
-            <canvas ref="container" id="container"></canvas>
+    <div class="heder">
+        <div align="center">
+            <img src="img/GewächshausLogo_LPEM_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150"/>&nbsp;
+
         </div>
-        <div class="content">
-            <div class="container mx-auto">
-                <h1 class="text-3xl ">
-                    Home
-                </h1>
-                <p>
-                    This is the home page
-                </p>
-                <p>
-                    Work in Progress
-                </p>
-                <p>
-                    Page View 3d Model from The Projeckt + Text Description
-                </p>
-            </div>
-        </div>   
+        <table align="center">
+            <tr>
+                <td><img src="img/GewächshausLogo_LPEM_2_1024x1024.png" width="70" height="70"/></td>
+                <td><h2 >©2023</h2></td>
+                <div align="center">
+                    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/mulke068/Gewachshaus?color=blue&logo=Gewachshaus&logoColor=red">
+                    <img alt="GitHub" src="https://img.shields.io/github/license/mulke068/Gewachshaus">
+                    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mulke068/Gewachshaus">
+                    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/mulke068/Gewachshaus?display_name=tag">
+                </div>
+            </tr>
+        </table>
+    </div>
+    <div class="content">
+        <h1>All Docs</h1>
+        <a href="code/www/README.md">www</a>
+        <ul><a href="code/www/nuxt/README.md">Website</a></ul>
+        <ul><a href="code/www/api/README.md">API</a></ul>
+        <a href="code/application/README.md">application</a>
+        <br/>
+        <a href="code/esp32_display/README.md">ESP Display</a>
+        <br/>
+        <a href="code/esp32_sensors/README.md">ESP SENSORS</a>
+        <h1>Stellungsannahme</h1>
+        <h2>Plexiglas</h2>
+            <ul>max grösse 600x400 m^2</ul>
+            <ul>transparent or milch</ul>
+            <ul>3mm or 5mm</ul>
+        <h2>Hauptversorgung</h2>
+            <ul>Netzteil</ul> 
+            <ul>Solarpannel + Speicher</ul>
+            <ul>MAX 12v</ul>
+            <ul>Über Solarpannel soll die Beleuctung versorgt werden</ul>
+        <h2>Arduino oder Raspberry PI</h2>
+        <h3>Sensoren</h3>
+            <ul>Temperatur</ul>
+            <ul>Luftfeuchtigket</ul>
+        <h3>Aktoren</h3>
+            <ul>Lcd 16x2</ul>
+            <ul>Beleuchtung</ul>
+            <ul>Belüftung</ul>
+        <h2>Zusatz function</h2>
+        <p>Raspberry Pi für Visualiesierung auf einem lcd angeschlossen</p>
+        <h1>Dossiert</h1>
+        <h2>1. Funktionsbeschriebung</h2>
+            <ul>Text</ul>
+            <ul>Animation</ul>
+        <h2>2. Materialliste</h2>
+            <ul>Peris Liste in Exel</ul>
+        <h2>3. Elektrik</h2>
+            <ul>Schaltplan</ul>
+            <ul>Synoptik</ul>
+            <ul>Programm(code vom Arduino)</ul>
+        <h2>4. Gehäuse</h2>
+            <ul>Fusion Model erstellen vom Gesammt Projeckt</ul>
+            <ul>3D Model Animation(in ppt)</ul>
+    </div>
+    <div class="bottom">
+        <div>
+            <h1>Links</h1>
+                <h2>Shops</h2>
+                    <ul><a href="https://www.az-delivery.de" target="_blank">AZ Delivery</a></ul>
+                    <ul><a href="https://www.reichelt.de" target="_blank">Reichelt</a></ul>
+                    <ul><a href="https://de.elv.com" target="_blank">ELV</a></ul>
+                    <ul><a href="https://lemo-solar.de" target="_blank">Lemo-Solar</a></ul>
+                    <ul><a href="https://www.electronic-shop.lu" target="_blank">Electronic-Shop</a></ul>
+                <h2>others</h2>
+                    <ul>
+                        <li><a href="http://projects.htl-klu.at/Projekt_1617/pr7abeli35331/Internet/details.html" target="_blank">link 1</a></li>
+                        <li><a href="https://randomnerdtutorials.com/esp32-http-get-post-arduino/" target="_blank">link 2</a></li>
+                        <li><a href="https://randomnerdtutorials.com/getting-started-node-red-dashboard/" target="_blank">link 3</a></li>
+                        <li><a href="https://www.instructables.com/Automated-Greenhouse/" target="_blank">link 4</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="http://www.barth-dev.de/online/rgb565-color-picker/" target="_blank">color piker</a></li>
+                        <li><a href="https://github.com/jiteshsaini/rest-api-examples" target="_blank">Github 1</a></li>
+                    </ul>
+                <h2>videos</h2>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=1J8-cBR0R3M" target="_blank">video 1</a></li>
+                    </ul>
+                <h2>Essential</h2>
+                    <ul>
+                        <li><a href="https://javl.github.io/image2cpp/" target="_blank">Converter BMP into C</a></li>
+                    </ul>
+        </div>
     </div>
 </template>
-
-<style scoped>
-.model {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-}
-.content {
-    position: static;
-    width: 100vw;
-    height: 80vh;
-}
-</style>
-

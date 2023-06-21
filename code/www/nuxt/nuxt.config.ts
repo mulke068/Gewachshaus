@@ -5,7 +5,6 @@ export default defineNuxtConfig({
       api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080"), // default: http://localhost:8080
     }
   },
-  // ...
   css: ["~/assets/css/main.css"],
   postcss: {
     plugins: {
@@ -19,13 +18,6 @@ export default defineNuxtConfig({
     background: "white",
   },
   nitro: {},
-  /*
-  server: {
-    port: 8000, // default: 3000
-    host: '0.0.0.0', // default: localhost,
-    timing: false
-  },
-  */
   components: true,
   app: {
     head: {
