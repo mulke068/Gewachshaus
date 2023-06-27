@@ -1,21 +1,20 @@
+import component from './.nuxt/types/vue-shim';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      api_host: (process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080"), // default: http://localhost:8080
+      api_host: process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080", // default: http://localhost:8080
     }
   },
-  css: ["~/assets/css/main.css"],
+  css: [
+    '@/assets/css/main.css',
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
-  },
-  loading: {
-    name: "circle",
-    color: "#3B8070",
-    background: "white",
   },
   nitro: {},
   components: true,
@@ -101,4 +100,4 @@ export default defineNuxtConfig({
       ],
     }
   },
-});
+})

@@ -9,7 +9,7 @@ import type { CustomAppConfig from 'nuxt/schema'};
             </div>
         </div>
         <div v-else>
-            <div class="grid gap-4 md:grid-cols-2 text-white-50">
+            <div class="grid gap-4 md:grid-cols-2 text-white-50 ">
                 <section v-for="data_row in data" :key="data_row._id" >
                     <div class="grid items-center justify-center w-max[auto] h-auto gap-4 rounded-lg bg-minsk-900">
                         <div class="flex h-10 space-x-8">
@@ -58,10 +58,15 @@ export default {
     },
     methods: {
         async refresh() {
-            const runtimeConfig = useRuntimeConfig()
-            const { data , error } = await useFetch(`${runtimeConfig.api_host}/sensor/all`)
-            this.error = error
-            this.data = data.value
+            try {
+            //const runtimeConfig = useRuntimeConfig()
+            //const { data , error } = await useFetch(`${runtimeConfig.public.api_host}/sensor/all`)
+            const { data } = await useFetch('/api/sensor/all');
+            this.data = data.value;
+            this.error  = null;
+            } catch (error) {
+                this.error = `Data is Empty ${error}`;
+            }
         }
     }
 }
@@ -69,5 +74,5 @@ export default {
 
 <!--script lang="ts" setup>
     const runtimeConfig = useRuntimeConfig()
-    const { data, refresh } = await useFetch(`${runtimeConfig.api_host}/sensor/all`)
+    const { data, refresh } = await useFetch(`${runtimeConfig.public.api_host}/sensor/all`)
 </script-->

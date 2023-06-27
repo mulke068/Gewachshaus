@@ -28,7 +28,8 @@ import { NuxtLink } from '../../.nuxt/components';
 <script setup lang='ts'>
 const runtimeConfig = useRuntimeConfig() 
 const { id } = useRoute().params
-const { data, refresh } = await useFetch(`${runtimeConfig.api_host}/sensor/id/${id}`, { key: `${id}` })
+//const { data, refresh } = await useFetch(`${runtimeConfig.public.api_host}/sensor/id/${id}`, { key: `${id}` })
+const { data } = await useFetch(`/api/sensor/id/${id}`, {key: `${id}`})
 const sensor_value: any = data.value
 </script>
 

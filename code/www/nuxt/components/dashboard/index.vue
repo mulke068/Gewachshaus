@@ -1,3 +1,4 @@
+import { Context } from '@nuxt/types';
 <template>
     <div v-if="!error">
         <div class="container md:flex text-white-50 dark:text-white-300">
@@ -17,7 +18,7 @@
             <div class="container p-2 px-3 bg-minsk-900">
                 <div>
                     <div class="flex text-3xl">Temperatur System</div>
-                    <div class="justify-center p-4 space-x-8 text-lg md:flex">
+                    <div class="justify-center p-4 space-x-8 text-lg xl:flex">
                         <div>Senors 1</div>
                         <div class="p-4 space-x-6 md:flex">
                             <DashboardCirqualPorgress :value="sensorData.temperature_1" :max="80" :min="0" :unit="'°C'" />
@@ -177,9 +178,11 @@ export default {
             return Math.round(value * 100) / 100;
         },
         async fetchData() {
-            const runtimeConfig = useRuntimeConfig();
-            const { data: sensorData , error: sensorError } = await useFetch(`${runtimeConfig.api_host}/sensor`);
-            const { data: settingsData, error: settingsError } = await useFetch(`${runtimeConfig.api_host}/settings`);
+            //const runtimeConfig = useRuntimeConfig();
+            //const { data: sensorData , error: sensorError } = await useFetch(`${runtimeConfig.public.api_host}/sensor`);
+            //const { data: settingsData, error: settingsError } = await useFetch(`${runtimeConfig.public.api_host}/settings`);
+            const { data: sensorData } = await useFetch('/api/sensor');
+            const { data: settingsData } = await useFetch('/api/settings')
             this.sensorData = {
                 temperature_1: this.roundToTwoDecimal(sensorData.value.temperature_1),
                 humidity_1: this.roundToTwoDecimal(sensorData.value.humidity_1),

@@ -44,11 +44,11 @@
                     <input type="checkbox" name="setLufter_High" class="toggle" v-model="formData.setLufter_High" />
                 </div>
                 <div class="form-control">
-                    <label for="setLufter_Low" class="py-3">Pumpe AN/AUS</label>
+                    <label for="setLufter_Low" class="py-3">Pumpe AUS / AN</label>
                     <input type="checkbox" name="setPumpe" class="toggle" v-model="formData.setPumpe" />
                 </div>
                 <div class="form-control">
-                    <label for="setLufter_Low" class="py-3">Licht AN/AUS</label>
+                    <label for="setLufter_Low" class="py-3">Licht AUS / AN</label>
                     <input type="checkbox" name="setLight" class="toggle" v-model="formData.setLight" />
                 </div>
                 <div class="w-full max-w-xs form-control">
@@ -59,13 +59,13 @@
                 </div>
                 <div class="form-control w-max ">
                     <label for="setRgbLed" class="py-3">Licht Farbe auswählen</label>
-                    <input class="flex min-w-fit" type="color" name="setRgbLed" v-model="formData.setRgbLed" />
+                    <input class="flex border-2 min-w-fit border-l-neutral-900" type="color" name="setRgbLed" v-model="formData.setRgbLed" />
                 </div>
                 <div class="w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">Matrix Led Text einfügen</span>
                         </label>
-                        <input type="text" placeholder="Type here" class="w-full max-w-xs input input-bordered" v-model="formData.setMatrixLed" />
+                        <input type="text" :placeholder="formData.setMatrixLed" class="w-full max-w-xs input input-bordered" name="setMatrixLed" value="" />
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@ const hexToRGB = (hex: any) => {
         );
 };
 
-const runtimeConfig = useRuntimeConfig()
+//const runtimeConfig = useRuntimeConfig()
 let settings_values:any = '';
 await get();
 
@@ -124,7 +124,8 @@ let formData = ref({
 })
 
 async function get() {
-    const {data: settings_data, refresh} = await useFetch(`${runtimeConfig.api_host}/settings`);
+    //const {data: settings_data, refresh} = await useFetch(`${runtimeConfig.public.api_host}/settings`);
+    const { data: settings_data } = await useFetch('/api/settings');
     settings_values = settings_data.value;
 }
 
@@ -136,13 +137,19 @@ async function createForm() {
 }
 
 async function update(data: any) {
-    const res = await $fetch(`${runtimeConfig.api_host}/settings`, {
+    const res = await $fetch(`${runtimeConfig.public.api_host}/settings`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     });
+    /*
+    const res = await useFetch('/api/settings' , {
+        method: 'PATCH',
+        body: JSON.stringify(data)
+    });
+    */
 }
 
 </script>
