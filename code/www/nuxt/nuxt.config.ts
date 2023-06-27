@@ -2,22 +2,27 @@ import component from './.nuxt/types/vue-shim';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   runtimeConfig: {
     public: {
       api_host: process.env.NUXT_PUBLIC_API_HOST || "http://localhost:8080", // default: http://localhost:8080
     }
   },
+
   css: [
     '@/assets/css/main.css',
   ],
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   nitro: {},
   components: true,
+
   app: {
     head: {
       meta: [
@@ -100,4 +105,6 @@ export default defineNuxtConfig({
       ],
     }
   },
+
+  modules: ["@nuxt/content"],
 })

@@ -14,10 +14,11 @@ void Wlan::connect() {
         WiFi.config(WIFI_IP, WIFI_GATEWAY, WIFI_SUBNET, WIFI_DNS1, WIFI_DNS2);
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
         Serial.print("Connecting to WiFi ");
-        while(WiFi.status() != WL_CONNECTED) {
+        delay(250);
+        /*while(WiFi.status() != WL_CONNECTED) {
             delay(250);
             Serial.print(".");
-        }
+        };*/
         Serial.println("");
         Serial.println("WiFi connected");
         Serial.print("IP address: ");

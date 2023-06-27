@@ -1,3 +1,4 @@
+import { Body } from '../../.nuxt/components';
 <template>
 <div>
     <form @submit.prevent="createForm">
@@ -65,7 +66,7 @@
                         <label class="label">
                             <span class="label-text">Matrix Led Text einfügen</span>
                         </label>
-                        <input type="text" :placeholder="formData.setMatrixLed" class="w-full max-w-xs input input-bordered" name="setMatrixLed" value="" />
+                        <input type="text" placeholder="Type Here" class="w-full max-w-xs input input-bordered" name="setMatrixLed" v-model="formData.setMatrixLed" @focus="clearInput"/>
                 </div>
             </div>
         </div>
@@ -104,7 +105,6 @@ const hexToRGB = (hex: any) => {
         );
 };
 
-//const runtimeConfig = useRuntimeConfig()
 let settings_values:any = '';
 await get();
 
@@ -137,19 +137,15 @@ async function createForm() {
 }
 
 async function update(data: any) {
-    const res = await $fetch(`${runtimeConfig.public.api_host}/settings`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    /*
     const res = await useFetch('/api/settings' , {
         method: 'PATCH',
         body: JSON.stringify(data)
     });
-    */
+    
+}
+
+function clearInput() {
+    formData.value.setMatrixLed = '';
 }
 
 </script>

@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
-    const data = await $fetch('http://localhost:8080/settings');
+    const config = useRuntimeConfig();
+    const data = await $fetch(`${config.public.api_host}/settings`);
     return data;
 })

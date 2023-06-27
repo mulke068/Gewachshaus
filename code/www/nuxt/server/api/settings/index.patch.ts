@@ -1,12 +1,11 @@
 export default defineEventHandler(async (event) => {
-    const setBody = readBody(event)
-    console.log(setBody)
-    const res = await $fetch('http://localhost:8080/settings', {
+    const config = useRuntimeConfig();
+    const setBody = await readBody(event);
+    const res = await $fetch(`${config.public.api_host}/settings`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: setBody
     });
-    return res;
 })
