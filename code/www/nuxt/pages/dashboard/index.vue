@@ -32,9 +32,12 @@ useHead({
     title: 'Dashboard',
     meta: [
         { name: 'title', content: 'Dashboard'},
-        { name: 'description', content: 'Dashboard Seite vom Gewaechshaus'},
+        { property: 'og:site_name', content: 'Dashboard'},
         { name: 'keywords', content: 'dashboard, page'},
-        { property: 'og:site_name', content: 'Dashboard'}
+        { name: "description", content: "Dashboard Seite vom Gewaechshaus" },
+        { name: "twitter:description", content: "Dashboard Seite vom Gewaechshaus"},
+        { itemprop: "description", content: "Dashboard Seite vom Gewaechshaus" },
+        { property: "og:description", content: "Dashboard Seite vom Gewaechshaus"}
     ]
 })
 </script>

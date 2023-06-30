@@ -27,9 +27,12 @@ useHead({
     title: 'Sensor Data',
     meta: [
         { name: 'title', content: 'Sensor Data'},
-        { name: 'description', content: 'Show all the sensor data'},
+        { property: 'og:site_name', content: 'Sensor Data'},
         { name: 'keywords', content: 'sensor, data'},
-        { property: 'og:site_name', content: 'Sensor Data'}
+        { name: "description", content: 'Zeigt alle Sensor Daten'},
+        { name: "twitter:description", content: "Zeigt alle Sensor Daten"},
+        { itemprop: "description", content: 'Zeigt alle Sensor Daten' },
+        { property: "og:description", content: "Zeigt alle Sensor Daten"}
     ]
 })
 </script>

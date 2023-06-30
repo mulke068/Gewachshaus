@@ -2,13 +2,16 @@ import { Link } from '../../.nuxt/components';
 <template>
 <div class="container p-4 mx-auto">
   <div class="items-center justify-center md:flex md:flex-col header ">
+	  <video class="w-auto aspect-video" alt="Gewächshaus Intro LPEM (EMH Music | Electro - Minimal - House)" autoplay>
+		<source src="/video/intro.mp4" srcset="/img/logo-gewächshaus-lpem_1024x1024.png" type="video/mp4">
+	  </video>
     <div class="p-4 text-center">
-      <img src="/img/GewächshausLogo_LPEM_1024x1024.png" title="LPEM LOGO" alt="LPEM LOGO" width="150" height="150" />
+      <img src="/img/logo-gewächshaus-lpem_1024x1024.png" alt="Gewächshaus Logo LPEM" width="150" height="150" />
     </div>
     <table>
       <tr>
         <td>
-          <img src="/img/GewächshausLogo_LPEM_2_1024x1024.png" width="70" height="70" />
+          <img src="/img/logo2-gewächshaus-lpem_1024x1024.png" alt="Gewächshaus Logo 2 LPEM" width="70" height="70" />
         </td>
         <td>
           <h2>&copy;2023</h2>

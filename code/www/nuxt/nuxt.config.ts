@@ -33,6 +33,7 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico"},
         { name: "viewport", content: "width=device-width,initial-scale=1" },
         { name: "author", content: "Mulke068"},
+        { name: 'lang', content: 'de_DE'},
         { name: "generator", content: "NuxtJS"},
         { name: "theme-color", content: "#ffffff" },
         { name: "theme-color", content: "#000000" },
@@ -45,11 +46,11 @@ export default defineNuxtConfig({
         /*
           OG Tags
         */
-        { property: "og:title", content: "Gewachshaus"},
+        { property: "og:title", content: "Gewächshaus"},
         { property: "og:description", content: "Dashboard für die Steuerung des Gewachshauses"},
         { property: "og:type", content: "website"},
         { property: "og:url", content: "https://www.kevbchef.com"},
-        { property: "og:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
+        { property: "og:image", content: "/img/logo-gewächshaus-lpem_1024x1024.png"},
         { property: "og:image:type", content: "image/png"},
         { property: 'og:image:width', content: '1024'},
         { property: 'og:image:height', content: '1024'},
@@ -62,9 +63,9 @@ export default defineNuxtConfig({
         //{ name: 'googlebot', content: 'index, follow' },
         //{ name: 'google', content: 'nositelinkssearchbox' },
         { name: 'google', content: 'notranslate' },
-        { itemprop: 'name', content: 'Gewachshaus' },
+        { itemprop: 'name', content: 'Gewächshaus' },
         { itemprop: 'description', content: 'Dashboard für die Steuerung des Gewachshauses' },
-        { itemprop: 'image', content: 'https://www.kevbchef.com/img/logo_1024x1024.png'},
+        { itemprop: 'image', content: "/img/logo-gewächshaus-lpem_1024x1024.png"},
         /*
           Twitter Tags
         */
@@ -72,15 +73,15 @@ export default defineNuxtConfig({
         //{ name: "twitter:site", content: "@Mulke068"},
         { name: "twitter:card", content: "summary_large_image"},
         { name: "twitter:title", content: "Gewachshaus"},
-        { name: "twitter:description", content: "Dashboard für die Steuerung des Gewachshauses"},
+        { name: "twitter:description", content: "Dashboard für die Steuerung des Gewächshauses"},
         { name: "twitter:url", content: "https://www.kevbchef.com"},
         { name: "twitter:domain", content: "kevbchef.com"},
-        { name: "twitter:image", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
-        { name: "twitter:image:src", content: "https://www.kevbchef.com/img/logo_1024x1024.png"},
+        { name: "twitter:image", content: "/img/logo-gewächshaus-lpem_1024x1024.png"},
+        { name: "twitter:image:src", content: "/img/logo-gewächshaus-lpem_1024x1024.png"},
         { name: "twitter:image:type", content: "image/png"},
         { name: 'twitter:image:width', content: '1024'},
         { name: 'twitter:image:height', content: '1024'},
-        { name: "twitter:image:alt", content: "Gewachshaus Logo"},
+        { name: "twitter:image:alt", content: "Gewächshaus Logo LPEM"},
       ],
       script: [
           {

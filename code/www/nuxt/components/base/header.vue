@@ -2,7 +2,7 @@
     <header class="shadow-sm bg-minsk-900 h-28">
         <nav class="container flex justify-between p-4 mx-auto">
             <div class="h-auto">
-                <NuxtLink href="/"><img src="../../assets/img/logo_1024x1024.png" alt="logo" class="object-fill w-20 h-20">
+                <NuxtLink href="/"><img src="/img/logo-gewächshaus-lpem_1024x1024.png" alt="Gewächshaus Logo LPEM" class="object-fill w-20 h-20">
                 </NuxtLink>
             </div>
             <div class="text-xl text-white-50 py-7">

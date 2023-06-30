@@ -29,8 +29,21 @@ import { NuxtLink } from '../../.nuxt/components';
 const runtimeConfig = useRuntimeConfig() 
 const { id } = useRoute().params
 //const { data, refresh } = await useFetch(`${runtimeConfig.public.api_host}/sensor/id/${id}`, { key: `${id}` })
-const { data } = await useFetch(`/api/sensor/id/${id}`, {key: `${id}`})
+const { data , refresh } = await useFetch(`/api/sensor/id/${id}`, {key: `${id}`})
 const sensor_value: any = data.value
+
+useHead({
+    title: "Sensor Data ID",
+    meta: [
+        { name: 'title', content:  `Sensor Data ID:${id}`},
+        { property: 'og:site_name', content:  `Sensor Data ID:${id}` },
+        { name: 'keywords', content:  "Sensor, Data, ID" },
+        { name: "description", content: `Zeigt die Sensor Daten von ID:${id}` },
+        { name: "twitter:description", content: `Zeigt die Sensor Daten von ID:${id}` },
+        { itemprop: "description" , content: `Zeigt die Sensor Daten von ID:${id}` },
+        { property: "og:description", content: `Zeigt die Sensor Daten von ID:${id}`}
+    ]
+})
 </script>
 
 <style scoped>

@@ -22,9 +22,12 @@ useHead({
     title: 'Settings',
     meta: [
         { name: 'title', content: 'Settings'},
-        { name: 'description', content: 'Settings Seite vom Gewaechshaus'},
         { name: 'keywords', content: 'settings, page'},
-        { property: 'og:site_name', content: 'Settings'}
+        { property: 'og:site_name', content: 'Settings'},
+        { name: 'description', content: 'Settings Seite vom Gewaechshaus'},
+        { name: "twitter:description", content: "Settings Seite vom Gewaechshaus"},
+        { itemprop: "description", content: "Settings Seite vom Gewaechshaus" },
+        { property: "og:description", content: "Settings Seite vom Gewaechshaus"}
     ]
 })
 </script>

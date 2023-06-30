@@ -158,7 +158,7 @@ export default {
                 setRgbLed: 'rgb(0,0,0)',
                 setMatrixLed: 'Text',
             },
-            error: null,
+            error: [],
         }
     },
     beforeMount() {
@@ -181,8 +181,8 @@ export default {
             //const runtimeConfig = useRuntimeConfig();
             //const { data: sensorData , error: sensorError } = await useFetch(`${runtimeConfig.public.api_host}/sensor`);
             //const { data: settingsData, error: settingsError } = await useFetch(`${runtimeConfig.public.api_host}/settings`);
-            const { data: sensorData } = await useFetch('/api/sensor');
-            const { data: settingsData } = await useFetch('/api/settings')
+            const { data: sensorData, error: sensorError } = await useFetch('/api/sensor');
+            const { data: settingsData, error: settingsError } = await useFetch('/api/settings')
             this.sensorData = {
                 temperature_1: this.roundToTwoDecimal(sensorData.value.temperature_1),
                 humidity_1: this.roundToTwoDecimal(sensorData.value.humidity_1),
