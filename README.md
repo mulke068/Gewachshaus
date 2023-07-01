@@ -19,11 +19,11 @@
 # Alle Documente
 
 - [www](code/www)
-  - [Website](code/www/Website)
-  - [API](code/www/API)
+  - [Website](code/www/nuxt)
+  - [API](code/www/api)
 - [application](code/application)
   - [ESP Display](code/esp32_display)
-  - [ESP Sensor](code/esp32_sensor)
+  - [ESP Sensor](code/esp32_sensors)
 
 # Richtlinien
 
