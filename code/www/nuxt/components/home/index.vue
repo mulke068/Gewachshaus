@@ -21,6 +21,7 @@ import { Link } from '../../.nuxt/components';
           <img alt="GitHub" src="https://img.shields.io/github/license/mulke068/Gewachshaus" />
           <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mulke068/Gewachshaus" />
           <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/mulke068/Gewachshaus?display_name=tag" />
+          <img alt="GitHub pages-build-deploayment" src="https://github.com/mulke068/Gewachshaus/actions/workflows/pages/pages-build-deployment/badge.svg">
         </div>
       </tr>
     </table>
