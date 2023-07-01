@@ -1,8 +1,8 @@
 /**
  * @file main.cpp
- * @author Muller Kevin (www.kevbchef.com)
+ * @author mulke068 (www.kevbchef.com)
  * @brief 
- * @version 0.1
+ * @version 1.0.0
  * @date 2023-02-06
  * 
  * @copyright Copyright (c) 2023
@@ -17,7 +17,7 @@
 #include <Request.h>
 
 #include "settings.h"
-#include "json.h"
+#include "variables.h"
 #include "ui.h"
 #include "icons.h"
 
@@ -442,7 +442,7 @@ void setup(void){
   Serial.println("Ended   : Display Configuration");
   Serial.println("Start   : Display Calibration");
   touch_calibrate();
-  //tft.fillScreen(BLACK);
+  tft.fillScreen(BLACK);
   Serial1.println("Ended  : Display Calibration");
 
   get_data(false);
@@ -451,13 +451,12 @@ void setup(void){
 }
 
 void loop(void){
-  //fetch_data();
   loopRunCall++;
   if((loopRunCall % loopRunCallRefresh) == 0){
   	if((wlan.status() == CONNECTED)){
     		get_data();
   	} else {
-		Serial.println("Not Connected");
+		  Serial.println("Not Connected");
 	};
   };
   // Refrech Menu

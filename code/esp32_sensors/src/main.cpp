@@ -58,7 +58,6 @@ void setup(void) {
 };
 
 int POST_Sensor() {
-  
   sensor.set.temperature_1(round_to_two_decimal(temperature_1));
   sensor.set.temperature_2(round_to_two_decimal(temperature_2));
   sensor.set.humidity_1(round_to_two_decimal(humidity_1));

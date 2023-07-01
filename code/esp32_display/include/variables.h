@@ -19,9 +19,9 @@ bool    root_1_lufterLeds_setLufter_2 = true;
 int     root_1_lufterLeds_getLed = 100;
 bool    root_1_lufterLeds_setLed = true;
 
-float   root_1_energieStatus_solar_1 = 2.2;
-float   root_1_energieStatus_solar_2 = 2.2;
-int     root_1_energieStatus_akku = 65;
+float   root_1_energieStatus_solar_1 = 4.3;
+float   root_1_energieStatus_solar_2 = 4.2;
+int     root_1_energieStatus_akku = 20;
 float   root_1_energieStatus_strom = 7.7;
 
 int     root_1_settings_brightness = 100;

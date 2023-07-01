@@ -1,8 +1,8 @@
 /**
  * @file main.cpp
- * @author Muller Kevin (www.kevbchef.com)
+ * @author mulke068 (www.kevbchef.com)
  * @brief 
- * @version 0.1
+ * @version 1.0.0
  * @date 2023-02-06
  * 
  * @copyright Copyright (c) 2023
@@ -14,7 +14,7 @@
 #include <TFT_eSPI.h>
 
 #include "settings.h"
-#include "json.h"
+#include "variables.h"
 #include "ui.h"
 #include "icons.h"
 
