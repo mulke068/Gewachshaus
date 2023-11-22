@@ -1,8 +1,7 @@
-import { LazyNuxtLoadingIndicator } from '../.nuxt/components';
 
 <template>
     <ClientOnly>
-        <Home LazyNuxtLoadingIndicator="true"/>
+        <Home/>
     </ClientOnly>
 </template>
 

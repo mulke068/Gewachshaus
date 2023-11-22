@@ -2,7 +2,7 @@ import { Link } from '../../.nuxt/components';
 <template>
 <div class="container p-4 mx-auto">
   <div class="flex flex-col items-center justify-center header ">
-	  <video class="w-auto aspect-video" alt="Gewächshaus Intro LPEM (EMH Music | Electro - Minimal - House)" autoplay>
+	  <video class="w-auto aspect-video" alt="Gewächshaus Intro LPEM (EMH Music | Electro - Minimal - House)" autoplay muted>
 		  <source src="/video/intro.mp4" srcset="/img/logo-gewächshaus-lpem_1024x1024.png" type="video/mp4">
 	  </video>
     <div class="p-4 text-center">
